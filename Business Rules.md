@@ -1,14 +1,18 @@
 # Business Rules
 
-* **BR001**: Le repas choisi par le convive doit obligatoirement inclure une entrée, un plat et un dessert. 
-* **BR002**: Le repas servi à l'invité lors de la réception ne peut être composer que d'un seul type/nature de plat (1x entrée – 1x plat – 1xdessert).
-* **BR003**: L'invité ne peut aimer ou détester le même plat. Mais en aucun cas les deux.
-* **BR004**: L'invité peut soit aimer ou soit  ne pas aimer une seule personne. Mais en aucun cas les deux.
-* **BR005**: L'invité ne peut choisir de repas que pour une réception pour laquelle il y aurait été au préalable inscrit 
-* **BR006**: Le choix de menu est attribué à l'organisateur, qui va devoir proposer une liste par type/nature des plats. 
-			(liste pour les entrées, liste pour les plats, liste pour les dessert). 
-* **BR007**: La liste de menu définie par l'organisateur doit comprendre un nombre maximal de plat/type. 
-* **BR008**: L'organisateur définit la capacité maximale de convives par table. 
-            (en fonction de la capacité totale du local mais aussi du type de table e.g ronde, ovale, rectangulaire)
-* **BR009**: L'organisateur doit pouvoir proposer une menu qui convienne à tous les convives sans exception.
-	
+* **BR001**: Un invité peut aimer ou ne pas aimer un plat. Mais en aucun cas les deux à la fois.
+* **BR002**: Un invité peut aimer ou ne pas aimer une personne. Mais en aucun cas les deux à la fois.
+* **BR003**: Un menu est composé d'au moins une entrée, un plat et un dessert.
+* **BR004**: Le menu doit comprendre un nombre maximal de plat par type (à définir par le client).
+* **BR005**: Le repas choisi par le convive doit obligatoirement inclure une entrée, un plat et un dessert. 
+* **BR006**: Un invité ne peut choisir de plat que pour une réception pour laquelle il est inscrit et faisant partie du menu de celle-ci.
+* **BR007**: Le menu doit convenir à tous les convives.
+* **BR008**: Il ne peut y avoir plus de convives assis à une table que la capacité de celle-ci.
+* **BR009**: Une table ne peut pas avoir qu'un seul convive.
+* **BR010**: Un invité ne peut s'inscrire qu'une seule fois à une réception.
+* **BR011**: Un invité ne peut s'asseoir qu'à une seule table par réception.
+* **BR012**: Un invité ne peut s'asseoir à une table que s'il est inscrit à la réception.
+* **BR013**: Le couple nom et prénom d'un invité est unique.
+* **BR014**: Il ne peut y avoir plus d'inscriptions à une réception qu'il n'y a de places.
+* **BR013**: Les inscriptions à une réception sont clôturées à un moment déterminé par le client avant le début de la réception.
+* **BR014**: La date de clôture des inscriptions à une réception ne peut être postérieure à la réception elle-même.
