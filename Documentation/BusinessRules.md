@@ -17,3 +17,4 @@
 * **BR015**: La date de clôture des inscriptions à une réception ne peut être postérieure à la réception elle-même.
 * **BR016**: Un plat ne peut être proposé qu'une seule fois par réception.
 * **BR017**: Un plat ne peut être choisi qu'une seule fois par réception.
+* **BR018**: Un invité ne peut pas ressentir quelque chose pour lui-même.
