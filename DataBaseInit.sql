@@ -346,6 +346,37 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
+-- Description: When delete a reservation, delete all dependenties
+-- =============================================================================
+CREATE TRIGGER BACKOFFICE.TR_BOOK_DELETE
+   ON BACKOFFICE._BOOK
+   AFTER DELETE
+AS 
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @CliId int,
+          @RecId int;
+  DECLARE DeleteCursorBook CURSOR
+  FOR SELECT BOO_REC_ID, BOO_CLI_ID
+      FROM deleted;
+  OPEN DeleteCursorBook;
+  FETCH DeleteCursorBook INTO @RecId, @CliId;
+  WHILE @@FETCH_STATUS = 0 BEGIN
+    DELETE FROM BACKOFFICE._CHOOSE
+    WHERE CHO_CLI_ID = @CliId AND CHO_REC_ID = @RecId;
+    DELETE FROM BACKOFFICE._SIT
+    WHERE SIT_CLI_ID = @CliId AND SIT_TAB_ID IN (SELECT TAB_ID
+                                                 FROM BACKOFFICE._TABLE
+                                                 WHERE TAB_REC_ID = @RecId);
+    FETCH DeleteCursorBook INTO @RecId, @CliId;
+  END;
+  CLOSE DeleteCursorBook;
+  DEALLOCATE DeleteCursorBook;
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
 -- Description: Automatically assigns the modification date and the user who
 --              made it. Verifies that the reception is valid in order to
 --              register.Also assigns the validation bit. (BR004)
@@ -390,6 +421,32 @@ BEGIN
     ROLLBACK;
     THROW @Error, 'Fail to book a reception.', 1;
   END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Update reservation validation tag.
+-- =============================================================================
+CREATE TRIGGER BACKOFFICE.TR_CHOOSE_DELETE
+  ON BACKOFFICE._CHOOSE
+  AFTER DELETE
+AS 
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @CliId int,
+          @RecId int;
+  DECLARE DeleteCursorChoose CURSOR
+  FOR SELECT CHO_REC_ID, CHO_CLI_ID
+      FROM deleted;
+  OPEN DeleteCursorChoose;
+  FETCH DeleteCursorChoose INTO @RecId, @CliId;
+  WHILE @@FETCH_STATUS = 0 BEGIN
+    EXECUTE BACKOFFICE.SP_VALIDATE_BOOK @RecId, @CliId;
+    FETCH DeleteCursorChoose INTO @RecId, @CliId;
+  END;
+  CLOSE DeleteCursorChoose;
+  DEALLOCATE DeleteCursorChoose;
 END
 GO
 -- =============================================================================
@@ -732,5 +789,3 @@ BEGIN
   WHERE TAB_ID IN (SELECT TAB_ID FROM inserted);
 END
 GO
-
--- TODO: s'assurer de la cohérence des données en cas de suppression

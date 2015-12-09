@@ -44,12 +44,6 @@ Pour Sébastien:
 * liste clients pour une réception
 * liste des plats commandés pour une réception
 
-### Triggers
-
-Pour Sébastien:
-
-Á déterminer suivant les règles métier.
-
 ## Remarques:
 
 Ne pas oublier de mettre à jour le diagramme de Gantt!!!
