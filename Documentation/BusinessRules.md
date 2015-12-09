@@ -16,5 +16,6 @@
 * **BR014**: Les inscriptions à une réception sont clôturées à un moment déterminé par le client avant le début de la réception.
 * **BR015**: La date de clôture des inscriptions à une réception ne peut être postérieure à la réception elle-même.
 * **BR016**: Un plat ne peut être proposé qu'une seule fois par réception.
-* **BR017**: Un plat ne peut être choisi qu'une seule fois par réception.
+* **BR017**: Un plat ne peut être choisi qu'une seule fois par réception et par client.
 * **BR018**: Un invité ne peut pas ressentir quelque chose pour lui-même.
+* **BR019**: Un invité ne peut choisir un plat que parmis ceux proposé à la réception.
