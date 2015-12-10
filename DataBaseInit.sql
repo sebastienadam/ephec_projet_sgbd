@@ -190,6 +190,7 @@ CREATE TABLE BACKOFFICE._TABLE (
   TAB_ID int IDENTITY(1,1) NOT NULL,
   TAB_SEATING int NOT NULL,
   TAB_REC_ID int NOT NULL,
+  TAB_VALID  bit NOT NULL DEFAULT(0), -- BR008
   TAB_UPDATE_AT datetime2,
   TAB_UPDATE_BY char(8),
   CONSTRAINT PK_TABLE PRIMARY KEY (TAB_ID)
@@ -343,6 +344,7 @@ SELECT REC_NAME AS ReceptionName,
        REC_DATE AS ReceptionDate,
        CLI_FNAME AS ClientFirstName,
        CLI_LNAME AS ClientLastName,
+       BOO_VALID AS IsValid,
        REC_ID AS ReceptionId,
        CLI_ID AS ClientId,
        BOO_UPDATE_AT AS ModifiedAt,
@@ -384,6 +386,7 @@ SELECT REC_NAME AS ReceptionName,
        TAB_ID AS TableId,
        CLI_FNAME AS ClientFirstName,
        CLI_LNAME AS ClientLastName,
+       TAB_VALID AS IsValid,
        REC_ID AS ReceptionId,
        CLI_ID AS ClientId,
        SIT_UPDATE_AT AS ModifiedAt,
@@ -410,22 +413,22 @@ GO
 -- =============================================================================
 CREATE FUNCTION BACKOFFICE.IS_VALID_BOOK
 (
-  @REC_ID int,
-  @CLI_ID int
+  @RecId int,
+  @CliId int
 )
 RETURNS bit
 AS
 BEGIN
   DECLARE @Result bit;
-  IF (@REC_ID IS NULL) OR (@CLI_ID IS NULL) BEGIN
+  IF (@RecId IS NULL) OR (@CliId IS NULL) BEGIN
     SET @Result = 0;
   END ELSE IF EXISTS(SELECT *
                      FROM BACKOFFICE._DISHTYPE
                      WHERE DTY_ID NOT IN (SELECT DISTINCT DIS_TYPE
                                           FROM BACKOFFICE._CHOOSE, BACKOFFICE._DISH
                                           WHERE CHO_DIS_ID = DIS_ID
-                                            AND CHO_CLI_ID = @CLI_ID
-                                            AND CHO_REC_ID = @REC_ID)) BEGIN
+                                            AND CHO_CLI_ID = @CliId
+                                            AND CHO_REC_ID = @RecId)) BEGIN
     SET @Result = 0;
   END ELSE BEGIN
     SET @Result = 1;
@@ -442,20 +445,46 @@ GO
 -- =============================================================================
 CREATE FUNCTION BACKOFFICE.IS_VALID_RECEPTION
 (
-  @REC_ID int
+  @RecId int
 )
 RETURNS BIT
 AS
 BEGIN
   DECLARE @Result bit;
-  IF @REC_ID IS NULL BEGIN
+  IF @RecId IS NULL BEGIN
     SET @Result = 0;
   END ELSE IF EXISTS(SELECT *
                      FROM BACKOFFICE._DISHTYPE
                      WHERE DTY_ID NOT IN (SELECT DISTINCT DIS_TYPE
                                           FROM BACKOFFICE._OFFER, BACKOFFICE._DISH
                                           WHERE OFF_DIS_ID = DIS_ID
-                                            AND OFF_REC_ID = @REC_ID)) BEGIN
+                                            AND OFF_REC_ID = @RecId)) BEGIN
+    SET @Result = 0;
+  END ELSE BEGIN
+    SET @Result = 1;
+  END
+  RETURN @Result;
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description:    Tests whether a table is valid. To be valid, a table must have
+--              at least two customers who are seated. If the table is valid,
+--              returns 1. Otherwise return 0. (BR008)
+-- =============================================================================
+CREATE FUNCTION BACKOFFICE.IS_VALID_TABLE
+(
+    @TabId int
+)
+RETURNS bit
+AS
+BEGIN
+  DECLARE @Result bit;
+  IF EXISTS(SELECT *
+            FROM BACKOFFICE._SIT
+            WHERE SIT_TAB_ID = @TabId
+            HAVING COUNT(*) < 2) BEGIN
     SET @Result = 0;
   END ELSE BEGIN
     SET @Result = 1;
@@ -521,15 +550,112 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
+-- Description: Assignes the validation bit of a table for a reception.
+-- =============================================================================
+CREATE PROCEDURE BACKOFFICE.SP_VALIDATE_TABLE
+  @TabId int
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @ValidStatus bit,
+          @IsValid bit;
+  IF @TabId IS NOT NULL BEGIN
+    SET @IsValid = BACKOFFICE.IS_VALID_TABLE(@TabId);
+    SELECT @ValidStatus = TAB_VALID
+    FROM BACKOFFICE._TABLE
+    WHERE TAB_ID = @TabId;
+    IF @IsValid <> @ValidStatus BEGIN
+      UPDATE BACKOFFICE._TABLE
+      SET TAB_VALID = @IsValid
+      WHERE TAB_ID = @TabId;
+    END
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
 -- Description: Returns the menu for a given reception.
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.SP_MENU
   @RecId int
 AS
 BEGIN
-  SELECT DishType, DishName, DishId, DishTypeId, ModifiedAt, ModifiedBy
+  SELECT DishType,
+         DishName,
+         DishId,
+         DishTypeId,
+         ModifiedAt,
+         ModifiedBy
   FROM CLIENTAREA.Menu
   WHERE ReceptionID = @RecId
+  ORDER BY DishTypeId, DishName;
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the list of the clients who have booked for a reception.
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_RESERVATION
+  @RecId int
+AS
+BEGIN
+  SET NOCOUNT ON;
+  SELECT ClientFirstName,
+         ClientLastName,
+         IsValid,
+         ClientId,
+         ModifiedAt,
+         ModifiedBy
+  FROM CLIENTAREA.Reservation
+  WHERE ReceptionId = @RecId
+  ORDER BY ClientLastName, ClientFirstName;
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the list of the clients with the dishes they ordered for
+--              a reception.
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_RESERVED_DISH
+  @RecId int
+AS
+BEGIN
+  SET NOCOUNT ON;
+  SELECT ClientFirstName,
+         ClientLastName,
+         DishType,
+         DishName,
+         ClientId,
+         DishId,
+         DishTypeId,
+         ModifiedAt,
+         ModifiedBy
+  FROM CLIENTAREA.ReservedDish
+  WHERE ReceptionId = @RecId
+  ORDER BY ClientLastName, ClientFirstName;
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the list of the dishes to prepare for a reception.
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_DISHES_TO_PREPARE
+  @RecId int
+AS
+BEGIN
+  SET NOCOUNT ON;
+  SELECT DishType,
+         DishName,
+         DishId,
+         DishTypeId,
+         COUNT(*) AS Quantity
+  FROM CLIENTAREA.ReservedDish
+  WHERE ReceptionId = @RecId
+  GROUP BY DishType, DishName
   ORDER BY DishTypeId, DishName;
 END
 GO
@@ -576,7 +702,7 @@ GO
 --              register.Also assigns the validation bit. (BR004)
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_BOOK_INSERTUPDATE
-   ON  BACKOFFICE._BOOK
+   ON BACKOFFICE._BOOK
    AFTER INSERT, UPDATE
 AS
 BEGIN
@@ -718,7 +844,7 @@ GO
 --              made it.
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_CLIENT_INSERTUPDATE
-   ON  BACKOFFICE._CLIENT
+   ON BACKOFFICE._CLIENT
    AFTER INSERT, UPDATE
 AS
 BEGIN
@@ -737,7 +863,7 @@ GO
 --              made it.
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_DISH_INSERTUPDATE
-   ON  BACKOFFICE._DISH
+   ON BACKOFFICE._DISH
    AFTER INSERT, UPDATE
 AS
 BEGIN
@@ -756,7 +882,7 @@ GO
 --              (BR018)
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_FEEL_CLI_CLI_INSERTUPDATE
-   ON  BACKOFFICE._FEEL_CLI_CLI
+   ON BACKOFFICE._FEEL_CLI_CLI
    AFTER INSERT, UPDATE
 AS
 BEGIN
@@ -796,7 +922,7 @@ GO
 --              made it.
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_FEEL_CLI_DIS_INSERTUPDATE
-   ON  BACKOFFICE._FEEL_CLI_DIS
+   ON BACKOFFICE._FEEL_CLI_DIS
    AFTER INSERT, UPDATE
 AS
 BEGIN
@@ -827,7 +953,7 @@ GO
 --              of each dish is offered. (BR003)
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_OFFER_INSERTUPDATE
-   ON  BACKOFFICE._OFFER
+   ON BACKOFFICE._OFFER
    AFTER INSERT, UPDATE
 AS
 BEGIN
@@ -859,7 +985,7 @@ GO
 --              made it. Also assigns the validation bit. (BR003)
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_RECEPTION_INSERTUPDATE
-   ON  BACKOFFICE._RECEPTION
+   ON BACKOFFICE._RECEPTION
    AFTER INSERT, UPDATE
 AS
 BEGIN
@@ -885,6 +1011,31 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
+-- Description: Update the validation bit of a table.
+-- =============================================================================
+CREATE TRIGGER BACKOFFICE.TR_SIT_DELETE
+  ON BACKOFFICE._SIT
+  AFTER DELETE
+AS 
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @TabId int;
+  DECLARE DeleteCursorTable CURSOR
+  FOR SELECT DISTINCT SIT_TAB_ID
+      FROM deleted;
+  OPEN DeleteCursorTable;
+  FETCH DeleteCursorTable INTO @TabId;
+  WHILE @@FETCH_STATUS = 0 BEGIN
+    EXECUTE BACKOFFICE.SP_VALIDATE_TABLE @TabId; 
+    FETCH DeleteCursorTable INTO @TabId;
+  END;
+  CLOSE DeleteCursorTable;
+  DEALLOCATE DeleteCursorTable;
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
 -- Description: Automatically assigns the modification date and the user who
 --              made it. Also ensure that:
 --              - there are no more client sitting at a table that seats at the
@@ -892,9 +1043,10 @@ GO
 --              - a client is registered at the reception to sit down. (BR011)
 --              - a client does not sit at several tables in the same reception.
 --                (BR010)
+--              Also assign the validation bit of the table. (BR008)
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_SIT_INSERTUPDATE
-   ON  BACKOFFICE._SIT
+   ON BACKOFFICE._SIT
    AFTER INSERT, UPDATE
 AS
 BEGIN
@@ -959,6 +1111,19 @@ BEGIN
     CLOSE InsertCursorSit;
     DEALLOCATE InsertCursorSit;
   END
+  IF @Error = 0 BEGIN
+    DECLARE InsertCursorSit CURSOR
+    FOR SELECT DISTINCT SIT_TAB_ID
+        FROM inserted;
+    OPEN InsertCursorSit;
+    FETCH InsertCursorSit INTO @TabId;
+    WHILE @@FETCH_STATUS = 0 BEGIN
+      EXECUTE SP_VALIDATE_TABLE @TabId;
+      FETCH InsertCursorSit INTO @TabId;
+    END
+    CLOSE InsertCursorSit;
+  END
+  DEALLOCATE InsertCursorSit;
   IF @Error <> 0 BEGIN
     ROLLBACK;
     THROW @Error, 'Fail to sit a client.', 1;
@@ -972,14 +1137,25 @@ GO
 --              made it.
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_TABLE_INSERTUPDATE
-   ON  BACKOFFICE._TABLE
+   ON BACKOFFICE._TABLE
    AFTER INSERT, UPDATE
 AS
 BEGIN
   SET NOCOUNT ON;
-  UPDATE BACKOFFICE._TABLE
-  SET TAB_UPDATE_AT = GETDATE(),
-      TAB_UPDATE_BY = CURRENT_USER
-  WHERE TAB_ID IN (SELECT TAB_ID FROM inserted);
+  DECLARE @TabId int;
+  DECLARE InsertCursorTable CURSOR
+  FOR SELECT DISTINCT SIT_TAB_ID
+      FROM inserted;
+  OPEN InsertCursorTable;
+  FETCH InsertCursorTable INTO @TabId;
+  WHILE @@FETCH_STATUS = 0 BEGIN
+    SET TAB_UPDATE_AT = GETDATE(),
+        TAB_UPDATE_BY = CURRENT_USER,
+        TAB_VALID = BACKOFFICE.IS_VALID_TABLE(@TabId) -- BR008 (partial)
+    WHERE TAB_ID = @TabId;
+    FETCH InsertCursorTable INTO @TabId;
+  END;
+  CLOSE InsertCursorTable;
+  DEALLOCATE InsertCursorTable;
 END
 GO

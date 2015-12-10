@@ -7,7 +7,7 @@
 * **BR005**: Un invité ne peut choisir de plat que pour une réception pour laquelle il est inscrit et faisant partie du menu de celle-ci.
 * _**BR006**: (annulé) Le menu doit convenir à tous les convives._
 * **BR007**: Il ne peut y avoir plus de convives assis à une table que la capacité de celle-ci.
-* **BR008**: Une table ne peut pas avoir qu'un seul convive.
+* **BR008**: Une table ne peut pas avoir qu'un seul invité.
 * **BR009**: Un invité ne peut s'inscrire qu'une seule fois à une réception.
 * **BR010**: Un invité ne peut s'asseoir qu'à une seule table par réception.
 * **BR011**: Un invité ne peut s'asseoir à une table que s'il est inscrit à la réception.

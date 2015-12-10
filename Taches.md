@@ -14,7 +14,6 @@ Pour Betty:
 
 * Création/modification/suppression réception
 * Création/modification/suppression menu
-* Création(/modification/suppression) client
 
 Pour Sébastien:
 
@@ -24,8 +23,6 @@ Pour Sébastien:
 * Inscription/annulation client à réception
 * Liste client pour table
 * asseoire client à une table
-* liste clients pour une réception
-* liste des plats commandés pour une réception
 
 ## Remarques:
 
