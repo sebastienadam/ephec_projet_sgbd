@@ -8,16 +8,6 @@ Pour Betty:
 
 ## Sur la base de données
 
-### Vues
-
-Pour Betty:
-
-* Menu réservé: ID réception, label réception, ID invité, prénom invité, nom invité, id plat, label plat, label type plat (Choisir)
-* Inscrits: ID réception, label réception, ID invité, prénom invité, nom invité (Participer)
-* Tables de réception: ID réception, label réception, ID table, ID invité, prénom invité, nom invité (Se placer)
-
-!!!! Dates et utilisateur pour modification
-
 ### Procédures stockées
 
 Pour Betty:

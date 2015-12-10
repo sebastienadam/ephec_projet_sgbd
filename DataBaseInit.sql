@@ -249,6 +249,7 @@ SELECT DTY_NAME AS [Type],
        DIS_UPDATE_BY AS ModifiedBy
 FROM BACKOFFICE._DISH, BACKOFFICE._DISHTYPE
 WHERE DIS_TYPE = DTY_ID;
+GO
 --------------------------------------------------------------------------------
 CREATE VIEW CLIENTAREA.DishType AS
 SELECT DTY_NAME AS Label,
@@ -335,6 +336,65 @@ SELECT REC_NAME AS Name,
        REC_UPDATE_AT AS ModifiedAt,
        REC_UPDATE_BY AS ModifiedBy
 FROM BACKOFFICE._RECEPTION;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW CLIENTAREA.Reservation AS
+SELECT REC_NAME AS ReceptionName,
+       REC_DATE AS ReceptionDate,
+       CLI_FNAME AS ClientFirstName,
+       CLI_LNAME AS ClientLastName,
+       REC_ID AS ReceptionId,
+       CLI_ID AS ClientId,
+       BOO_UPDATE_AT AS ModifiedAt,
+       BOO_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._RECEPTION,
+     BACKOFFICE._BOOK,
+     BACKOFFICE._CLIENT
+WHERE REC_ID = BOO_REC_ID
+  AND BOO_CLI_ID = CLI_ID;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW CLIENTAREA.ReservedDish AS
+SELECT REC_NAME AS ReceptionName,
+       REC_DATE AS ReceptionDate,
+       CLI_FNAME AS ClientFirstName,
+       CLI_LNAME AS ClientLastName,
+       DTY_NAME AS DishType,
+       DIS_ID AS DishName,
+       REC_ID AS ReceptionId,
+       CLI_ID AS ClientId,
+       DIS_ID AS DishId,
+       DTY_ID AS DishTypeId,
+       CHO_UPDATE_AT AS ModifiedAt,
+       CHO_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._RECEPTION,
+     BACKOFFICE._CHOOSE,
+     BACKOFFICE._DISH,
+     BACKOFFICE._DISHTYPE,
+     BACKOFFICE._CLIENT
+WHERE REC_ID = CHO_REC_ID
+  AND CHO_CLI_ID = CLI_ID
+  AND CHO_DIS_ID = DIS_ID
+  AND DIS_TYPE = DTY_ID;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW CLIENTAREA.TablesMap AS
+SELECT REC_NAME AS ReceptionName,
+       REC_DATE AS ReceptionDate,
+       TAB_ID AS TableId,
+       CLI_FNAME AS ClientFirstName,
+       CLI_LNAME AS ClientLastName,
+       REC_ID AS ReceptionId,
+       CLI_ID AS ClientId,
+       SIT_UPDATE_AT AS ModifiedAt,
+       SIT_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._RECEPTION,
+     BACKOFFICE._TABLE,
+     BACKOFFICE._SIT,
+     BACKOFFICE._CLIENT
+WHERE REC_ID = TAB_REC_ID
+  AND TAB_ID = SIT_TAB_ID
+  AND SIT_CLI_ID = CLI_ID;
 GO
 
 -- ========================================================================== --
