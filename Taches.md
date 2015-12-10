@@ -12,15 +12,9 @@ Pour Betty:
 
 Pour Betty:
 
-* Plat: ID, Label, Label type plat (Plat + Type_de_plat)
-* Invité: idem table
-* Réception: idem table
-* Menu proposé: ID réception, label réception, id plat, label plat, label type plat (Proposer)
 * Menu réservé: ID réception, label réception, ID invité, prénom invité, nom invité, id plat, label plat, label type plat (Choisir)
 * Inscrits: ID réception, label réception, ID invité, prénom invité, nom invité (Participer)
 * Tables de réception: ID réception, label réception, ID table, ID invité, prénom invité, nom invité (Se placer)
-* Relation entre invités:  ID invité, prénom invité, nom invité, type relation, ID invité autre, prénom invité autre, nom invité autre. (Ressentir)
-* Relation entre invité et plat: ID invité, prénom invité, nom invité, type relation, id plat, label plat, label type plat (Eprouver)
 
 !!!! Dates et utilisateur pour modification
 
@@ -34,7 +28,6 @@ Pour Betty:
 
 Pour Sébastien:
 
-* "Get" Menu pour une réception
 * Création/modification/suppression relation entre clients
 * Création/modification/suppression relation entre client et plat
 * Choisir plat pour réception

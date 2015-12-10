@@ -23,7 +23,6 @@ CREATE LOGIN ProjetSGBD_RootAdmin WITH PASSWORD = 'RootAdmin', CHECK_POLICY = OF
 GO
 CREATE USER RootAdmn FOR LOGIN ProjetSGBD_RootAdmin;
 GO
-
 ALTER ROLE db_accessadmin ADD MEMBER RootAdmn;
 ALTER ROLE db_backupoperator ADD MEMBER RootAdmn;
 ALTER ROLE db_datareader ADD MEMBER RootAdmn;
@@ -92,6 +91,7 @@ CREATE TABLE BACKOFFICE._BOOK (
   BOO_UPDATE_BY char(8),
   CONSTRAINT PK_BOOK PRIMARY KEY (BOO_REC_ID,BOO_CLI_ID) -- BR009
 );
+--------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._CHOOSE (
   CHO_CLI_ID int NOT NULL,
   CHO_DIS_ID int NOT NULL,
@@ -100,6 +100,7 @@ CREATE TABLE BACKOFFICE._CHOOSE (
   CHO_UPDATE_BY char(8),
   CONSTRAINT PK_CHOOSE PRIMARY KEY (CHO_CLI_ID,CHO_DIS_ID, CHO_REC_ID) -- BR017
 );
+--------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._CLIENT(
   CLI_ID int IDENTITY(1,1) NOT NULL,
   CLI_ACRONYM char(8) NOT NULL,
@@ -114,6 +115,7 @@ CREATE TABLE BACKOFFICE._CLIENT(
   CONSTRAINT UK_CLIENT_ACRONYM UNIQUE (CLI_ACRONYM),
   CONSTRAINT UK_CLIENT_FIRST_LAST_NAME UNIQUE (CLI_FNAME, CLI_LNAME) -- BR0012
 );
+--------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._DISH (
   DIS_ID int IDENTITY(1,1) NOT NULL,
   DIS_NAME varchar(64) NOT NULL,
@@ -123,16 +125,19 @@ CREATE TABLE BACKOFFICE._DISH (
   CONSTRAINT PK_DISH PRIMARY KEY (DIS_ID),
   CONSTRAINT UK_DISH_NAME_TYPE UNIQUE (DIS_NAME, DIS_TYPE)
 );
+--------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._DISHTYPE (
   DTY_ID int IDENTITY(1,1) NOT NULL,
   DTY_NAME varchar(64) NOT NULL,
   CONSTRAINT PK_DISHTYPE PRIMARY KEY (DTY_ID)
 );
+--------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._FEELINGTYPE (
   FTY_ID int IDENTITY(1,1) NOT NULL,
   FTY_NAME varchar(64) NOT NULL,
   CONSTRAINT PK_FEELINGTYPE PRIMARY KEY (FTY_ID)
 );
+--------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._FEEL_CLI_CLI (
   FCC_CLI_ID int NOT NULL,
   FCC_CLI_CLI_ID int NOT NULL,
@@ -141,6 +146,7 @@ CREATE TABLE BACKOFFICE._FEEL_CLI_CLI (
   FCC_UPDATE_BY char(8),
   CONSTRAINT PK_FEEL_CLI_CLI PRIMARY KEY (FCC_CLI_ID,FCC_CLI_CLI_ID) -- BR002
 );
+--------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._FEEL_CLI_DIS (
   FCD_CLI_ID int NOT NULL,
   FCD_DIS_ID int NOT NULL,
@@ -149,6 +155,7 @@ CREATE TABLE BACKOFFICE._FEEL_CLI_DIS (
   FCD_UPDATE_BY char(8),
   CONSTRAINT PK_FEEL_CLI_DIS PRIMARY KEY (FCD_CLI_ID,FCD_DIS_ID) -- BR001
 );
+--------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._OFFER (
   OFF_REC_ID int NOT NULL,
   OFF_DIS_ID int NOT NULL,
@@ -156,6 +163,7 @@ CREATE TABLE BACKOFFICE._OFFER (
   OFF_UPDATE_BY char(8),
   CONSTRAINT PK_OFFER PRIMARY KEY (OFF_REC_ID,OFF_DIS_ID) -- BR016
 );
+--------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._RECEPTION (
   REC_ID int IDENTITY(1,1) NOT NULL,
   REC_NAME varchar(64) NOT NULL,
@@ -169,6 +177,7 @@ CREATE TABLE BACKOFFICE._RECEPTION (
   CONSTRAINT PK_RECEPTION PRIMARY KEY (REC_ID),
   CONSTRAINT UK_RECEPTION_NAME_DATE UNIQUE (REC_NAME, REC_DATE)
 );
+--------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._SIT (
   SIT_TAB_ID int NOT NULL,
   SIT_CLI_ID int NOT NULL,
@@ -176,6 +185,7 @@ CREATE TABLE BACKOFFICE._SIT (
   SIT_UPDATE_BY char(8),
   CONSTRAINT PK_SIT PRIMARY KEY (SIT_TAB_ID,SIT_CLI_ID) -- BR010
 );
+--------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._TABLE (
   TAB_ID int IDENTITY(1,1) NOT NULL,
   TAB_SEATING int NOT NULL,
@@ -184,6 +194,7 @@ CREATE TABLE BACKOFFICE._TABLE (
   TAB_UPDATE_BY char(8),
   CONSTRAINT PK_TABLE PRIMARY KEY (TAB_ID)
 );
+--------------------------------------------------------------------------------
 ALTER TABLE BACKOFFICE._BOOK ADD CONSTRAINT FK_BOOK_CLI FOREIGN KEY (BOO_CLI_ID) REFERENCES BACKOFFICE._CLIENT (CLI_ID);
 ALTER TABLE BACKOFFICE._BOOK ADD CONSTRAINT FK_BOOK_REC FOREIGN KEY (BOO_REC_ID) REFERENCES BACKOFFICE._RECEPTION (REC_ID);
 ALTER TABLE BACKOFFICE._CHOOSE ADD CONSTRAINT FK_CHOOSE_CLI FOREIGN KEY (CHO_CLI_ID) REFERENCES BACKOFFICE._CLIENT (CLI_ID);
@@ -217,7 +228,114 @@ GO
 -- ========================================================================== --
 --   Vues                                                                     --
 -- ========================================================================== --
-
+CREATE VIEW CLIENTAREA.Client AS
+SELECT CLI_ACRONYM AS Acronym,
+       CLI_FNAME AS FirstName,
+       CLI_LNAME AS LastName,
+       CLI_SEX AS Sex,
+       CLI_BDAY AS BirthDay,
+       CLI_JOB AS Job,
+       CLI_ID AS ClientId,
+       CLI_UPDATE_AT AS ModifiedAt,
+       CLI_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._CLIENT;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW CLIENTAREA.Dish AS
+SELECT DTY_NAME AS [Type],
+       DIS_NAME AS Name,
+       DIS_ID AS DishId,
+       DIS_UPDATE_AT AS ModifiedAt,
+       DIS_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._DISH, BACKOFFICE._DISHTYPE
+WHERE DIS_TYPE = DTY_ID;
+--------------------------------------------------------------------------------
+CREATE VIEW CLIENTAREA.DishType AS
+SELECT DTY_NAME AS Label,
+       DTY_ID AS Id
+FROM BACKOFFICE._DISHTYPE;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW CLIENTAREA.DishWish AS
+SELECT CLI_FNAME AS ClientFirstName,
+       CLI_LNAME AS ClientLastName,
+       FTY_NAME AS Feeling,
+       DTY_NAME AS DishType,
+       DIS_NAME AS DishName,
+       CLI_ID AS ClientId,
+       DIS_ID AS DishId,
+       DTY_ID AS DishTypeId,
+       FTY_ID AS FeelingTypeId,
+       FCD_UPDATE_AT AS ModifiedAt,
+       FCD_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._FEEL_CLI_DIS,
+     BACKOFFICE._CLIENT,
+     BACKOFFICE._DISH,
+     BACKOFFICE._DISHTYPE,
+     BACKOFFICE._FEELINGTYPE
+WHERE FCD_CLI_ID = CLI_ID
+  AND FCD_DIS_ID = DIS_ID
+  AND DIS_TYPE = DTY_ID
+  AND FCD_FTY_ID = FTY_ID;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW CLIENTAREA.Feeling AS
+SELECT _CLIENT_FROM.CLI_FNAME AS ClientFromFirstName,
+       _CLIENT_FROM.CLI_LNAME AS ClientFromLastName,
+       FTY_NAME AS Feeling,
+       _CLIENT_TO.CLI_FNAME AS ClientToFirstName,
+       _CLIENT_TO.CLI_LNAME AS ClientToLastName,
+       _CLIENT_FROM.CLI_ID AS ClientFromId,
+       _CLIENT_TO.CLI_ID AS ClientToId,
+       FTY_ID AS FeelingTypeId,
+       FCC_UPDATE_AT AS ModifiedAt,
+       FCC_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._FEEL_CLI_CLI,
+     BACKOFFICE._CLIENT AS _CLIENT_FROM,
+     BACKOFFICE._CLIENT AS _CLIENT_TO,
+     BACKOFFICE._FEELINGTYPE
+WHERE FCC_CLI_ID = _CLIENT_FROM.CLI_ID
+  AND FCC_CLI_CLI_ID = _CLIENT_TO.CLI_ID
+  AND FCC_FTY_ID = FTY_ID;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW CLIENTAREA.FeelingType AS
+SELECT FTY_NAME AS Label,
+       FTY_ID AS Id
+FROM BACKOFFICE._FEELINGTYPE;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW CLIENTAREA.Menu AS
+SELECT REC_NAME AS ReceptionName,
+       REC_DATE AS ReceptionDate,
+       DTY_NAME AS DishType,
+       DIS_NAME AS DishName,
+       REC_ID AS ReceptionId,
+       DIS_ID AS DishId,
+       DTY_ID AS DishTypeId,
+       OFF_UPDATE_AT AS ModifiedAt,
+       OFF_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._RECEPTION,
+     BACKOFFICE._OFFER,
+     BACKOFFICE._DISH,
+     BACKOFFICE._DISHTYPE
+WHERE REC_ID = OFF_REC_ID
+  AND OFF_DIS_ID = DIS_ID
+  AND DIS_TYPE = DTY_ID;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW CLIENTAREA.Reception AS
+SELECT REC_NAME AS Name,
+       REC_DATE AS [Date],
+       REC_DATE_CLOSING_REG AS BookingClosingDate,
+       REC_CAPACITY AS Capacity,
+       REC_SEAT_TABLE AS SeatsPerTable,
+       REC_VALID AS IsValid,
+       REC_ID AS ReceptionId,
+       REC_UPDATE_AT AS ModifiedAt,
+       REC_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._RECEPTION;
+GO
 
 -- ========================================================================== --
 --   Fonctions                                                                --
@@ -254,7 +372,8 @@ BEGIN
   END
   RETURN @Result;
 END
-GO-- =============================================================================
+GO
+-- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
 -- Description: Tests whether a reception is valid. To be valid, a reception
@@ -337,6 +456,21 @@ BEGIN
       WHERE REC_ID = @RecId;
     END
   END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the menu for a given reception.
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_MENU
+  @RecId int
+AS
+BEGIN
+  SELECT DishType, DishName, DishId, DishTypeId, ModifiedAt, ModifiedBy
+  FROM CLIENTAREA.Menu
+  WHERE ReceptionID = @RecId
+  ORDER BY DishTypeId, DishName;
 END
 GO
 
