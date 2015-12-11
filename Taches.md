@@ -5,6 +5,7 @@
 Pour Betty:
 
 * Écrire le cahier des charges.
+* Réécrire les règles métier et vérifier leur cohérence avec la DB.
 
 ## Sur la base de données
 
@@ -20,9 +21,10 @@ Pour Sébastien:
 * Création/modification/suppression relation entre clients
 * Création/modification/suppression relation entre client et plat
 * Choisir plat pour réception
-* Inscription/annulation client à réception
-* Liste client pour table
-* asseoire client à une table
+* Création/suppression réservation
+* Création/suppression table
+* Asseoir client à une table
+* Retirer client d'une table
 
 ## Développement:
 
