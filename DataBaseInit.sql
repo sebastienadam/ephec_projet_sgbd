@@ -855,18 +855,25 @@ GO
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
 -- Description: Automatically assigns the modification date and the user who
---              made it. Verifies that the reception is valid in order to
---              register.Also assigns the validation bit. (BR004)
+--              made it. Verifies that:
+--              - the reception is valid (BR004)
+--              - the registration for the reception is not closed (BR014)
+--              - the client does not register many receptions that go together
+--                (BR020)
+--              Also assigns the validation bit. (BR004)
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_BOOK_INSERTUPDATE
    ON BACKOFFICE._BOOK
    AFTER INSERT, UPDATE
 AS
-BEGIN -- TODO: empêcher la réservation à deux réceptions sumultanées
+BEGIN
   SET NOCOUNT ON;
   DECLARE @RecId int,
           @CliId int,
-          @Error int;
+          @Error int,
+          @RecDate datetime2,
+          @RecCloseDate datetime2,
+          @Now datetime2;
   SET @Error = 0;
   DECLARE InsertCursorBook CURSOR
   FOR SELECT BOO_REC_ID, BOO_CLI_ID
@@ -878,15 +885,26 @@ BEGIN -- TODO: empêcher la réservation à deux réceptions sumultanées
       SET @Error = 50002;
       BREAK;
     END
-    IF NOT EXISTS(SELECT *
-                  FROM BACKOFFICE._RECEPTION
-                  WHERE REC_ID = @RecId
-                    AND REC_DATE_CLOSING_REG > GETDATE()) BEGIN
+    SELECT @RecDate = REC_DATE, @RecCloseDate = REC_DATE_CLOSING_REG
+    FROM BACKOFFICE._RECEPTION
+    WHERE REC_ID = @RecId;
+    SET @Now = GETDATE();
+    IF @RecCloseDate > @Now BEGIN
       SET @Error = 50008;
       BREAK;
     END
+    IF EXISTS(SELECT *
+              FROM BACKOFFICE._RECEPTION
+              WHERE REC_ID IN (SELECT BOO_REC_ID
+                               FROM BACKOFFICE._BOOK
+                               WHERE BOO_CLI_ID = @CliId)
+                AND REC_ID <> @RecId
+                AND REC_DATE BETWEEN DATEADD(HOUR,-4,@RecDate) AND DATEADD(HOUR,4,@RecDate)) BEGIN
+      SET @Error = 50009;
+      BREAK;
+    END
     UPDATE BACKOFFICE._BOOK
-    SET BOO_UPDATE_AT = GETDATE(),
+    SET BOO_UPDATE_AT = @Now,
         BOO_UPDATE_BY = CURRENT_USER,
         BOO_VALID = BACKOFFICE.IS_VALID_BOOK(@RecId, @CliId) -- BR004 (partial)
     WHERE BOO_REC_ID = @RecId AND BOO_CLI_ID = @CliId;

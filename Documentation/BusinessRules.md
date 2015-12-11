@@ -19,3 +19,4 @@
 * **BR017**: Un plat ne peut être choisi qu'une seule fois par réception et par client.
 * **BR018**: Un invité ne peut pas ressentir quelque chose pour lui-même.
 * **BR019**: Un invité ne peut choisir un plat que parmis ceux proposé à la réception.
+* **BR020**: Un invité ne peut s'inscrire à plusieurs réceptions qui se passent en même temps.

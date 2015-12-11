@@ -9,3 +9,4 @@
 * **50006**: Un invité s'assied à une table d'une réception pour laquelle il n'est pas inscrit.
 * **50007**: Trop d'inivtés s'assaie à une même table.
 * **50008**: Un inivté s'inscrit à une réception pour laquelle les inscriptions sont clôturées.
+* **50009**: Un inivté s'inscrit à plusieurs réceptions simultanées.
