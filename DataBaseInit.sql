@@ -470,7 +470,7 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
--- Description:    Tests whether a table is valid. To be valid, a table must have
+-- Description: Tests whether a table is valid. To be valid, a table must have
 --              at least two customers who are seated. If the table is valid,
 --              returns 1. Otherwise return 0. (BR008)
 -- =============================================================================
@@ -780,7 +780,7 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
--- Description:  Delete a "dish wish"
+-- Description: Delete a "dish wish"
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.SP_DELETE_DISH_WISH
   @CliId int,
@@ -797,10 +797,11 @@ BEGIN
     ;THROW 50010, 'Your record is not up to date', 1;
   END
 END
+GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
--- Description:  Delete a feeling between clients
+-- Description: Delete a feeling between clients
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.SP_DELETE_FEELING
   @CliId int,
@@ -817,10 +818,11 @@ BEGIN
     ;THROW 50010, 'Your record is not up to date', 1;
   END
 END
+GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
--- Description:  Delete the registration for a reception
+-- Description: Delete the registration for a reception
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.SP_DELETE_RESERVATION
   @RecId int,
@@ -841,7 +843,7 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
--- Description:  Delete the reservation of a dish for a reception
+-- Description: Delete the reservation of a dish for a reception
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.SP_DELETE_RESERVED_DISH
   @CliId int,
@@ -856,24 +858,6 @@ BEGIN
     WHERE CHO_CLI_ID = @CliId
       AND CHO_DIS_ID = @DisId
       AND CHO_REC_ID = @RecId;
-  END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
-  END
-END
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description:  Delete a table for a reception
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_DELETE_TABLE
-  @TabId int,
-  @ModifiedAt datetime2
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_TABLE(@TabId) BEGIN
-    DELETE BACKOFFICE._TABLE
-    WHERE TAB_ID = @TabId;
   END ELSE BEGIN
     ;THROW 50010, 'Your record is not up to date', 1;
   END
@@ -933,26 +917,6 @@ BEGIN
       AND FeelingTypeId = @FtyId
     ORDER BY DishTypeId, DishName;
   END
-END
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Returns the list of the dishes to prepare for a reception.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_DISHES_TO_PREPARE
-  @RecId int
-AS
-BEGIN
-  SET NOCOUNT ON;
-  SELECT DishType,
-         DishName,
-         DishId,
-         DishTypeId,
-         COUNT(*) AS Quantity
-  FROM CLIENTAREA.ReservedDish
-  WHERE ReceptionId = @RecId
-  GROUP BY DishType, DishName
-  ORDER BY DishTypeId, DishName;
 END
 GO
 -- =============================================================================
@@ -1037,6 +1001,7 @@ BEGIN
   INSERT INTO BACKOFFICE._FEEL_CLI_DIS (FCD_CLI_ID, FCD_DIS_ID, FCD_FTY_ID)
   VALUES (@CliId, @DisId, @FtyId);
 END
+GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
@@ -1052,6 +1017,7 @@ BEGIN
   INSERT INTO BACKOFFICE._FEEL_CLI_CLI (FCC_CLI_ID, FCC_CLI_CLI_ID, FCC_FTY_ID)
   VALUES (@CliId, @CliCliId, @FtyId);
 END
+GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
@@ -1081,27 +1047,6 @@ BEGIN
   SET NOCOUNT ON;
   INSERT INTO BACKOFFICE._CHOOSE (CHO_CLI_ID, CHO_DIS_ID, CHO_REC_ID)
   VALUES (@CliId, @DisId, @RecId);
-END
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Creates a table for a reception.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_NEW_TABLE
-  @RecId int,
-  @TabId int = NULL OUTPUT
-AS
-BEGIN
-  SET NOCOUNT ON;
-  DECLARE @NbSeats int;
-  SELECT @NbSeats = REC_SEAT_TABLE
-  FROM BACKOFFICE._RECEPTION
-  WHERE REC_ID = @RecId;
-  IF @RecId IS NOT NULL BEGIN
-    INSERT INTO BACKOFFICE._TABLE (TAB_REC_ID, TAB_SEATING)
-    VALUES (@RecId, @NbSeats);
-  END
-  SET @TabId = IDENT_CURRENT('BACKOFFICE._TABLE');
 END
 GO
 -- =============================================================================
@@ -1226,6 +1171,7 @@ BEGIN
     ;THROW 50010, 'Your record is not up to date', 1;
   END
 END
+GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
@@ -1248,6 +1194,105 @@ BEGIN
     ;THROW 50010, 'Your record is not up to date', 1;
   END
 END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Removes a client form a table.
+-- =============================================================================
+CREATE PROCEDURE MANAGERAREA.SP_DELETE_SIT
+  @TabId int,
+  @CliId int,
+  @ModifiedAt datetime2
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_SIT(@TabId,@CliId) BEGIN
+    DELETE BACKOFFICE._SIT
+    WHERE SIT_TAB_ID = @TabId
+      AND SIT_CLI_ID = @CliId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Delete a table for a reception
+-- =============================================================================
+CREATE PROCEDURE MANAGERAREA.SP_DELETE_TABLE
+  @TabId int,
+  @ModifiedAt datetime2
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_TABLE(@TabId) BEGIN
+    DELETE BACKOFFICE._TABLE
+    WHERE TAB_ID = @TabId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the list of the dishes to prepare for a reception.
+-- =============================================================================
+CREATE PROCEDURE MANAGERAREA.SP_DISHES_TO_PREPARE
+  @RecId int
+AS
+BEGIN
+  SET NOCOUNT ON;
+  SELECT DishType,
+         DishName,
+         DishId,
+         DishTypeId,
+         COUNT(*) AS Quantity
+  FROM CLIENTAREA.ReservedDish
+  WHERE ReceptionId = @RecId
+  GROUP BY DishType, DishName, DishId, DishTypeId
+  ORDER BY DishTypeId, DishName;
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Sit a client at a table.
+-- =============================================================================
+CREATE PROCEDURE MANAGERAREA.SP_NEW_SIT
+  @TabId int,
+  @CliId int
+AS
+BEGIN
+  SET NOCOUNT ON;
+  INSERT INTO BACKOFFICE._SIT (SIT_TAB_ID, SIT_CLI_ID)
+  VALUES (@TabId, @CliId);
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Creates a table for a reception.
+-- =============================================================================
+CREATE PROCEDURE MANAGERAREA.SP_NEW_TABLE
+  @RecId int,
+  @TabId int = NULL OUTPUT
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @NbSeats int;
+  SELECT @NbSeats = REC_SEAT_TABLE
+  FROM BACKOFFICE._RECEPTION
+  WHERE REC_ID = @RecId;
+  IF @RecId IS NOT NULL BEGIN
+    INSERT INTO BACKOFFICE._TABLE (TAB_REC_ID, TAB_SEATING)
+    VALUES (@RecId, @NbSeats);
+  END
+  SET @TabId = IDENT_CURRENT('BACKOFFICE._TABLE');
+END
+GO
 
 -- ========================================================================== --
 --   Triggers                                                                 --
@@ -1751,11 +1796,12 @@ BEGIN
   SET NOCOUNT ON;
   DECLARE @TabId int;
   DECLARE InsertCursorTable CURSOR
-  FOR SELECT DISTINCT SIT_TAB_ID
+  FOR SELECT DISTINCT TAB_ID
       FROM inserted;
   OPEN InsertCursorTable;
   FETCH InsertCursorTable INTO @TabId;
   WHILE @@FETCH_STATUS = 0 BEGIN
+    UPDATE BACKOFFICE._TABLE
     SET TAB_UPDATE_AT = GETDATE(),
         TAB_UPDATE_BY = CURRENT_USER,
         TAB_VALID = BACKOFFICE.IS_VALID_TABLE(@TabId) -- BR008 (partial)

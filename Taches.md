@@ -16,11 +16,6 @@ Pour Betty:
 * Création/modification/suppression réception
 * Création/modification/suppression menu
 
-Pour Sébastien:
-
-* Asseoir client à une table
-* Retirer client d'une table
-
 ## Développement:
 
 Pour Betty:
