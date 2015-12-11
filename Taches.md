@@ -18,8 +18,6 @@ Pour Betty:
 
 Pour Sébastien:
 
-* Création/suppression plat pour réception
-* Création/suppression réservation
 * Création/suppression table
 * Asseoir client à une table
 * Retirer client d'une table

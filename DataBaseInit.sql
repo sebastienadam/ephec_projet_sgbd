@@ -820,6 +820,49 @@ END
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
+-- Description:  Delete the registration for a reception
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_DELETE_RESERVATION
+  @RecId int,
+  @CliId int,
+  @ModifiedAt datetime2
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_BOOK(@CliId, @RecId) BEGIN
+    DELETE BACKOFFICE._BOOK
+    WHERE BOO_CLI_ID = @CliId
+      AND BOO_REC_ID = @RecId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description:  Delete the reservation of a dish for a reception
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_DELETE_RESERVED_DISH
+  @CliId int,
+  @DisId int,
+  @RecId int,
+  @ModifiedAt datetime2
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_CHOOSE(@CliId,@DisId,@RecId) BEGIN
+    DELETE BACKOFFICE._CHOOSE
+    WHERE CHO_CLI_ID = @CliId
+      AND CHO_DIS_ID = @DisId
+      AND CHO_REC_ID = @RecId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
 -- Description: Returns the list of the dishes that are NOT (un)liked by a
 --              client.
 -- =============================================================================
@@ -989,6 +1032,36 @@ BEGIN
   SET NOCOUNT ON;
   INSERT INTO BACKOFFICE._FEEL_CLI_CLI (FCC_CLI_ID, FCC_CLI_CLI_ID, FCC_FTY_ID)
   VALUES (@CliId, @CliCliId, @FtyId);
+END
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Registers for a reception.
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_NEW_RESERVATION
+  @RecId int,
+  @CliId int
+AS
+BEGIN
+  SET NOCOUNT ON;
+  INSERT INTO BACKOFFICE._BOOK (BOO_CLI_ID, BOO_REC_ID)
+  VALUES (@CliId, @RecId);
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Chooses a dish for a reception.
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_NEW_RESERVED_DISH
+  @CliId int,
+  @DisId int,
+  @RecId int
+AS
+BEGIN
+  SET NOCOUNT ON;
+  INSERT INTO BACKOFFICE._CHOOSE (CHO_CLI_ID, CHO_DIS_ID, CHO_REC_ID)
+  VALUES (@CliId, @DisId, @RecId);
 END
 -- =============================================================================
 -- Author:      Sébastien Adam
