@@ -18,9 +18,7 @@ Pour Betty:
 
 Pour Sébastien:
 
-* Création/modification/suppression relation entre clients
-* Création/modification/suppression relation entre client et plat
-* Choisir plat pour réception
+* Création/suppression plat pour réception
 * Création/suppression réservation
 * Création/suppression table
 * Asseoir client à une table

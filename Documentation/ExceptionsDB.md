@@ -10,3 +10,4 @@
 * **50007**: Trop d'inivtés s'assaie à une même table.
 * **50008**: Un inivté s'inscrit à une réception pour laquelle les inscriptions sont clôturées.
 * **50009**: Un inivté s'inscrit à plusieurs réceptions simultanées.
+* **50010**: Tentative de modification d'un enregistrement déjà modifé.

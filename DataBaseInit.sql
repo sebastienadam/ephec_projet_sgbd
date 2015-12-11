@@ -493,6 +493,210 @@ BEGIN
   RETURN @Result;
 END
 GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the modified time of a record from _BOOK table
+-- =============================================================================
+CREATE FUNCTION BACKOFFICE.UPDATE_AT_BOOK
+(
+  @RecId int,
+  @CliId int
+)
+RETURNS datetime2
+AS
+BEGIN
+  DECLARE @Result datetime2;
+  SELECT @Result = BOO_UPDATE_AT
+  FROM BACKOFFICE._BOOK
+  WHERE BOO_CLI_ID = @CliId
+    AND BOO_REC_ID = @RecId;
+  RETURN @Result
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the modified time of a record from _CHOOSE table
+-- =============================================================================
+CREATE FUNCTION BACKOFFICE.UPDATE_AT_CHOOSE
+(
+  @CliId int,
+  @DisId int,
+  @RecId int
+)
+RETURNS datetime2
+AS
+BEGIN
+  DECLARE @Result datetime2;
+  SELECT @Result = CHO_UPDATE_AT
+  FROM BACKOFFICE._CHOOSE
+  WHERE CHO_CLI_ID = @CliId
+    AND CHO_DIS_ID = @DisId
+    AND CHO_REC_ID = @RecId;
+  RETURN @Result
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the modified time of a record from _CLIENT table
+-- =============================================================================
+CREATE FUNCTION BACKOFFICE.UPDATE_AT_CLIENT
+(
+  @CliId int
+)
+RETURNS datetime2
+AS
+BEGIN
+  DECLARE @Result datetime2;
+  SELECT @Result = CLI_UPDATE_AT
+  FROM BACKOFFICE._CLIENT
+  WHERE CLI_ID = @CliId;
+  RETURN @Result
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the modified time of a record from _DISH table
+-- =============================================================================
+CREATE FUNCTION BACKOFFICE.UPDATE_AT_DISH
+(
+  @DisId int
+)
+RETURNS datetime2
+AS
+BEGIN
+  DECLARE @Result datetime2;
+  SELECT @Result = DIS_UPDATE_AT
+  FROM BACKOFFICE._DISH
+  WHERE DIS_ID = @DisId;
+  RETURN @Result
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the modified time of a record from _FEEL_CLI_CLI table
+-- =============================================================================
+CREATE FUNCTION BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI
+(
+  @CliId int,
+  @CliCliId int
+)
+RETURNS datetime2
+AS
+BEGIN
+  DECLARE @Result datetime2;
+  SELECT @Result = FCC_UPDATE_AT
+  FROM BACKOFFICE._FEEL_CLI_CLI
+  WHERE FCC_CLI_ID = @CliId
+    AND FCC_CLI_CLI_ID = @CliCliId;
+  RETURN @Result
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the modified time of a record from _FEEL_CLI_DIS table
+-- =============================================================================
+CREATE FUNCTION BACKOFFICE.UPDATE_AT_FEEL_CLI_DIS
+(
+  @CliId int,
+  @DisId int
+)
+RETURNS datetime2
+AS
+BEGIN
+  DECLARE @Result datetime2;
+  SELECT @Result = FCD_UPDATE_AT
+  FROM BACKOFFICE._FEEL_CLI_DIS
+  WHERE FCD_CLI_ID = @CliId
+    AND FCD_DIS_ID = @DisId;
+  RETURN @Result
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the modified time of a record from _OFFER table
+-- =============================================================================
+CREATE FUNCTION BACKOFFICE.UPDATE_AT_OFFER
+(
+  @RecId int,
+  @DisId int
+)
+RETURNS datetime2
+AS
+BEGIN
+  DECLARE @Result datetime2;
+  SELECT @Result = OFF_UPDATE_AT
+  FROM BACKOFFICE._OFFER
+  WHERE OFF_REC_ID = @RecId
+    AND OFF_DIS_ID = @DisId;
+  RETURN @Result
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the modified time of a record from _RECEPTION table
+-- =============================================================================
+CREATE FUNCTION BACKOFFICE.UPDATE_AT_RECEPTION
+(
+  @RecId int
+)
+RETURNS datetime2
+AS
+BEGIN
+  DECLARE @Result datetime2;
+  SELECT @Result = REC_UPDATE_AT
+  FROM BACKOFFICE._RECEPTION
+  WHERE REC_ID = @RecId;
+  RETURN @Result
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the modified time of a record from _SIT table
+-- =============================================================================
+CREATE FUNCTION BACKOFFICE.UPDATE_AT_SIT
+(
+  @TabId int,
+  @CliId int
+)
+RETURNS datetime2
+AS
+BEGIN
+  DECLARE @Result datetime2;
+  SELECT @Result = SIT_UPDATE_AT
+  FROM BACKOFFICE._SIT
+  WHERE SIT_TAB_ID = @TabId
+    AND SIT_CLI_ID = @CliId;
+  RETURN @Result
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the modified time of a record from _TABLE table
+-- =============================================================================
+CREATE FUNCTION BACKOFFICE.UPDATE_AT_TABLE
+(
+  @TabId int
+)
+RETURNS datetime2
+AS
+BEGIN
+  DECLARE @Result datetime2;
+  SELECT @Result = TAB_UPDATE_AT
+  FROM BACKOFFICE._TABLE
+  WHERE TAB_ID = @TabId;
+  RETURN @Result
+END
+GO
 
 -- ========================================================================== --
 --   Procédures stockées                                                      --
@@ -573,6 +777,46 @@ BEGIN
   END
 END
 GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description:  Delete a "dish wish"
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_DELETE_DISH_WISH
+  @CliId int,
+  @DisId int,
+  @ModifiedAt datetime2
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_DIS(@CliId,@DisId) BEGIN
+    DELETE BACKOFFICE._FEEL_CLI_DIS
+    WHERE FCD_CLI_ID = @CliId
+      AND FCD_DIS_ID = @DisId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description:  Delete a feeling between clients
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_DELETE_FEELING
+  @CliId int,
+  @CliCliId int,
+  @ModifiedAt datetime2
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI(@CliId,@CliCliId) BEGIN
+    DELETE BACKOFFICE._FEEL_CLI_CLI
+    WHERE FCC_CLI_ID = @CliId
+      AND FCC_CLI_CLI_ID = @CliCliId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
@@ -719,6 +963,36 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
+-- Description: Creates new "dish wish"
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_NEW_DISH_WISH
+  @CliId int,
+  @DisId int,
+  @FtyId int
+AS
+BEGIN
+  SET NOCOUNT ON;
+  INSERT INTO BACKOFFICE._FEEL_CLI_DIS (FCD_CLI_ID, FCD_DIS_ID, FCD_FTY_ID)
+  VALUES (@CliId, @DisId, @FtyId);
+END
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Creates new feeling between clients
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_NEW_FEELING
+  @CliId int,
+  @CliCliId int,
+  @FtyId int
+AS
+BEGIN
+  SET NOCOUNT ON;
+  INSERT INTO BACKOFFICE._FEEL_CLI_CLI (FCC_CLI_ID, FCC_CLI_CLI_ID, FCC_FTY_ID)
+  VALUES (@CliId, @CliCliId, @FtyId);
+END
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
 -- Description: Returns the list of the clients who have booked for a reception.
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.SP_RESERVATION
@@ -816,6 +1090,50 @@ BEGIN
   ORDER BY LastName, FirstName;
 END
 GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Update a "dish wish"
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_UPDATE_DISH_WISH
+  @CliId int,
+  @DisId int,
+  @FtyId int,
+  @ModifiedAt datetime2
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_DIS(@CliId,@DisId) BEGIN
+    UPDATE BACKOFFICE._FEEL_CLI_DIS
+    SET FCD_FTY_ID = @FtyId
+    WHERE FCD_CLI_ID = @CliId
+      AND FCD_DIS_ID = @DisId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Update a feeling between clients
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_UPDATE_FEELING
+  @CliId int,
+  @CliCliId int,
+  @FtyId int,
+  @ModifiedAt datetime2
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI(@CliId,@CliCliId) BEGIN
+    UPDATE BACKOFFICE._FEEL_CLI_CLI
+    SET FCC_FTY_ID = @FtyId
+    WHERE FCC_CLI_ID = @CliId
+      AND FCC_CLI_CLI_ID = @CliCliId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
 
 -- ========================================================================== --
 --   Triggers                                                                 --
