@@ -863,6 +863,25 @@ END
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
+-- Description:  Delete a table for a reception
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_DELETE_TABLE
+  @TabId int,
+  @ModifiedAt datetime2
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_TABLE(@TabId) BEGIN
+    DELETE BACKOFFICE._TABLE
+    WHERE TAB_ID = @TabId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
 -- Description: Returns the list of the dishes that are NOT (un)liked by a
 --              client.
 -- =============================================================================
@@ -1063,6 +1082,28 @@ BEGIN
   INSERT INTO BACKOFFICE._CHOOSE (CHO_CLI_ID, CHO_DIS_ID, CHO_REC_ID)
   VALUES (@CliId, @DisId, @RecId);
 END
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Creates a table for a reception.
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_NEW_TABLE
+  @RecId int,
+  @TabId int = NULL OUTPUT
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @NbSeats int;
+  SELECT @NbSeats = REC_SEAT_TABLE
+  FROM BACKOFFICE._RECEPTION
+  WHERE REC_ID = @RecId;
+  IF @RecId IS NOT NULL BEGIN
+    INSERT INTO BACKOFFICE._TABLE (TAB_REC_ID, TAB_SEATING)
+    VALUES (@RecId, @NbSeats);
+  END
+  SET @TabId = IDENT_CURRENT('BACKOFFICE._TABLE');
+END
+GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015

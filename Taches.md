@@ -18,7 +18,6 @@ Pour Betty:
 
 Pour Sébastien:
 
-* Création/suppression table
 * Asseoir client à une table
 * Retirer client d'une table
 
