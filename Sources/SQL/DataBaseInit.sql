@@ -1161,7 +1161,7 @@ GO
 -- Description:    Returns the list of reception to which a customer is not
 --              registered.
 -- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_UNBOOKED_RECEPTION
+CREATE PROCEDURE CLIENTAREA.SP_UNRESERVATION
   @CliId int
 AS
 BEGIN
