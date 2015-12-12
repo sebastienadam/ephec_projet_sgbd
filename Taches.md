@@ -7,10 +7,6 @@ Pour Betty:
 * Écrire le cahier des charges.
 * Réécrire les règles métier et vérifier leur cohérence avec la DB.
 
-## Sur la base de données
-
-### Procédures stockées
-
 ## Développement:
 
 Pour Betty:
