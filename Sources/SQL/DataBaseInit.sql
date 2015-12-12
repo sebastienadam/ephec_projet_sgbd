@@ -1077,23 +1077,6 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
--- Description:    Returns the list of reception to which a customer is not
---              registered.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_RECEPTION_UNBOOKED
-  @CliId int
-AS
-BEGIN
-  SELECT *
-  FROM CLIENTAREA.Reception
-  WHERE ReceptionId NOT IN (SELECT ReceptionId
-                            FROM CLIENTAREA.Reservation
-                            WHERE ClientId = @CliId);
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
 -- Description: Returns the list of the clients who have booked for a reception.
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.SP_RESERVATION
@@ -1171,7 +1154,25 @@ BEGIN
       AND TableId = @TabId;
   END
 END
-GO-- =============================================================================
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description:    Returns the list of reception to which a customer is not
+--              registered.
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.SP_UNBOOKED_RECEPTION
+  @CliId int
+AS
+BEGIN
+  SELECT *
+  FROM CLIENTAREA.Reception
+  WHERE ReceptionId NOT IN (SELECT ReceptionId
+                            FROM CLIENTAREA.Reservation
+                            WHERE ClientId = @CliId);
+END
+GO
+-- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
 -- Description: Returns the list of the clients that are NOT (un)liked by a
