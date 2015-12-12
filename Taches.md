@@ -11,11 +11,6 @@ Pour Betty:
 
 ### Procédures stockées
 
-Pour Betty:
-
-* Création/modification/suppression réception
-* Création/modification/suppression menu
-
 ## Développement:
 
 Pour Betty:

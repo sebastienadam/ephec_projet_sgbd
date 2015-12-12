@@ -88,7 +88,7 @@ CREATE TABLE BACKOFFICE._BOOK (
   BOO_CLI_ID int NOT NULL,
   BOO_VALID bit NOT NULL DEFAULT(0), -- BR004 (partial)
   BOO_UPDATE_AT datetime2,
-  BOO_UPDATE_BY char(8),
+  BOO_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_BOOK PRIMARY KEY (BOO_REC_ID,BOO_CLI_ID) -- BR009
 );
 --------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ CREATE TABLE BACKOFFICE._CHOOSE (
   CHO_DIS_ID int NOT NULL,
   CHO_REC_ID int NOT NULL,
   CHO_UPDATE_AT datetime2,
-  CHO_UPDATE_BY char(8),
+  CHO_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_CHOOSE PRIMARY KEY (CHO_CLI_ID,CHO_DIS_ID, CHO_REC_ID) -- BR017
 );
 --------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ CREATE TABLE BACKOFFICE._CLIENT(
   CLI_BDAY date NOT NULL,
   CLI_JOB varchar(64) NOT NULL,
   CLI_UPDATE_AT datetime2,
-  CLI_UPDATE_BY char(8),
+  CLI_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_CLIENT PRIMARY KEY (CLI_ID),
   CONSTRAINT UK_CLIENT_ACRONYM UNIQUE (CLI_ACRONYM),
   CONSTRAINT UK_CLIENT_FIRST_LAST_NAME UNIQUE (CLI_FNAME, CLI_LNAME) -- BR0012
@@ -121,7 +121,7 @@ CREATE TABLE BACKOFFICE._DISH (
   DIS_NAME varchar(64) NOT NULL,
   DIS_TYPE int NOT NULL,
   DIS_UPDATE_AT datetime2,
-  DIS_UPDATE_BY char(8),
+  DIS_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_DISH PRIMARY KEY (DIS_ID),
   CONSTRAINT UK_DISH_NAME_TYPE UNIQUE (DIS_NAME, DIS_TYPE)
 );
@@ -143,7 +143,7 @@ CREATE TABLE BACKOFFICE._FEEL_CLI_CLI (
   FCC_CLI_CLI_ID int NOT NULL,
   FCC_FTY_ID int NOT NULL,
   FCC_UPDATE_AT datetime2,
-  FCC_UPDATE_BY char(8),
+  FCC_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_FEEL_CLI_CLI PRIMARY KEY (FCC_CLI_ID,FCC_CLI_CLI_ID) -- BR002
 );
 --------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ CREATE TABLE BACKOFFICE._FEEL_CLI_DIS (
   FCD_DIS_ID int NOT NULL,
   FCD_FTY_ID int NOT NULL,
   FCD_UPDATE_AT datetime2,
-  FCD_UPDATE_BY char(8),
+  FCD_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_FEEL_CLI_DIS PRIMARY KEY (FCD_CLI_ID,FCD_DIS_ID) -- BR001
 );
 --------------------------------------------------------------------------------
@@ -160,7 +160,7 @@ CREATE TABLE BACKOFFICE._OFFER (
   OFF_REC_ID int NOT NULL,
   OFF_DIS_ID int NOT NULL,
   OFF_UPDATE_AT datetime2,
-  OFF_UPDATE_BY char(8),
+  OFF_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_OFFER PRIMARY KEY (OFF_REC_ID,OFF_DIS_ID) -- BR016
 );
 --------------------------------------------------------------------------------
@@ -173,7 +173,7 @@ CREATE TABLE BACKOFFICE._RECEPTION (
   REC_SEAT_TABLE int NOT NULL,
   REC_VALID bit NOT NULL DEFAULT(0), -- BR003 (partial)
   REC_UPDATE_AT datetime2,
-  REC_UPDATE_BY char(8),
+  REC_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_RECEPTION PRIMARY KEY (REC_ID),
   CONSTRAINT UK_RECEPTION_NAME_DATE UNIQUE (REC_NAME, REC_DATE)
 );
@@ -182,7 +182,7 @@ CREATE TABLE BACKOFFICE._SIT (
   SIT_TAB_ID int NOT NULL,
   SIT_CLI_ID int NOT NULL,
   SIT_UPDATE_AT datetime2,
-  SIT_UPDATE_BY char(8),
+  SIT_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_SIT PRIMARY KEY (SIT_TAB_ID,SIT_CLI_ID) -- BR010
 );
 --------------------------------------------------------------------------------
@@ -192,7 +192,7 @@ CREATE TABLE BACKOFFICE._TABLE (
   TAB_REC_ID int NOT NULL,
   TAB_VALID  bit NOT NULL DEFAULT(0), -- BR008
   TAB_UPDATE_AT datetime2,
-  TAB_UPDATE_BY char(8),
+  TAB_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_TABLE PRIMARY KEY (TAB_ID)
 );
 --------------------------------------------------------------------------------
@@ -994,12 +994,15 @@ GO
 CREATE PROCEDURE CLIENTAREA.SP_NEW_DISH_WISH
   @CliId int,
   @DisId int,
-  @FtyId int
+  @FtyId int,
+  @UpdateBy char(8)
 AS
 BEGIN
   SET NOCOUNT ON;
-  INSERT INTO BACKOFFICE._FEEL_CLI_DIS (FCD_CLI_ID, FCD_DIS_ID, FCD_FTY_ID)
-  VALUES (@CliId, @DisId, @FtyId);
+  IF (@CliId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@UpdateBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._FEEL_CLI_DIS (FCD_CLI_ID, FCD_DIS_ID, FCD_FTY_ID, FCD_UPDATE_BY)
+    VALUES (@CliId, @DisId, @FtyId, @UpdateBy);
+  END
 END
 GO
 -- =============================================================================
@@ -1010,12 +1013,15 @@ GO
 CREATE PROCEDURE CLIENTAREA.SP_NEW_FEELING
   @CliId int,
   @CliCliId int,
-  @FtyId int
+  @FtyId int,
+  @UpdateBy char(8)
 AS
 BEGIN
   SET NOCOUNT ON;
-  INSERT INTO BACKOFFICE._FEEL_CLI_CLI (FCC_CLI_ID, FCC_CLI_CLI_ID, FCC_FTY_ID)
-  VALUES (@CliId, @CliCliId, @FtyId);
+  IF (@CliId IS NOT NULL) AND (@CliCliId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@UpdateBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._FEEL_CLI_CLI (FCC_CLI_ID, FCC_CLI_CLI_ID, FCC_FTY_ID, FCC_UPDATE_BY)
+    VALUES (@CliId, @CliCliId, @FtyId, @UpdateBy);
+  END
 END
 GO
 -- =============================================================================
@@ -1025,12 +1031,15 @@ GO
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.SP_NEW_RESERVATION
   @RecId int,
-  @CliId int
+  @CliId int,
+  @UpdateBy char(8)
 AS
 BEGIN
   SET NOCOUNT ON;
-  INSERT INTO BACKOFFICE._BOOK (BOO_CLI_ID, BOO_REC_ID)
-  VALUES (@CliId, @RecId);
+  IF (@RecId IS NOT NULL) AND (@CliId IS NOT NULL) AND (@UpdateBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._BOOK (BOO_CLI_ID, BOO_REC_ID, BOO_UPDATE_BY)
+    VALUES (@CliId, @RecId, @UpdateBy);
+  END
 END
 GO
 -- =============================================================================
@@ -1041,12 +1050,15 @@ GO
 CREATE PROCEDURE CLIENTAREA.SP_NEW_RESERVED_DISH
   @CliId int,
   @DisId int,
-  @RecId int
+  @RecId int,
+  @UpdateBy char(8)
 AS
 BEGIN
   SET NOCOUNT ON;
-  INSERT INTO BACKOFFICE._CHOOSE (CHO_CLI_ID, CHO_DIS_ID, CHO_REC_ID)
-  VALUES (@CliId, @DisId, @RecId);
+  IF (@CliId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@RecId IS NOT NULL) AND (@UpdateBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._CHOOSE (CHO_CLI_ID, CHO_DIS_ID, CHO_REC_ID, CHO_UPDATE_BY)
+    VALUES (@CliId, @DisId, @RecId, @UpdateBy);
+  END
 END
 GO
 -- =============================================================================
@@ -1198,6 +1210,27 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
+-- Description: Removes a dish of a reception menu.
+-- =============================================================================
+CREATE PROCEDURE MANAGERAREA.SP_DELETE_MENU
+  @RecId int,
+  @DisId int,
+  @ModifiedAt datetime2
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_OFFER(@RecId, @DisId) BEGIN
+    DELETE FROM BACKOFFICE._OFFER
+    WHERE OFF_REC_ID = @RecId
+      AND OFF_DIS_ID = @DisId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
 -- Description: Removes a client form a table.
 -- =============================================================================
 CREATE PROCEDURE MANAGERAREA.SP_DELETE_SIT
@@ -1259,16 +1292,37 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
+-- Description: Adds a dish on a reception menu.
+-- =============================================================================
+CREATE PROCEDURE MANAGERAREA.SP_NEW_MENU
+  @RecId int,
+  @DisId int,
+  @UpdateBy char(8)
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF (@RecId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@UpdateBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._OFFER (OFF_DIS_ID, OFF_REC_ID, OFF_UPDATE_BY)
+    VALUES (@DisId, @RecId, @UpdateBy);
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
 -- Description: Sit a client at a table.
 -- =============================================================================
 CREATE PROCEDURE MANAGERAREA.SP_NEW_SIT
   @TabId int,
-  @CliId int
+  @CliId int,
+  @UpdateBy char(8)
 AS
 BEGIN
   SET NOCOUNT ON;
-  INSERT INTO BACKOFFICE._SIT (SIT_TAB_ID, SIT_CLI_ID)
-  VALUES (@TabId, @CliId);
+  IF (@TabId IS NOT NULL) AND (@CliId IS NOT NULL) AND (@UpdateBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._SIT (SIT_TAB_ID, SIT_CLI_ID, SIT_UPDATE_BY)
+    VALUES (@TabId, @CliId, @UpdateBy);
+  END
 END
 GO
 -- =============================================================================
@@ -1278,19 +1332,22 @@ GO
 -- =============================================================================
 CREATE PROCEDURE MANAGERAREA.SP_NEW_TABLE
   @RecId int,
+  @UpdateBy char(8),
   @TabId int = NULL OUTPUT
 AS
 BEGIN
   SET NOCOUNT ON;
   DECLARE @NbSeats int;
-  SELECT @NbSeats = REC_SEAT_TABLE
-  FROM BACKOFFICE._RECEPTION
-  WHERE REC_ID = @RecId;
-  IF @RecId IS NOT NULL BEGIN
-    INSERT INTO BACKOFFICE._TABLE (TAB_REC_ID, TAB_SEATING)
-    VALUES (@RecId, @NbSeats);
+  IF (@RecId IS NOT NULL) AND (@UpdateBy IS NOT NULL) BEGIN
+    SELECT @NbSeats = REC_SEAT_TABLE
+    FROM BACKOFFICE._RECEPTION
+    WHERE REC_ID = @RecId;
+    IF @RecId IS NOT NULL BEGIN
+      INSERT INTO BACKOFFICE._TABLE (TAB_REC_ID, TAB_SEATING, TAB_UPDATE_BY)
+      VALUES (@RecId, @NbSeats, @UpdateBy);
+      SET @TabId = IDENT_CURRENT('BACKOFFICE._TABLE');
+    END
   END
-  SET @TabId = IDENT_CURRENT('BACKOFFICE._TABLE');
 END
 GO
 
@@ -1382,7 +1439,7 @@ BEGIN
     END
     UPDATE BACKOFFICE._BOOK
     SET BOO_UPDATE_AT = @Now,
-        BOO_UPDATE_BY = CURRENT_USER,
+--         BOO_UPDATE_BY = CURRENT_USER,
         BOO_VALID = BACKOFFICE.IS_VALID_BOOK(@RecId, @CliId) -- BR004 (partial)
     WHERE BOO_REC_ID = @RecId AND BOO_CLI_ID = @CliId;
     FETCH InsertCursorBook INTO @RecId, @CliId;
@@ -1475,8 +1532,8 @@ BEGIN
       BREAK;
     END
     UPDATE BACKOFFICE._CHOOSE
-    SET CHO_UPDATE_AT = GETDATE(),
-        CHO_UPDATE_BY = CURRENT_USER
+    SET CHO_UPDATE_AT = GETDATE()--,
+--         CHO_UPDATE_BY = CURRENT_USER
     WHERE CHO_CLI_ID = @CliId AND CHO_DIS_ID = @DisId AND CHO_REC_ID = @RecId;
     EXECUTE BACKOFFICE.SP_VALIDATE_BOOK @RecId, @CliId;
     FETCH InsertCursorChoose INTO @CliId, @DisId, @RecId;
@@ -1501,10 +1558,10 @@ CREATE TRIGGER BACKOFFICE.TR_CLIENT_INSERTUPDATE
 AS
 BEGIN
   SET NOCOUNT ON;
-  UPDATE BACKOFFICE._CLIENT SET
-  CLI_UPDATE_AT = GETDATE(),
-  CLI_UPDATE_BY = CURRENT_USER,
-  CLI_SEX = UPPER(CLI_SEX)
+  UPDATE BACKOFFICE._CLIENT
+  SET CLI_UPDATE_AT = GETDATE(),
+--       CLI_UPDATE_BY = CURRENT_USER,
+      CLI_SEX = UPPER(CLI_SEX)
   WHERE CLI_ID IN (SELECT CLI_ID FROM inserted);
 END
 GO
@@ -1520,9 +1577,9 @@ CREATE TRIGGER BACKOFFICE.TR_DISH_INSERTUPDATE
 AS
 BEGIN
   SET NOCOUNT ON;
-  UPDATE BACKOFFICE._DISH SET
-  DIS_UPDATE_AT = GETDATE(),
-  DIS_UPDATE_BY = CURRENT_USER
+  UPDATE BACKOFFICE._DISH
+  SET DIS_UPDATE_AT = GETDATE()--,
+--       DIS_UPDATE_BY = CURRENT_USER
   WHERE DIS_ID IN (SELECT DIS_ID FROM inserted);
 END
 GO
@@ -1554,8 +1611,8 @@ BEGIN
       BREAK
     END
     UPDATE BACKOFFICE._FEEL_CLI_CLI
-    SET FCC_UPDATE_AT = GETDATE(),
-        FCC_UPDATE_BY = CURRENT_USER
+    SET FCC_UPDATE_AT = GETDATE()--,
+--         FCC_UPDATE_BY = CURRENT_USER
     WHERE FCC_CLI_ID = @CliId AND FCC_CLI_CLI_ID = @CliCliId;
     FETCH InsertCursorFeelCC INTO @CliId, @CliCliId;
   END;
@@ -1588,8 +1645,8 @@ BEGIN
   FETCH InsertCursorFeelCD INTO @CliId, @DisId;
   WHILE @@FETCH_STATUS = 0 BEGIN
     UPDATE BACKOFFICE._FEEL_CLI_DIS
-    SET FCD_UPDATE_AT = GETDATE(),
-        FCD_UPDATE_BY = CURRENT_USER
+    SET FCD_UPDATE_AT = GETDATE()--,
+--         FCD_UPDATE_BY = CURRENT_USER
     WHERE FCD_CLI_ID = @CliId AND FCD_DIS_ID = @DisId;
     FETCH InsertCursorFeelCD INTO @CliId, @DisId;
   END;
@@ -1620,8 +1677,8 @@ BEGIN
   FETCH InsertCursorOffer INTO @RecId, @DisId;
   WHILE @@FETCH_STATUS = 0 BEGIN
     UPDATE BACKOFFICE._OFFER
-    SET OFF_UPDATE_AT = GETDATE(),
-        OFF_UPDATE_BY = CURRENT_USER
+    SET OFF_UPDATE_AT = GETDATE()--,
+--         OFF_UPDATE_BY = CURRENT_USER
     WHERE OFF_REC_ID = @RecId AND OFF_DIS_ID = @DisId;
     EXECUTE BACKOFFICE.SP_VALIDATE_RECEPTION @RecId;
     FETCH InsertCursorOffer INTO @RecId, @DisId;
@@ -1651,7 +1708,7 @@ BEGIN
   WHILE @@FETCH_STATUS = 0 BEGIN
     UPDATE BACKOFFICE._RECEPTION
     SET REC_UPDATE_AT = GETDATE(),
-        REC_UPDATE_BY = CURRENT_USER,
+--         REC_UPDATE_BY = CURRENT_USER,
         REC_VALID = BACKOFFICE.IS_VALID_RECEPTION(@RecId) -- BR003 (partial)
     WHERE REC_ID = @RecId;
     FETCH InsertCursorReception INTO @RecId;
@@ -1755,8 +1812,8 @@ BEGIN
         BREAK;
       END
       UPDATE BACKOFFICE._SIT
-      SET SIT_UPDATE_AT = GETDATE(),
-          SIT_UPDATE_BY = CURRENT_USER
+      SET SIT_UPDATE_AT = GETDATE()--,
+--           SIT_UPDATE_BY = CURRENT_USER
       WHERE SIT_TAB_ID = @TabId AND SIT_CLI_ID = @CliId;
       FETCH InsertCursorSit INTO @TabId, @CliId;
     END;
@@ -1803,7 +1860,7 @@ BEGIN
   WHILE @@FETCH_STATUS = 0 BEGIN
     UPDATE BACKOFFICE._TABLE
     SET TAB_UPDATE_AT = GETDATE(),
-        TAB_UPDATE_BY = CURRENT_USER,
+--         TAB_UPDATE_BY = CURRENT_USER,
         TAB_VALID = BACKOFFICE.IS_VALID_TABLE(@TabId) -- BR008 (partial)
     WHERE TAB_ID = @TabId;
     FETCH InsertCursorTable INTO @TabId;
