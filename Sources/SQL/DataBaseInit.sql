@@ -253,35 +253,6 @@ FROM BACKOFFICE._DISH, BACKOFFICE._DISHTYPE
 WHERE DIS_TYPE = DTY_ID;
 GO
 --------------------------------------------------------------------------------
-CREATE VIEW CLIENTAREA.DishType AS
-SELECT DTY_NAME AS Label,
-       DTY_ID AS Id
-FROM BACKOFFICE._DISHTYPE;
-GO
---------------------------------------------------------------------------------
-CREATE VIEW CLIENTAREA.DishWish AS
-SELECT CLI_FNAME AS ClientFirstName,
-       CLI_LNAME AS ClientLastName,
-       FTY_NAME AS Feeling,
-       DTY_NAME AS DishType,
-       DIS_NAME AS DishName,
-       CLI_ID AS ClientId,
-       DIS_ID AS DishId,
-       DTY_ID AS DishTypeId,
-       FTY_ID AS FeelingTypeId,
-       FCD_UPDATE_AT AS ModifiedAt,
-       FCD_UPDATE_BY AS ModifiedBy
-FROM BACKOFFICE._FEEL_CLI_DIS,
-     BACKOFFICE._CLIENT,
-     BACKOFFICE._DISH,
-     BACKOFFICE._DISHTYPE,
-     BACKOFFICE._FEELINGTYPE
-WHERE FCD_CLI_ID = CLI_ID
-  AND FCD_DIS_ID = DIS_ID
-  AND DIS_TYPE = DTY_ID
-  AND FCD_FTY_ID = FTY_ID;
-GO
---------------------------------------------------------------------------------
 CREATE VIEW CLIENTAREA.Feeling AS
 SELECT _CLIENT_FROM.CLI_FNAME AS ClientFromFirstName,
        _CLIENT_FROM.CLI_LNAME AS ClientFromLastName,
@@ -308,36 +279,17 @@ SELECT FTY_NAME AS Label,
 FROM BACKOFFICE._FEELINGTYPE;
 GO
 --------------------------------------------------------------------------------
-CREATE VIEW CLIENTAREA.Menu AS
-SELECT REC_NAME AS ReceptionName,
-       REC_DATE AS ReceptionDate,
-       DTY_NAME AS DishType,
-       DIS_NAME AS DishName,
-       REC_ID AS ReceptionId,
-       DIS_ID AS DishId,
-       DTY_ID AS DishTypeId,
-       OFF_UPDATE_AT AS ModifiedAt,
-       OFF_UPDATE_BY AS ModifiedBy
-FROM BACKOFFICE._RECEPTION,
-     BACKOFFICE._OFFER,
-     BACKOFFICE._DISH,
-     BACKOFFICE._DISHTYPE
-WHERE REC_ID = OFF_REC_ID
-  AND OFF_DIS_ID = DIS_ID
-  AND DIS_TYPE = DTY_ID;
-GO
---------------------------------------------------------------------------------
 CREATE VIEW CLIENTAREA.Reception AS
 SELECT REC_NAME AS Name,
        REC_DATE AS [Date],
        REC_DATE_CLOSING_REG AS BookingClosingDate,
        REC_CAPACITY AS Capacity,
        REC_SEAT_TABLE AS SeatsPerTable,
-       REC_VALID AS IsValid,
        REC_ID AS ReceptionId,
        REC_UPDATE_AT AS ModifiedAt,
        REC_UPDATE_BY AS ModifiedBy
-FROM BACKOFFICE._RECEPTION;
+FROM BACKOFFICE._RECEPTION
+WHERE REC_VALID = 1;
 GO
 --------------------------------------------------------------------------------
 CREATE VIEW CLIENTAREA.Reservation AS
@@ -381,7 +333,68 @@ WHERE REC_ID = CHO_REC_ID
   AND DIS_TYPE = DTY_ID;
 GO
 --------------------------------------------------------------------------------
-CREATE VIEW CLIENTAREA.TablesMap AS
+CREATE VIEW MANAGERAREA.DishType AS
+SELECT DTY_NAME AS Label,
+       DTY_ID AS Id
+FROM BACKOFFICE._DISHTYPE;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW MANAGERAREA.DishWish AS
+SELECT CLI_FNAME AS ClientFirstName,
+       CLI_LNAME AS ClientLastName,
+       FTY_NAME AS Feeling,
+       DTY_NAME AS DishType,
+       DIS_NAME AS DishName,
+       CLI_ID AS ClientId,
+       DIS_ID AS DishId,
+       DTY_ID AS DishTypeId,
+       FTY_ID AS FeelingTypeId,
+       FCD_UPDATE_AT AS ModifiedAt,
+       FCD_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._FEEL_CLI_DIS,
+     BACKOFFICE._CLIENT,
+     BACKOFFICE._DISH,
+     BACKOFFICE._DISHTYPE,
+     BACKOFFICE._FEELINGTYPE
+WHERE FCD_CLI_ID = CLI_ID
+  AND FCD_DIS_ID = DIS_ID
+  AND DIS_TYPE = DTY_ID
+  AND FCD_FTY_ID = FTY_ID;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW MANAGERAREA.Menu AS
+SELECT REC_NAME AS ReceptionName,
+       REC_DATE AS ReceptionDate,
+       DTY_NAME AS DishType,
+       DIS_NAME AS DishName,
+       REC_ID AS ReceptionId,
+       DIS_ID AS DishId,
+       DTY_ID AS DishTypeId,
+       OFF_UPDATE_AT AS ModifiedAt,
+       OFF_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._RECEPTION,
+     BACKOFFICE._OFFER,
+     BACKOFFICE._DISH,
+     BACKOFFICE._DISHTYPE
+WHERE REC_ID = OFF_REC_ID
+  AND OFF_DIS_ID = DIS_ID
+  AND DIS_TYPE = DTY_ID;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW MANAGERAREA.Reception AS
+SELECT REC_NAME AS Name,
+       REC_DATE AS [Date],
+       REC_DATE_CLOSING_REG AS BookingClosingDate,
+       REC_CAPACITY AS Capacity,
+       REC_SEAT_TABLE AS SeatsPerTable,
+       REC_VALID AS IsValid,
+       REC_ID AS ReceptionId,
+       REC_UPDATE_AT AS ModifiedAt,
+       REC_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._RECEPTION;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW MANAGERAREA.TablesMap AS
 SELECT REC_NAME AS ReceptionName,
        REC_DATE AS ReceptionDate,
        TAB_ID AS TableId,
@@ -1391,6 +1404,7 @@ GO
 -- Description: Automatically assigns the modification date and the user who
 --              made it. Verifies that:
 --              - the reception is valid (BR004)
+--              - the reception is not full
 --              - the registration for the reception is not closed (BR014)
 --              - the client does not register many receptions that go together
 --                (BR020)
@@ -1407,7 +1421,8 @@ BEGIN
           @Error int,
           @RecDate datetime2,
           @RecCloseDate datetime2,
-          @Now datetime2;
+          @Now datetime2,
+          @RecCapacity int;
   SET @Error = 0;
   DECLARE InsertCursorBook CURSOR
   FOR SELECT BOO_REC_ID, BOO_CLI_ID
@@ -1419,10 +1434,17 @@ BEGIN
       SET @Error = 50002;
       BREAK;
     END
-    SELECT @RecDate = REC_DATE, @RecCloseDate = REC_DATE_CLOSING_REG
+    SELECT @RecDate = REC_DATE, @RecCloseDate = REC_DATE_CLOSING_REG, @RecCapacity = REC_CAPACITY
     FROM BACKOFFICE._RECEPTION
     WHERE REC_ID = @RecId;
     SET @Now = GETDATE();
+    IF EXISTS(SELECT *
+              FROM BACKOFFICE._BOOK
+              WHERE BOO_REC_ID = @RecId
+              HAVING COUNT(*) > @RecCapacity) BEGIN
+      SET @Error = 50011;
+      BREAK;
+    END
     IF @RecCloseDate > @Now BEGIN
       SET @Error = 50008;
       BREAK;

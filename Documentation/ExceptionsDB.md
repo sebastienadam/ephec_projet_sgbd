@@ -11,3 +11,4 @@
 * **50008**: Un inivté s'inscrit à une réception pour laquelle les inscriptions sont clôturées.
 * **50009**: Un inivté s'inscrit à plusieurs réceptions simultanées.
 * **50010**: Tentative de modification d'un enregistrement déjà modifé.
+* **50011**: Un invité s'inscrit à une réception n'ayant plus de place.
