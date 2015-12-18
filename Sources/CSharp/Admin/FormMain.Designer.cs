@@ -24,20 +24,20 @@
     /// </summary>
     private void InitializeComponent() {
       this.panel1 = new System.Windows.Forms.Panel();
+      this.buttonDetails = new System.Windows.Forms.Button();
+      this.labelReception = new System.Windows.Forms.Label();
       this.dataGridViewReceptions = new System.Windows.Forms.DataGridView();
       this.panel2 = new System.Windows.Forms.Panel();
-      this.panel3 = new System.Windows.Forms.Panel();
-      this.dataGridViewClients = new System.Windows.Forms.DataGridView();
-      this.dataGridViewDish = new System.Windows.Forms.DataGridView();
       this.labelClients = new System.Windows.Forms.Label();
+      this.dataGridViewClients = new System.Windows.Forms.DataGridView();
+      this.panel3 = new System.Windows.Forms.Panel();
       this.labelDish = new System.Windows.Forms.Label();
-      this.labelReception = new System.Windows.Forms.Label();
-      this.buttonDetails = new System.Windows.Forms.Button();
+      this.dataGridViewDish = new System.Windows.Forms.DataGridView();
       this.panel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReceptions)).BeginInit();
       this.panel2.SuspendLayout();
-      this.panel3.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClients)).BeginInit();
+      this.panel3.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDish)).BeginInit();
       this.SuspendLayout();
       // 
@@ -52,82 +52,15 @@
       this.panel1.Size = new System.Drawing.Size(888, 335);
       this.panel1.TabIndex = 0;
       // 
-      // dataGridViewReceptions
+      // buttonDetails
       // 
-      this.dataGridViewReceptions.AllowUserToAddRows = false;
-      this.dataGridViewReceptions.AllowUserToDeleteRows = false;
-      this.dataGridViewReceptions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.dataGridViewReceptions.Location = new System.Drawing.Point(3, 32);
-      this.dataGridViewReceptions.Name = "dataGridViewReceptions";
-      this.dataGridViewReceptions.ReadOnly = true;
-      this.dataGridViewReceptions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-      this.dataGridViewReceptions.Size = new System.Drawing.Size(715, 298);
-      this.dataGridViewReceptions.TabIndex = 2;
-      this.dataGridViewReceptions.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewReceptions_DataBindingComplete);
-      // 
-      // panel2
-      // 
-      this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.panel2.Controls.Add(this.labelClients);
-      this.panel2.Controls.Add(this.dataGridViewClients);
-      this.panel2.Location = new System.Drawing.Point(12, 353);
-      this.panel2.Name = "panel2";
-      this.panel2.Size = new System.Drawing.Size(588, 332);
-      this.panel2.TabIndex = 1;
-      // 
-      // panel3
-      // 
-      this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.panel3.Controls.Add(this.labelDish);
-      this.panel3.Controls.Add(this.dataGridViewDish);
-      this.panel3.Location = new System.Drawing.Point(606, 353);
-      this.panel3.Name = "panel3";
-      this.panel3.Size = new System.Drawing.Size(294, 332);
-      this.panel3.TabIndex = 1;
-      // 
-      // dataGridViewClients
-      // 
-      this.dataGridViewClients.AllowUserToAddRows = false;
-      this.dataGridViewClients.AllowUserToDeleteRows = false;
-      this.dataGridViewClients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.dataGridViewClients.Location = new System.Drawing.Point(3, 32);
-      this.dataGridViewClients.Name = "dataGridViewClients";
-      this.dataGridViewClients.ReadOnly = true;
-      this.dataGridViewClients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-      this.dataGridViewClients.Size = new System.Drawing.Size(580, 295);
-      this.dataGridViewClients.TabIndex = 3;
-      // 
-      // dataGridViewDish
-      // 
-      this.dataGridViewDish.AllowUserToAddRows = false;
-      this.dataGridViewDish.AllowUserToDeleteRows = false;
-      this.dataGridViewDish.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.dataGridViewDish.Location = new System.Drawing.Point(3, 32);
-      this.dataGridViewDish.Name = "dataGridViewDish";
-      this.dataGridViewDish.ReadOnly = true;
-      this.dataGridViewDish.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-      this.dataGridViewDish.Size = new System.Drawing.Size(286, 295);
-      this.dataGridViewDish.TabIndex = 4;
-      // 
-      // labelClients
-      // 
-      this.labelClients.AutoSize = true;
-      this.labelClients.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.labelClients.Location = new System.Drawing.Point(3, 0);
-      this.labelClients.Name = "labelClients";
-      this.labelClients.Size = new System.Drawing.Size(93, 29);
-      this.labelClients.TabIndex = 4;
-      this.labelClients.Text = "Clients";
-      // 
-      // labelDish
-      // 
-      this.labelDish.AutoSize = true;
-      this.labelDish.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.labelDish.Location = new System.Drawing.Point(3, 0);
-      this.labelDish.Name = "labelDish";
-      this.labelDish.Size = new System.Drawing.Size(70, 29);
-      this.labelDish.TabIndex = 5;
-      this.labelDish.Text = "Plats";
+      this.buttonDetails.Location = new System.Drawing.Point(724, 32);
+      this.buttonDetails.Name = "buttonDetails";
+      this.buttonDetails.Size = new System.Drawing.Size(159, 23);
+      this.buttonDetails.TabIndex = 6;
+      this.buttonDetails.Text = "Détails";
+      this.buttonDetails.UseVisualStyleBackColor = true;
+      this.buttonDetails.Click += new System.EventHandler(this.buttonDetails_Click);
       // 
       // labelReception
       // 
@@ -139,14 +72,89 @@
       this.labelReception.TabIndex = 5;
       this.labelReception.Text = "Réceptions";
       // 
-      // buttonDetails
+      // dataGridViewReceptions
       // 
-      this.buttonDetails.Location = new System.Drawing.Point(724, 32);
-      this.buttonDetails.Name = "buttonDetails";
-      this.buttonDetails.Size = new System.Drawing.Size(159, 23);
-      this.buttonDetails.TabIndex = 6;
-      this.buttonDetails.Text = "Détails";
-      this.buttonDetails.UseVisualStyleBackColor = true;
+      this.dataGridViewReceptions.AllowUserToAddRows = false;
+      this.dataGridViewReceptions.AllowUserToDeleteRows = false;
+      this.dataGridViewReceptions.AllowUserToOrderColumns = true;
+      this.dataGridViewReceptions.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewReceptions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewReceptions.Location = new System.Drawing.Point(3, 32);
+      this.dataGridViewReceptions.MultiSelect = false;
+      this.dataGridViewReceptions.Name = "dataGridViewReceptions";
+      this.dataGridViewReceptions.ReadOnly = true;
+      this.dataGridViewReceptions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+      this.dataGridViewReceptions.Size = new System.Drawing.Size(715, 298);
+      this.dataGridViewReceptions.TabIndex = 2;
+      this.dataGridViewReceptions.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewReceptions_DataBindingComplete);
+      this.dataGridViewReceptions.DoubleClick += new System.EventHandler(this.dataGridViewReceptions_DoubleClick);
+      // 
+      // panel2
+      // 
+      this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.panel2.Controls.Add(this.labelClients);
+      this.panel2.Controls.Add(this.dataGridViewClients);
+      this.panel2.Location = new System.Drawing.Point(12, 353);
+      this.panel2.Name = "panel2";
+      this.panel2.Size = new System.Drawing.Size(588, 332);
+      this.panel2.TabIndex = 1;
+      // 
+      // labelClients
+      // 
+      this.labelClients.AutoSize = true;
+      this.labelClients.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labelClients.Location = new System.Drawing.Point(3, 0);
+      this.labelClients.Name = "labelClients";
+      this.labelClients.Size = new System.Drawing.Size(93, 29);
+      this.labelClients.TabIndex = 4;
+      this.labelClients.Text = "Clients";
+      // 
+      // dataGridViewClients
+      // 
+      this.dataGridViewClients.AllowUserToAddRows = false;
+      this.dataGridViewClients.AllowUserToDeleteRows = false;
+      this.dataGridViewClients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewClients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewClients.Location = new System.Drawing.Point(3, 32);
+      this.dataGridViewClients.MultiSelect = false;
+      this.dataGridViewClients.Name = "dataGridViewClients";
+      this.dataGridViewClients.ReadOnly = true;
+      this.dataGridViewClients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+      this.dataGridViewClients.Size = new System.Drawing.Size(580, 295);
+      this.dataGridViewClients.TabIndex = 3;
+      // 
+      // panel3
+      // 
+      this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.panel3.Controls.Add(this.labelDish);
+      this.panel3.Controls.Add(this.dataGridViewDish);
+      this.panel3.Location = new System.Drawing.Point(606, 353);
+      this.panel3.Name = "panel3";
+      this.panel3.Size = new System.Drawing.Size(294, 332);
+      this.panel3.TabIndex = 1;
+      // 
+      // labelDish
+      // 
+      this.labelDish.AutoSize = true;
+      this.labelDish.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labelDish.Location = new System.Drawing.Point(3, 0);
+      this.labelDish.Name = "labelDish";
+      this.labelDish.Size = new System.Drawing.Size(70, 29);
+      this.labelDish.TabIndex = 5;
+      this.labelDish.Text = "Plats";
+      // 
+      // dataGridViewDish
+      // 
+      this.dataGridViewDish.AllowUserToAddRows = false;
+      this.dataGridViewDish.AllowUserToDeleteRows = false;
+      this.dataGridViewDish.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewDish.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewDish.Location = new System.Drawing.Point(3, 32);
+      this.dataGridViewDish.Name = "dataGridViewDish";
+      this.dataGridViewDish.ReadOnly = true;
+      this.dataGridViewDish.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+      this.dataGridViewDish.Size = new System.Drawing.Size(286, 295);
+      this.dataGridViewDish.TabIndex = 4;
       // 
       // FormMain
       // 
@@ -164,9 +172,9 @@
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReceptions)).EndInit();
       this.panel2.ResumeLayout(false);
       this.panel2.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClients)).EndInit();
       this.panel3.ResumeLayout(false);
       this.panel3.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClients)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDish)).EndInit();
       this.ResumeLayout(false);
 

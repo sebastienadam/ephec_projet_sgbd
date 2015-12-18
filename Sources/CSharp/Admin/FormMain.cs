@@ -46,5 +46,18 @@ namespace Admin {
         }
       }
     }
+
+    private void dataGridViewReceptions_DoubleClick(object sender, EventArgs e) {
+      RecaptionDetail();
+    }
+
+    private void buttonDetails_Click(object sender, EventArgs e) {
+      RecaptionDetail();
+    }
+
+    private void RecaptionDetail() {
+      int recId = (int)dataGridViewReceptions.SelectedRows[0].Cells[6].Value;
+      MessageBox.Show(recId.ToString());
+    }
   }
 }
