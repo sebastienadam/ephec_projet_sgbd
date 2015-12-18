@@ -70,6 +70,15 @@
     <Compile Include="FeelingType.cs">
       <DependentUpon>ReceptionModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="F_DISH_UNWISH_Result.cs">
+      <DependentUpon>ReceptionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="F_DISH_WISH_Result.cs">
+      <DependentUpon>ReceptionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="F_MENU_Result.cs">
+      <DependentUpon>ReceptionModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Menu.cs">
       <DependentUpon>ReceptionModel.tt</DependentUpon>
     </Compile>

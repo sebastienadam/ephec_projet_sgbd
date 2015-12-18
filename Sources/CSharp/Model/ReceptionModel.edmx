@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ProjetSGBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ProjetSGBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ProjetSGBD.CLIENTAREA.Client' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Client">
@@ -318,6 +318,53 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
         <Function Name="UPDATE_AT_TABLE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="datetime2">
           <Parameter Name="TabId" Type="int" Mode="In" />
         </Function>
+        <Function Name="F_DISH_UNWISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="CliId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Type" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="Name" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="DishId" Type="int" Nullable="false" />
+                <Property Name="DishTypeId" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="F_DISH_WISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="CliId" Type="int" Mode="In" />
+          <Parameter Name="FtyId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Feeling" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="DishType" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="DishName" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="DishId" Type="int" Nullable="false" />
+                <Property Name="DishTypeId" Type="int" Nullable="false" />
+                <Property Name="FeelingTypeId" Type="int" Nullable="false" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="F_MENU" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="RecId" Type="int" Mode="In" />
+          <Parameter Name="DtyId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="DishType" Type="varchar" MaxLength="64" />
+                <Property Name="DishName" Type="varchar" MaxLength="64" />
+                <Property Name="DishId" Type="int" />
+                <Property Name="DishTypeId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="SP_DELETE_DISH_WISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="CliId" Type="int" Mode="In" />
           <Parameter Name="DisId" Type="int" Mode="In" />
@@ -339,20 +386,9 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Parameter Name="RecId" Type="int" Mode="In" />
           <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
         </Function>
-        <Function Name="SP_DISH_UNWISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_DISH_WISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="FtyId" Type="int" Mode="In" />
-        </Function>
         <Function Name="SP_FEELING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="CliId" Type="int" Mode="In" />
           <Parameter Name="FtyId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_MENU" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="DtyId" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_NEW_DISH_WISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="CliId" Type="int" Mode="In" />
@@ -584,8 +620,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
     FROM [MANAGERAREA].[TablesMap] AS [TablesMap]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProjetSGBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -839,10 +874,10 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_VALIDATE_RECEPTION">
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
+          <Parameter Name="RecId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_VALIDATE_TABLE">
-            <Parameter Name="TabId" Mode="In" Type="Int32" />
+          <Parameter Name="TabId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_DELETE_DISH_WISH">
             <Parameter Name="CliId" Mode="In" Type="Int32" />
@@ -904,20 +939,20 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <Parameter Name="UpdateBy" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_RESERVATION" ReturnType="Collection(ProjetSGBDModel.SP_RESERVATION_Result)">
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
+          <Parameter Name="RecId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_RESERVED_DISH" ReturnType="Collection(ProjetSGBDModel.SP_RESERVED_DISH_Result)">
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
+          <Parameter Name="RecId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_TABLE_MAP">
             <Parameter Name="RecId" Mode="In" Type="Int32" />
             <Parameter Name="TabId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_UNFEELING" ReturnType="Collection(ProjetSGBDModel.SP_UNFEELING_Result)">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
+          <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_UNRESERVATION" ReturnType="Collection(ProjetSGBDModel.SP_UNRESERVATION_Result)">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
+          <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_UPDATE_DISH_WISH">
             <Parameter Name="CliId" Mode="In" Type="Int32" />
@@ -946,7 +981,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="SP_DISHES_TO_PREPARE" ReturnType="Collection(ProjetSGBDModel.SP_DISHES_TO_PREPARE_Result)">
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
+          <Parameter Name="RecId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_NEW_MENU">
             <Parameter Name="RecId" Mode="In" Type="Int32" />
@@ -962,6 +997,17 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <Parameter Name="RecId" Mode="In" Type="Int32" />
             <Parameter Name="UpdateBy" Mode="In" Type="String" />
             <Parameter Name="TabId" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="F_DISH_UNWISH" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.F_DISH_UNWISH_Result)">
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="F_DISH_WISH" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.F_DISH_WISH_Result)">
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+            <Parameter Name="FtyId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="F_MENU" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.F_MENU_Result)">
+            <Parameter Name="RecId" Mode="In" Type="Int32" />
+            <Parameter Name="DtyId" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_FEELING_Result">
@@ -1013,6 +1059,30 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Property Type="Int32" Name="DishId" Nullable="false" />
           <Property Type="Int32" Name="DishTypeId" Nullable="false" />
           <Property Type="Int32" Name="Quantity" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="F_DISH_UNWISH_Result">
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="64" />
+          <Property Type="Int32" Name="DishId" Nullable="false" />
+          <Property Type="Int32" Name="DishTypeId" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="F_DISH_WISH_Result">
+          <Property Type="String" Name="Feeling" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="DishType" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="DishName" Nullable="false" MaxLength="64" />
+          <Property Type="Int32" Name="DishId" Nullable="false" />
+          <Property Type="Int32" Name="DishTypeId" Nullable="false" />
+          <Property Type="Int32" Name="FeelingTypeId" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedAt" Nullable="true" Precision="27" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="F_MENU_Result">
+          <Property Type="String" Name="DishType" Nullable="true" MaxLength="64" />
+          <Property Type="String" Name="DishName" Nullable="true" MaxLength="64" />
+          <Property Type="Int32" Name="DishId" Nullable="true" />
+          <Property Type="Int32" Name="DishTypeId" Nullable="true" />
+          <Property Type="DateTime" Name="ModifiedAt" Nullable="true" Precision="27" />
+          <Property Type="String" Name="ModifiedBy" Nullable="true" MaxLength="8" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1196,8 +1266,6 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <FunctionImportMapping FunctionImportName="SP_DELETE_FEELING" FunctionName="ProjetSGBDModel.Store.SP_DELETE_FEELING" />
           <FunctionImportMapping FunctionImportName="SP_DELETE_RESERVATION" FunctionName="ProjetSGBDModel.Store.SP_DELETE_RESERVATION" />
           <FunctionImportMapping FunctionImportName="SP_DELETE_RESERVED_DISH" FunctionName="ProjetSGBDModel.Store.SP_DELETE_RESERVED_DISH" />
-          <FunctionImportMapping FunctionImportName="SP_DISH_UNWISH" FunctionName="ProjetSGBDModel.Store.SP_DISH_UNWISH" />
-          <FunctionImportMapping FunctionImportName="SP_DISH_WISH" FunctionName="ProjetSGBDModel.Store.SP_DISH_WISH" />
           <FunctionImportMapping FunctionImportName="SP_FEELING" FunctionName="ProjetSGBDModel.Store.SP_FEELING">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProjetSGBDModel.SP_FEELING_Result">
@@ -1211,7 +1279,6 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_MENU" FunctionName="ProjetSGBDModel.Store.SP_MENU" />
           <FunctionImportMapping FunctionImportName="SP_NEW_DISH_WISH" FunctionName="ProjetSGBDModel.Store.SP_NEW_DISH_WISH" />
           <FunctionImportMapping FunctionImportName="SP_NEW_FEELING" FunctionName="ProjetSGBDModel.Store.SP_NEW_FEELING" />
           <FunctionImportMapping FunctionImportName="SP_NEW_RESERVATION" FunctionName="ProjetSGBDModel.Store.SP_NEW_RESERVATION" />
@@ -1286,6 +1353,42 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <FunctionImportMapping FunctionImportName="SP_NEW_MENU" FunctionName="ProjetSGBDModel.Store.SP_NEW_MENU" />
           <FunctionImportMapping FunctionImportName="SP_NEW_SIT" FunctionName="ProjetSGBDModel.Store.SP_NEW_SIT" />
           <FunctionImportMapping FunctionImportName="SP_NEW_TABLE" FunctionName="ProjetSGBDModel.Store.SP_NEW_TABLE" />
+          <FunctionImportMapping FunctionImportName="F_DISH_UNWISH" FunctionName="ProjetSGBDModel.Store.F_DISH_UNWISH">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.F_DISH_UNWISH_Result">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
+                <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="F_DISH_WISH" FunctionName="ProjetSGBDModel.Store.F_DISH_WISH">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.F_DISH_WISH_Result">
+                <ScalarProperty Name="Feeling" ColumnName="Feeling" />
+                <ScalarProperty Name="DishType" ColumnName="DishType" />
+                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
+                <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
+                <ScalarProperty Name="FeelingTypeId" ColumnName="FeelingTypeId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="F_MENU" FunctionName="ProjetSGBDModel.Store.F_MENU">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.F_MENU_Result">
+                <ScalarProperty Name="DishType" ColumnName="DishType" />
+                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
+                <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

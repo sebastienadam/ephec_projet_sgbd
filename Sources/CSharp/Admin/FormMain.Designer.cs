@@ -83,6 +83,7 @@
       this.dataGridViewReceptions.MultiSelect = false;
       this.dataGridViewReceptions.Name = "dataGridViewReceptions";
       this.dataGridViewReceptions.ReadOnly = true;
+      this.dataGridViewReceptions.RowHeadersVisible = false;
       this.dataGridViewReceptions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridViewReceptions.Size = new System.Drawing.Size(715, 298);
       this.dataGridViewReceptions.TabIndex = 2;
@@ -113,12 +114,14 @@
       // 
       this.dataGridViewClients.AllowUserToAddRows = false;
       this.dataGridViewClients.AllowUserToDeleteRows = false;
+      this.dataGridViewClients.AllowUserToOrderColumns = true;
       this.dataGridViewClients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
       this.dataGridViewClients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       this.dataGridViewClients.Location = new System.Drawing.Point(3, 32);
       this.dataGridViewClients.MultiSelect = false;
       this.dataGridViewClients.Name = "dataGridViewClients";
       this.dataGridViewClients.ReadOnly = true;
+      this.dataGridViewClients.RowHeadersVisible = false;
       this.dataGridViewClients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridViewClients.Size = new System.Drawing.Size(580, 295);
       this.dataGridViewClients.TabIndex = 3;
@@ -147,11 +150,14 @@
       // 
       this.dataGridViewDish.AllowUserToAddRows = false;
       this.dataGridViewDish.AllowUserToDeleteRows = false;
+      this.dataGridViewDish.AllowUserToOrderColumns = true;
       this.dataGridViewDish.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
       this.dataGridViewDish.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       this.dataGridViewDish.Location = new System.Drawing.Point(3, 32);
+      this.dataGridViewDish.MultiSelect = false;
       this.dataGridViewDish.Name = "dataGridViewDish";
       this.dataGridViewDish.ReadOnly = true;
+      this.dataGridViewDish.RowHeadersVisible = false;
       this.dataGridViewDish.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridViewDish.Size = new System.Drawing.Size(286, 295);
       this.dataGridViewDish.TabIndex = 4;

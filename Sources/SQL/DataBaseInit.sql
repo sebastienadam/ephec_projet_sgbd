@@ -712,10 +712,404 @@ BEGIN
   RETURN @Result
 END
 GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the list of the clients that are (un)liked by a client.
+-- =============================================================================
+CREATE FUNCTION CLIENTAREA.GetFeeling
+(
+  @CliId int,
+  @FtyId int = NULL
+)
+RETURNS @Feeling TABLE 
+(
+  FirstName varchar(64),
+  LastName varchar(64),
+  Feeling varchar(64),
+  ClientId int,
+  FeelingTypeId int,
+  ModifiedAt datetime2,
+  ModifiedBy char(8)
+)
+AS
+BEGIN
+  IF @FtyId IS NULL BEGIN
+    INSERT INTO @Feeling
+    SELECT ClientToFirstName,
+           ClientToLastName,
+           Feeling,
+           ClientToId,
+           FeelingTypeId,
+           ModifiedAt,
+           ModifiedBy
+    FROM CLIENTAREA.Feeling
+    WHERE ClientFromId = @CliId;
+  END ELSE BEGIN
+    INSERT INTO @Feeling
+    SELECT ClientToFirstName,
+           ClientToLastName,
+           Feeling,
+           ClientToId,
+           FeelingTypeId,
+           ModifiedAt,
+           ModifiedBy
+    FROM CLIENTAREA.Feeling
+    WHERE ClientFromId = @CliId
+      AND FeelingTypeId = @FtyId;
+  END
+  RETURN 
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the menu for a given reception.
+-- =============================================================================
+CREATE FUNCTION CLIENTAREA.GetMenu
+(
+  @RecId int,
+  @DtyId int = NULL
+)
+RETURNS @Menu TABLE 
+(
+	DishType varchar(64),
+	DishName varchar(64),
+	DishId int,
+	DishTypeId int,
+	ModifiedAt datetime2,
+	ModifiedBy char(8)
+)
+AS
+BEGIN
+  IF @DtyId IS NULL BEGIN
+    INSERT INTO @Menu
+    SELECT DishType,
+           DishName,
+           DishId,
+           DishTypeId,
+           ModifiedAt,
+           ModifiedBy
+    FROM MANAGERAREA.Menu
+    WHERE ReceptionID = @RecId;
+  END ELSE BEGIN
+    INSERT INTO @Menu
+    SELECT DishType,
+           DishName,
+           DishId,
+           DishTypeId,
+           ModifiedAt,
+           ModifiedBy
+    FROM MANAGERAREA.Menu
+    WHERE ReceptionID = @RecId
+      AND DishTypeId = @DtyId;
+  END
+  RETURN
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the list of the clients who have booked for a reception.
+-- =============================================================================
+CREATE FUNCTION CLIENTAREA.GetReservation
+(	
+  @RecId int
+)
+RETURNS TABLE 
+AS
+RETURN 
+(
+  SELECT ClientFirstName,
+         ClientLastName,
+         IsValid,
+         ClientId,
+         ModifiedAt,
+         ModifiedBy
+  FROM CLIENTAREA.Reservation
+  WHERE ReceptionId = @RecId
+)
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the list of the clients with the dishes they ordered for
+--              a reception.
+-- =============================================================================
+CREATE FUNCTION CLIENTAREA.GetReservedDish
+(
+  @RecId int
+)
+RETURNS TABLE
+AS
+RETURN
+(
+  SELECT ClientFirstName,
+         ClientLastName,
+         DishType,
+         DishName,
+         ClientId,
+         DishId,
+         DishTypeId,
+         ModifiedAt,
+         ModifiedBy
+  FROM CLIENTAREA.ReservedDish
+  WHERE ReceptionId = @RecId
+)
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the tables map for a reception.
+-- =============================================================================
+CREATE FUNCTION CLIENTAREA.GetTableMap
+(
+  @RecId int,
+  @TabId int = NULL
+)
+RETURNS @TableMap TABLE 
+(
+  TableId int,
+  ClientFirstName varchar(64),
+  ClientLastName varchar(64),
+  IsValid bit,
+  ReceptionId int,
+  ClientId int,
+  ModifiedAt datetime2,
+  ModifiedBy char(8)
+)
+AS
+BEGIN
+  IF @TabId IS NULL BEGIN
+    INSERT INTO @TableMap
+    SELECT TableId,
+           ClientFirstName,
+           ClientLastName,
+           IsValid,
+		   ReceptionId,
+           ClientId,
+           ModifiedAt,
+           ModifiedBy
+    FROM MANAGERAREA.TablesMap
+    WHERE ReceptionId = @RecId;
+  END ELSE BEGIN
+    INSERT INTO @TableMap
+    SELECT TableId,
+           ClientFirstName,
+           ClientLastName,
+           IsValid,
+		   ReceptionId,
+           ClientId,
+           ModifiedAt,
+           ModifiedBy
+    FROM MANAGERAREA.TablesMap
+    WHERE ReceptionId = @RecId
+      AND TableId = @TabId;
+  END
+  RETURN 
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the list of the clients that are NOT (un)liked by a
+--              client.
+-- =============================================================================
+CREATE FUNCTION CLIENTAREA.GetUnfeeling
+(	
+  @CliId int
+)
+RETURNS TABLE 
+AS
+RETURN 
+(
+  SELECT FirstName, LastName, ClientId
+  FROM CLIENTAREA.Client
+  WHERE ClientId NOT IN (SELECT ClientToId
+                         FROM CLIENTAREA.Feeling
+                         WHERE ClientFromId = @CliId)
+    AND ClientId <> @CliId
+)
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description:    Returns the list of reception to which a customer is not
+--              registered.
+-- =============================================================================
+CREATE FUNCTION CLIENTAREA.GetUnreservation
+(	
+  @CliId int
+)
+RETURNS TABLE 
+AS
+RETURN 
+(
+  SELECT *
+  FROM CLIENTAREA.Reception
+  WHERE ReceptionId NOT IN (SELECT ReceptionId
+                            FROM CLIENTAREA.Reservation
+                            WHERE ClientId = @CliId)
+)
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the list of the dishes that are NOT (un)liked by a
+--              client.
+-- =============================================================================
+CREATE FUNCTION CLIENTAREA.GetUnwishedDish
+(	
+	@CliId int
+)
+RETURNS TABLE 
+AS
+RETURN 
+(
+  SELECT [Type], Name, DishId, DishTypeId
+  FROM CLIENTAREA.Dish
+  WHERE DishId NOT IN (SELECT DishId
+                       FROM MANAGERAREA.DishWish
+                       WHERE ClientId = @CliId)
+)
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the list of the dishes that are (un)liked by a client.
+-- =============================================================================
+CREATE FUNCTION CLIENTAREA.GetWishedDish
+(	
+  @CliId int,
+  @FtyId int = NULL
+)
+RETURNS @DishWish TABLE (
+  Feeling varchar(64) not null,
+  DishType varchar(64) not null,
+  DishName varchar(64) not null,
+  DishId int not null,
+  DishTypeId int not null,
+  FeelingTypeId int not null,
+  ModifiedAt datetime2,
+  ModifiedBy char(8) not null	
+)
+AS
+BEGIN
+  IF @FtyId IS NULL BEGIN
+    INSERT INTO @DishWish
+    SELECT Feeling,
+           DishType,
+           DishName,
+           DishId,
+           DishTypeId,
+           FeelingTypeId,
+           ModifiedAt,
+           ModifiedBy
+    FROM MANAGERAREA.DishWish
+    WHERE ClientId = @CliId;
+  END ELSE BEGIN
+    INSERT INTO @DishWish
+    SELECT Feeling,
+           DishType,
+           DishName,
+           DishId,
+           DishTypeId,
+           FeelingTypeId,
+           ModifiedAt,
+           ModifiedBy
+    FROM MANAGERAREA.DishWish
+    WHERE ClientId = @CliId
+      AND FeelingTypeId = @FtyId;
+  END
+  RETURN
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Creates new "dish wish"
+-- =============================================================================
+CREATE FUNCTION CLIENTAREA.NewWishedDish
+(
+  @CliId int,
+  @DisId int,
+  @FtyId int,
+  @UpdateBy char(8)
+)
+RETURNS @DishWish TABLE 
+(
+  ClientFirstName varchar(64),
+  ClientLastName varchar(64),
+  Feeling varchar(64),
+  DishType varchar(64),
+  DishName varchar(64),
+  ClientId int,
+  DishId int,
+  DishTypeId int,
+  FeelingTypeId int,
+  ModifiedAt datetime2,
+  ModifiedBy char(8)
+)
+AS
+BEGIN
+  DECLARE @NewId int;
+  IF (@CliId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@UpdateBy IS NOT NULL) BEGIN
+    EXECUTE BACKOFFICE.SP_NEW_DISH_WISH @CliId, @DisId, @FtyId, @UpdateBy;
+	SET @NewId = IDENT_CURRENT('BACKOFFICE._FEEL_CLI_DIS');
+	INSERT INTO @DishWish
+	SELECT *
+	FROM MANAGERAREA.DishWish
+	WHERE DishId = @NewId;
+  END
+  RETURN 
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Returns the list of the dishes to prepare for a reception.
+-- =============================================================================
+CREATE FUNCTION MANAGERAREA.GetDishToPrepare
+(	
+  @RecId int
+)
+RETURNS TABLE 
+AS
+RETURN 
+(
+  SELECT DishType,
+         DishName,
+         DishId,
+         DishTypeId,
+         COUNT(*) AS Quantity
+  FROM CLIENTAREA.ReservedDish
+  WHERE ReceptionId = @RecId
+  GROUP BY DishType, DishName, DishId, DishTypeId
+)
+GO
 
 -- ========================================================================== --
 --   Procédures stockées                                                      --
 -- ========================================================================== --
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Creates new "dish wish"
+-- =============================================================================
+CREATE PROCEDURE BACKOFFICE.SP_NEW_DISH_WISH
+  @CliId int,
+  @DisId int,
+  @FtyId int,
+  @UpdateBy char(8)
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF (@CliId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@UpdateBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._FEEL_CLI_DIS (FCD_CLI_ID, FCD_DIS_ID, FCD_FTY_ID, FCD_UPDATE_BY)
+    VALUES (@CliId, @DisId, @FtyId, @UpdateBy);
+  END
+END
+GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
@@ -797,7 +1191,7 @@ GO
 -- Create date: Dec2015
 -- Description: Delete a "dish wish"
 -- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_DELETE_DISH_WISH
+CREATE PROCEDURE CLIENTAREA.DeleteDishWish
   @CliId int,
   @DisId int,
   @ModifiedAt datetime2
@@ -818,7 +1212,7 @@ GO
 -- Create date: Dec2015
 -- Description: Delete a feeling between clients
 -- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_DELETE_FEELING
+CREATE PROCEDURE CLIENTAREA.DeleteFeeling
   @CliId int,
   @CliCliId int,
   @ModifiedAt datetime2
@@ -839,7 +1233,7 @@ GO
 -- Create date: Dec2015
 -- Description: Delete the registration for a reception
 -- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_DELETE_RESERVATION
+CREATE PROCEDURE CLIENTAREA.DeleteReservation
   @RecId int,
   @CliId int,
   @ModifiedAt datetime2
@@ -860,7 +1254,7 @@ GO
 -- Create date: Dec2015
 -- Description: Delete the reservation of a dish for a reception
 -- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_DELETE_RESERVED_DISH
+CREATE PROCEDURE CLIENTAREA.DeleteReservedDish
   @CliId int,
   @DisId int,
   @RecId int,
@@ -875,148 +1269,6 @@ BEGIN
       AND CHO_REC_ID = @RecId;
   END ELSE BEGIN
     ;THROW 50010, 'Your record is not up to date', 1;
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Returns the list of the dishes that are NOT (un)liked by a
---              client.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_DISH_UNWISH
-  @CliId int
-AS
-BEGIN
-  SET NOCOUNT ON;
-  SELECT [Type], Name, DishId, DishTypeId
-  FROM CLIENTAREA.Dish
-  WHERE DishId NOT IN (SELECT DishId
-                       FROM CLIENTAREA.DishWish
-                       WHERE ClientId = @CliId)
-  ORDER BY DishTypeId, Name;
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Returns the list of the dishes that are (un)liked by a client.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_DISH_WISH
-  @CliId int,
-  @FtyId int = NULL
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF @FtyId IS NULL BEGIN
-    SELECT Feeling,
-           DishType,
-           DishName,
-           DishId,
-           DishTypeId,
-           FeelingTypeId,
-           ModifiedAt,
-           ModifiedBy
-    FROM CLIENTAREA.DishWish
-    WHERE ClientId = @CliId
-    ORDER BY DishTypeId, DishName;
-  END ELSE BEGIN
-    SELECT DishType,
-           DishName,
-           DishId,
-           DishTypeId,
-           ModifiedAt,
-           ModifiedBy
-    FROM CLIENTAREA.DishWish
-    WHERE ClientId = @CliId
-      AND FeelingTypeId = @FtyId
-    ORDER BY DishTypeId, DishName;
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Returns the list of the clients that are (un)liked by a client.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_FEELING
-  @CliId int,
-  @FtyId int = NULL
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF @FtyId IS NULL BEGIN
-    SELECT ClientToFirstName AS FirstName,
-           ClientToLastName AS LastName,
-           Feeling,
-           ClientToId AS ClientId,
-           FeelingTypeId,
-           ModifiedAt,
-           ModifiedBy
-    FROM CLIENTAREA.Feeling
-    WHERE ClientFromId = @CliId
-    ORDER BY ClientToLastName, ClientToFirstName;
-  END ELSE BEGIN
-    SELECT ClientToFirstName AS FirstName,
-           ClientToLastName AS LastName,
-           ClientToId AS ClientId,
-           ModifiedAt,
-           ModifiedBy
-    FROM CLIENTAREA.Feeling
-    WHERE ClientFromId = @CliId
-      AND FeelingTypeId = @FtyId
-    ORDER BY ClientToLastName, ClientToFirstName;
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Returns the menu for a given reception.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_MENU
-  @RecId int,
-  @DtyId int = NULL
-AS
-BEGIN
-  IF @DtyId IS NULL BEGIN
-    SELECT DishType,
-           DishName,
-           DishId,
-           DishTypeId,
-           ModifiedAt,
-           ModifiedBy
-    FROM CLIENTAREA.Menu
-    WHERE ReceptionID = @RecId
-    ORDER BY DishTypeId, DishName;
-  END ELSE BEGIN
-    SELECT DishName,
-           DishId,
-           ModifiedAt,
-           ModifiedBy
-    FROM CLIENTAREA.Menu
-    WHERE ReceptionID = @RecId
-      AND DishTypeId = @DtyId
-    ORDER BY DishName;
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Creates new "dish wish"
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_NEW_DISH_WISH
-  @CliId int,
-  @DisId int,
-  @FtyId int,
-  @UpdateBy char(8)
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF (@CliId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@UpdateBy IS NOT NULL) BEGIN
-    INSERT INTO BACKOFFICE._FEEL_CLI_DIS (FCD_CLI_ID, FCD_DIS_ID, FCD_FTY_ID, FCD_UPDATE_BY)
-    VALUES (@CliId, @DisId, @FtyId, @UpdateBy);
   END
 END
 GO
@@ -1079,124 +1331,6 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
--- Description: Returns the list of the clients who have booked for a reception.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_RESERVATION
-  @RecId int
-AS
-BEGIN
-  SET NOCOUNT ON;
-  SELECT ClientFirstName,
-         ClientLastName,
-         IsValid,
-         ClientId,
-         ModifiedAt,
-         ModifiedBy
-  FROM CLIENTAREA.Reservation
-  WHERE ReceptionId = @RecId
-  ORDER BY ClientLastName, ClientFirstName;
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Returns the list of the clients with the dishes they ordered for
---              a reception.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_RESERVED_DISH
-  @RecId int
-AS
-BEGIN
-  SET NOCOUNT ON;
-  SELECT ClientFirstName,
-         ClientLastName,
-         DishType,
-         DishName,
-         ClientId,
-         DishId,
-         DishTypeId,
-         ModifiedAt,
-         ModifiedBy
-  FROM CLIENTAREA.ReservedDish
-  WHERE ReceptionId = @RecId
-  ORDER BY ClientLastName, ClientFirstName;
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Returns the tables map for a reception.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_TABLE_MAP
-  @RecId int,
-  @TabId int = NULL
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF @TabId IS NULL BEGIN
-    SELECT TableId,
-           ClientFirstName,
-           ClientLastName,
-           IsValid, ReceptionId,
-           ClientId,
-           ModifiedAt,
-           ModifiedBy
-    FROM CLIENTAREA.TablesMap
-    WHERE ReceptionId = @RecId;
-  END ELSE BEGIN
-    SELECT ClientFirstName,
-           ClientLastName,
-           IsValid,
-           ReceptionId,
-           ClientId,
-           ModifiedAt,
-           ModifiedBy
-    FROM CLIENTAREA.TablesMap
-    WHERE ReceptionId = @RecId
-      AND TableId = @TabId;
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description:    Returns the list of reception to which a customer is not
---              registered.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_UNRESERVATION
-  @CliId int
-AS
-BEGIN
-  SELECT *
-  FROM CLIENTAREA.Reception
-  WHERE ReceptionId NOT IN (SELECT ReceptionId
-                            FROM CLIENTAREA.Reservation
-                            WHERE ClientId = @CliId);
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Returns the list of the clients that are NOT (un)liked by a
---              client.
--- =============================================================================
-CREATE PROCEDURE CLIENTAREA.SP_UNFEELING
-  @CliId int
-AS
-BEGIN
-  SET NOCOUNT ON;
-  SELECT FirstName, LastName, ClientId
-  FROM CLIENTAREA.Client
-  WHERE ClientId NOT IN (SELECT ClientToId
-                         FROM CLIENTAREA.Feeling
-                         WHERE ClientFromId = @CliId)
-    AND ClientId <> @CliId
-  ORDER BY LastName, FirstName;
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
 -- Description: Update a "dish wish"
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.SP_UPDATE_DISH_WISH
@@ -1245,7 +1379,7 @@ GO
 -- Create date: Dec2015
 -- Description: Removes a dish of a reception menu.
 -- =============================================================================
-CREATE PROCEDURE MANAGERAREA.SP_DELETE_MENU
+CREATE PROCEDURE MANAGERAREA.DeleteMenu
   @RecId int,
   @DisId int,
   @ModifiedAt datetime2
@@ -1266,7 +1400,7 @@ GO
 -- Create date: Dec2015
 -- Description: Removes a client form a table.
 -- =============================================================================
-CREATE PROCEDURE MANAGERAREA.SP_DELETE_SIT
+CREATE PROCEDURE MANAGERAREA.DeleteSit
   @TabId int,
   @CliId int,
   @ModifiedAt datetime2
@@ -1287,7 +1421,7 @@ GO
 -- Create date: Dec2015
 -- Description: Delete a table for a reception
 -- =============================================================================
-CREATE PROCEDURE MANAGERAREA.SP_DELETE_TABLE
+CREATE PROCEDURE MANAGERAREA.DeleteTable
   @TabId int,
   @ModifiedAt datetime2
 AS
@@ -1299,27 +1433,6 @@ BEGIN
   END ELSE BEGIN
     ;THROW 50010, 'Your record is not up to date', 1;
   END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Returns the list of the dishes to prepare for a reception.
--- =============================================================================
-CREATE PROCEDURE MANAGERAREA.SP_DISHES_TO_PREPARE
-  @RecId int
-AS
-BEGIN
-  SET NOCOUNT ON;
-  SELECT DishType,
-         DishName,
-         DishId,
-         DishTypeId,
-         COUNT(*) AS Quantity
-  FROM CLIENTAREA.ReservedDish
-  WHERE ReceptionId = @RecId
-  GROUP BY DishType, DishName, DishId, DishTypeId
-  ORDER BY DishTypeId, DishName;
 END
 GO
 -- =============================================================================

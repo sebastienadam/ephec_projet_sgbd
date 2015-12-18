@@ -38,11 +38,10 @@
       this.dateTimePickerDate = new System.Windows.Forms.DateTimePicker();
       this.textBoxName = new System.Windows.Forms.TextBox();
       this.panelModified = new System.Windows.Forms.Panel();
-      this.labelLastModified = new System.Windows.Forms.Label();
-      this.textBoxModifiedBy = new System.Windows.Forms.TextBox();
       this.dateTimePickerModifiedAt = new System.Windows.Forms.DateTimePicker();
+      this.textBoxModifiedBy = new System.Windows.Forms.TextBox();
+      this.labelLastModified = new System.Windows.Forms.Label();
       this.panelMenu = new System.Windows.Forms.Panel();
-      this.labelMenuTitle = new System.Windows.Forms.Label();
       this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
       this.labelStarter = new System.Windows.Forms.Label();
       this.labelMeat = new System.Windows.Forms.Label();
@@ -50,6 +49,10 @@
       this.dataGridViewStarter = new System.Windows.Forms.DataGridView();
       this.dataGridViewMeal = new System.Windows.Forms.DataGridView();
       this.dataGridViewDessert = new System.Windows.Forms.DataGridView();
+      this.labelMenuTitle = new System.Windows.Forms.Label();
+      this.panelReservations = new System.Windows.Forms.Panel();
+      this.labelReservations = new System.Windows.Forms.Label();
+      this.dataGridViewReservations = new System.Windows.Forms.DataGridView();
       this.panelDetails.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeatsPerTable)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCapacity)).BeginInit();
@@ -59,6 +62,8 @@
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStarter)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMeal)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDessert)).BeginInit();
+      this.panelReservations.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReservations)).BeginInit();
       this.SuspendLayout();
       // 
       // panelDetails
@@ -227,14 +232,13 @@
       this.panelModified.Size = new System.Drawing.Size(549, 28);
       this.panelModified.TabIndex = 1;
       // 
-      // labelLastModified
+      // dateTimePickerModifiedAt
       // 
-      this.labelLastModified.AutoSize = true;
-      this.labelLastModified.Location = new System.Drawing.Point(4, 6);
-      this.labelLastModified.Name = "labelLastModified";
-      this.labelLastModified.Size = new System.Drawing.Size(112, 13);
-      this.labelLastModified.TabIndex = 0;
-      this.labelLastModified.Text = "Dernière modification :";
+      this.dateTimePickerModifiedAt.Enabled = false;
+      this.dateTimePickerModifiedAt.Location = new System.Drawing.Point(345, 3);
+      this.dateTimePickerModifiedAt.Name = "dateTimePickerModifiedAt";
+      this.dateTimePickerModifiedAt.Size = new System.Drawing.Size(200, 20);
+      this.dateTimePickerModifiedAt.TabIndex = 12;
       // 
       // textBoxModifiedBy
       // 
@@ -245,13 +249,14 @@
       this.textBoxModifiedBy.Size = new System.Drawing.Size(217, 20);
       this.textBoxModifiedBy.TabIndex = 1;
       // 
-      // dateTimePickerModifiedAt
+      // labelLastModified
       // 
-      this.dateTimePickerModifiedAt.Enabled = false;
-      this.dateTimePickerModifiedAt.Location = new System.Drawing.Point(345, 3);
-      this.dateTimePickerModifiedAt.Name = "dateTimePickerModifiedAt";
-      this.dateTimePickerModifiedAt.Size = new System.Drawing.Size(200, 20);
-      this.dateTimePickerModifiedAt.TabIndex = 12;
+      this.labelLastModified.AutoSize = true;
+      this.labelLastModified.Location = new System.Drawing.Point(4, 6);
+      this.labelLastModified.Name = "labelLastModified";
+      this.labelLastModified.Size = new System.Drawing.Size(112, 13);
+      this.labelLastModified.TabIndex = 0;
+      this.labelLastModified.Text = "Dernière modification :";
       // 
       // panelMenu
       // 
@@ -262,16 +267,6 @@
       this.panelMenu.Name = "panelMenu";
       this.panelMenu.Size = new System.Drawing.Size(549, 175);
       this.panelMenu.TabIndex = 13;
-      // 
-      // labelMenuTitle
-      // 
-      this.labelMenuTitle.AutoSize = true;
-      this.labelMenuTitle.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.labelMenuTitle.Location = new System.Drawing.Point(3, 0);
-      this.labelMenuTitle.Name = "labelMenuTitle";
-      this.labelMenuTitle.Size = new System.Drawing.Size(62, 22);
-      this.labelMenuTitle.TabIndex = 0;
-      this.labelMenuTitle.Text = "Menu";
       // 
       // tableLayoutPanel1
       // 
@@ -374,11 +369,54 @@
       this.dataGridViewDessert.Size = new System.Drawing.Size(174, 118);
       this.dataGridViewDessert.TabIndex = 5;
       // 
+      // labelMenuTitle
+      // 
+      this.labelMenuTitle.AutoSize = true;
+      this.labelMenuTitle.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labelMenuTitle.Location = new System.Drawing.Point(3, 0);
+      this.labelMenuTitle.Name = "labelMenuTitle";
+      this.labelMenuTitle.Size = new System.Drawing.Size(62, 22);
+      this.labelMenuTitle.TabIndex = 0;
+      this.labelMenuTitle.Text = "Menu";
+      // 
+      // panelReservations
+      // 
+      this.panelReservations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.panelReservations.Controls.Add(this.dataGridViewReservations);
+      this.panelReservations.Controls.Add(this.labelReservations);
+      this.panelReservations.Location = new System.Drawing.Point(567, 12);
+      this.panelReservations.Name = "panelReservations";
+      this.panelReservations.Size = new System.Drawing.Size(349, 660);
+      this.panelReservations.TabIndex = 2;
+      // 
+      // labelReservations
+      // 
+      this.labelReservations.AutoSize = true;
+      this.labelReservations.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labelReservations.Location = new System.Drawing.Point(0, 0);
+      this.labelReservations.Name = "labelReservations";
+      this.labelReservations.Size = new System.Drawing.Size(120, 22);
+      this.labelReservations.TabIndex = 0;
+      this.labelReservations.Text = "Inscriptions";
+      // 
+      // dataGridViewReservations
+      // 
+      this.dataGridViewReservations.AllowUserToAddRows = false;
+      this.dataGridViewReservations.AllowUserToDeleteRows = false;
+      this.dataGridViewReservations.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewReservations.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewReservations.Location = new System.Drawing.Point(4, 25);
+      this.dataGridViewReservations.Name = "dataGridViewReservations";
+      this.dataGridViewReservations.RowHeadersVisible = false;
+      this.dataGridViewReservations.Size = new System.Drawing.Size(340, 630);
+      this.dataGridViewReservations.TabIndex = 1;
+      // 
       // FormReceptionDetail
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(571, 684);
+      this.ClientSize = new System.Drawing.Size(928, 684);
+      this.Controls.Add(this.panelReservations);
       this.Controls.Add(this.panelMenu);
       this.Controls.Add(this.panelModified);
       this.Controls.Add(this.panelDetails);
@@ -398,6 +436,9 @@
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStarter)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMeal)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDessert)).EndInit();
+      this.panelReservations.ResumeLayout(false);
+      this.panelReservations.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReservations)).EndInit();
       this.ResumeLayout(false);
 
     }
@@ -431,5 +472,8 @@
     private System.Windows.Forms.DataGridView dataGridViewMeal;
     private System.Windows.Forms.DataGridView dataGridViewDessert;
     private System.Windows.Forms.Label labelMenuTitle;
+    private System.Windows.Forms.Panel panelReservations;
+    private System.Windows.Forms.DataGridView dataGridViewReservations;
+    private System.Windows.Forms.Label labelReservations;
   }
 }

@@ -12,16 +12,18 @@ using System.Windows.Forms;
 namespace Admin {
   public partial class FormReceptionDetail : Form {
     private ReceptionAdmin currentReception;
-    private IList<Model.Menu> starters;
-    private IList<Model.Menu> meals;
-    private IList<Model.Menu> desserts;
+    private IList<F_MENU_Result> starters;
+    private IList<F_MENU_Result> meals;
+    private IList<F_MENU_Result> desserts;
+    private IList<Reservation> reservations;
 
     public void LoadReception(int id) {
       using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
         currentReception = context.ReceptionAdmin.Where(rec => rec.ReceptionId == id).First();
-        starters = context.Menu.Where(menu => (menu.ReceptionId == id) && (menu.DishTypeId == 1)).ToList();
-        meals = context.Menu.Where(menu => (menu.ReceptionId == id) && (menu.DishTypeId == 2)).ToList();
-        desserts = context.Menu.Where(menu => (menu.ReceptionId == id) && (menu.DishTypeId == 3)).ToList();
+        starters = context.F_MENU(id, 1).ToList();
+        meals = context.F_MENU(id, 2).ToList();
+        desserts = context.F_MENU(id, 3).ToList();
+        reservations = context.Reservation.Where(res => res.ReceptionId == id).ToList();
       }
     }
 
@@ -48,17 +50,24 @@ namespace Admin {
         foreach(DataGridViewColumn colum in dataGridViewDessert.Columns) {
           colum.Visible = false;
         }
-        dataGridViewDessert.Columns[3].Visible = true;
+        dataGridViewDessert.Columns[1].Visible = true;
         dataGridViewMeal.DataSource = meals;
         foreach(DataGridViewColumn colum in dataGridViewMeal.Columns) {
           colum.Visible = false;
         }
-        dataGridViewMeal.Columns[3].Visible = true;
+        dataGridViewMeal.Columns[1].Visible = true;
         dataGridViewStarter.DataSource = starters;
         foreach(DataGridViewColumn colum in dataGridViewStarter.Columns) {
           colum.Visible = false;
         }
-        dataGridViewStarter.Columns[3].Visible = true;
+        dataGridViewStarter.Columns[1].Visible = true;
+        dataGridViewReservations.DataSource = reservations;
+        foreach(DataGridViewColumn colum in dataGridViewReservations.Columns) {
+          colum.Visible = false;
+        }
+        dataGridViewReservations.Columns[2].Visible = true;
+        dataGridViewReservations.Columns[3].Visible = true;
+        dataGridViewReservations.Columns[4].Visible = true;
       }
     }
   }

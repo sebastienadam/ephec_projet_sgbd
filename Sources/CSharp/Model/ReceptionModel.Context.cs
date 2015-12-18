@@ -464,5 +464,43 @@ namespace Model
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_NEW_TABLE", recIdParameter, updateByParameter, tabId);
         }
+    
+        [DbFunction("ProjetSGBDEntities", "F_DISH_UNWISH")]
+        public virtual IQueryable<F_DISH_UNWISH_Result> F_DISH_UNWISH(Nullable<int> cliId)
+        {
+            var cliIdParameter = cliId.HasValue ?
+                new ObjectParameter("CliId", cliId) :
+                new ObjectParameter("CliId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_DISH_UNWISH_Result>("[ProjetSGBDEntities].[F_DISH_UNWISH](@CliId)", cliIdParameter);
+        }
+    
+        [DbFunction("ProjetSGBDEntities", "F_DISH_WISH")]
+        public virtual IQueryable<F_DISH_WISH_Result> F_DISH_WISH(Nullable<int> cliId, Nullable<int> ftyId)
+        {
+            var cliIdParameter = cliId.HasValue ?
+                new ObjectParameter("CliId", cliId) :
+                new ObjectParameter("CliId", typeof(int));
+    
+            var ftyIdParameter = ftyId.HasValue ?
+                new ObjectParameter("FtyId", ftyId) :
+                new ObjectParameter("FtyId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_DISH_WISH_Result>("[ProjetSGBDEntities].[F_DISH_WISH](@CliId, @FtyId)", cliIdParameter, ftyIdParameter);
+        }
+    
+        [DbFunction("ProjetSGBDEntities", "F_MENU")]
+        public virtual IQueryable<F_MENU_Result> F_MENU(Nullable<int> recId, Nullable<int> dtyId)
+        {
+            var recIdParameter = recId.HasValue ?
+                new ObjectParameter("RecId", recId) :
+                new ObjectParameter("RecId", typeof(int));
+    
+            var dtyIdParameter = dtyId.HasValue ?
+                new ObjectParameter("DtyId", dtyId) :
+                new ObjectParameter("DtyId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<F_MENU_Result>("[ProjetSGBDEntities].[F_MENU](@RecId, @DtyId)", recIdParameter, dtyIdParameter);
+        }
     }
 }
