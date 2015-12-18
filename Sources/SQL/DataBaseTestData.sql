@@ -145,8 +145,8 @@ WHILE @@FETCH_STATUS = 0 BEGIN
 	  IF @Id2 IS NOT NULL BEGIN
 	    INSERT INTO BACKOFFICE._BOOK (BOO_CLI_ID, BOO_REC_ID)
 	    VALUES (@Id,@Id2);
-        SET @i = @i +1;
       END
+      SET @i = @i +1;
     END
   END
   FETCH InsertCursor INTO @Id;
