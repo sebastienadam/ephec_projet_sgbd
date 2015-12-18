@@ -24,6 +24,7 @@
     /// </summary>
     private void InitializeComponent() {
       this.panelDetails = new System.Windows.Forms.Panel();
+      this.checkBoxValid = new System.Windows.Forms.CheckBox();
       this.labelSeatsPerTable = new System.Windows.Forms.Label();
       this.numericUpDownSeatsPerTable = new System.Windows.Forms.NumericUpDown();
       this.numericUpDownCapacity = new System.Windows.Forms.NumericUpDown();
@@ -36,10 +37,28 @@
       this.dateTimePickerBookingClosingDate = new System.Windows.Forms.DateTimePicker();
       this.dateTimePickerDate = new System.Windows.Forms.DateTimePicker();
       this.textBoxName = new System.Windows.Forms.TextBox();
-      this.checkBoxValid = new System.Windows.Forms.CheckBox();
+      this.panelModified = new System.Windows.Forms.Panel();
+      this.labelLastModified = new System.Windows.Forms.Label();
+      this.textBoxModifiedBy = new System.Windows.Forms.TextBox();
+      this.dateTimePickerModifiedAt = new System.Windows.Forms.DateTimePicker();
+      this.panelMenu = new System.Windows.Forms.Panel();
+      this.labelMenuTitle = new System.Windows.Forms.Label();
+      this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+      this.labelStarter = new System.Windows.Forms.Label();
+      this.labelMeat = new System.Windows.Forms.Label();
+      this.labelDessert = new System.Windows.Forms.Label();
+      this.dataGridViewStarter = new System.Windows.Forms.DataGridView();
+      this.dataGridViewMeal = new System.Windows.Forms.DataGridView();
+      this.dataGridViewDessert = new System.Windows.Forms.DataGridView();
       this.panelDetails.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeatsPerTable)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCapacity)).BeginInit();
+      this.panelModified.SuspendLayout();
+      this.panelMenu.SuspendLayout();
+      this.tableLayoutPanel1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStarter)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMeal)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDessert)).BeginInit();
       this.SuspendLayout();
       // 
       // panelDetails
@@ -62,6 +81,17 @@
       this.panelDetails.Name = "panelDetails";
       this.panelDetails.Size = new System.Drawing.Size(549, 84);
       this.panelDetails.TabIndex = 0;
+      // 
+      // checkBoxValid
+      // 
+      this.checkBoxValid.AutoCheck = false;
+      this.checkBoxValid.AutoSize = true;
+      this.checkBoxValid.Location = new System.Drawing.Point(483, 56);
+      this.checkBoxValid.Name = "checkBoxValid";
+      this.checkBoxValid.Size = new System.Drawing.Size(61, 17);
+      this.checkBoxValid.TabIndex = 1;
+      this.checkBoxValid.Text = "Validée";
+      this.checkBoxValid.UseVisualStyleBackColor = true;
       // 
       // labelSeatsPerTable
       // 
@@ -186,30 +216,188 @@
       this.textBoxName.Size = new System.Drawing.Size(400, 20);
       this.textBoxName.TabIndex = 0;
       // 
-      // checkBoxValid
+      // panelModified
       // 
-      this.checkBoxValid.AutoCheck = false;
-      this.checkBoxValid.AutoSize = true;
-      this.checkBoxValid.Location = new System.Drawing.Point(483, 56);
-      this.checkBoxValid.Name = "checkBoxValid";
-      this.checkBoxValid.Size = new System.Drawing.Size(61, 17);
-      this.checkBoxValid.TabIndex = 1;
-      this.checkBoxValid.Text = "Validée";
-      this.checkBoxValid.UseVisualStyleBackColor = true;
+      this.panelModified.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.panelModified.Controls.Add(this.dateTimePickerModifiedAt);
+      this.panelModified.Controls.Add(this.textBoxModifiedBy);
+      this.panelModified.Controls.Add(this.labelLastModified);
+      this.panelModified.Location = new System.Drawing.Point(12, 102);
+      this.panelModified.Name = "panelModified";
+      this.panelModified.Size = new System.Drawing.Size(549, 28);
+      this.panelModified.TabIndex = 1;
+      // 
+      // labelLastModified
+      // 
+      this.labelLastModified.AutoSize = true;
+      this.labelLastModified.Location = new System.Drawing.Point(4, 6);
+      this.labelLastModified.Name = "labelLastModified";
+      this.labelLastModified.Size = new System.Drawing.Size(112, 13);
+      this.labelLastModified.TabIndex = 0;
+      this.labelLastModified.Text = "Dernière modification :";
+      // 
+      // textBoxModifiedBy
+      // 
+      this.textBoxModifiedBy.Enabled = false;
+      this.textBoxModifiedBy.Location = new System.Drawing.Point(122, 3);
+      this.textBoxModifiedBy.Name = "textBoxModifiedBy";
+      this.textBoxModifiedBy.ReadOnly = true;
+      this.textBoxModifiedBy.Size = new System.Drawing.Size(217, 20);
+      this.textBoxModifiedBy.TabIndex = 1;
+      // 
+      // dateTimePickerModifiedAt
+      // 
+      this.dateTimePickerModifiedAt.Enabled = false;
+      this.dateTimePickerModifiedAt.Location = new System.Drawing.Point(345, 3);
+      this.dateTimePickerModifiedAt.Name = "dateTimePickerModifiedAt";
+      this.dateTimePickerModifiedAt.Size = new System.Drawing.Size(200, 20);
+      this.dateTimePickerModifiedAt.TabIndex = 12;
+      // 
+      // panelMenu
+      // 
+      this.panelMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.panelMenu.Controls.Add(this.tableLayoutPanel1);
+      this.panelMenu.Controls.Add(this.labelMenuTitle);
+      this.panelMenu.Location = new System.Drawing.Point(12, 136);
+      this.panelMenu.Name = "panelMenu";
+      this.panelMenu.Size = new System.Drawing.Size(549, 175);
+      this.panelMenu.TabIndex = 13;
+      // 
+      // labelMenuTitle
+      // 
+      this.labelMenuTitle.AutoSize = true;
+      this.labelMenuTitle.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labelMenuTitle.Location = new System.Drawing.Point(3, 0);
+      this.labelMenuTitle.Name = "labelMenuTitle";
+      this.labelMenuTitle.Size = new System.Drawing.Size(62, 22);
+      this.labelMenuTitle.TabIndex = 0;
+      this.labelMenuTitle.Text = "Menu";
+      // 
+      // tableLayoutPanel1
+      // 
+      this.tableLayoutPanel1.ColumnCount = 3;
+      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+      this.tableLayoutPanel1.Controls.Add(this.labelStarter, 0, 0);
+      this.tableLayoutPanel1.Controls.Add(this.labelMeat, 1, 0);
+      this.tableLayoutPanel1.Controls.Add(this.labelDessert, 2, 0);
+      this.tableLayoutPanel1.Controls.Add(this.dataGridViewStarter, 0, 1);
+      this.tableLayoutPanel1.Controls.Add(this.dataGridViewMeal, 1, 1);
+      this.tableLayoutPanel1.Controls.Add(this.dataGridViewDessert, 2, 1);
+      this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 25);
+      this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+      this.tableLayoutPanel1.RowCount = 2;
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 124F));
+      this.tableLayoutPanel1.Size = new System.Drawing.Size(538, 145);
+      this.tableLayoutPanel1.TabIndex = 1;
+      // 
+      // labelStarter
+      // 
+      this.labelStarter.AutoSize = true;
+      this.labelStarter.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labelStarter.Location = new System.Drawing.Point(3, 0);
+      this.labelStarter.Name = "labelStarter";
+      this.labelStarter.Size = new System.Drawing.Size(49, 16);
+      this.labelStarter.TabIndex = 0;
+      this.labelStarter.Text = "Entrée";
+      // 
+      // labelMeat
+      // 
+      this.labelMeat.AutoSize = true;
+      this.labelMeat.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labelMeat.Location = new System.Drawing.Point(182, 0);
+      this.labelMeat.Name = "labelMeat";
+      this.labelMeat.Size = new System.Drawing.Size(93, 16);
+      this.labelMeat.TabIndex = 1;
+      this.labelMeat.Text = "Plat principal";
+      // 
+      // labelDessert
+      // 
+      this.labelDessert.AutoSize = true;
+      this.labelDessert.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labelDessert.Location = new System.Drawing.Point(361, 0);
+      this.labelDessert.Name = "labelDessert";
+      this.labelDessert.Size = new System.Drawing.Size(54, 16);
+      this.labelDessert.TabIndex = 2;
+      this.labelDessert.Text = "Desert";
+      // 
+      // dataGridViewStarter
+      // 
+      this.dataGridViewStarter.AllowUserToAddRows = false;
+      this.dataGridViewStarter.AllowUserToDeleteRows = false;
+      this.dataGridViewStarter.AllowUserToResizeColumns = false;
+      this.dataGridViewStarter.AllowUserToResizeRows = false;
+      this.dataGridViewStarter.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewStarter.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewStarter.ColumnHeadersVisible = false;
+      this.dataGridViewStarter.Location = new System.Drawing.Point(3, 24);
+      this.dataGridViewStarter.MultiSelect = false;
+      this.dataGridViewStarter.Name = "dataGridViewStarter";
+      this.dataGridViewStarter.ReadOnly = true;
+      this.dataGridViewStarter.RowHeadersVisible = false;
+      this.dataGridViewStarter.Size = new System.Drawing.Size(173, 118);
+      this.dataGridViewStarter.TabIndex = 3;
+      // 
+      // dataGridViewMeal
+      // 
+      this.dataGridViewMeal.AllowUserToAddRows = false;
+      this.dataGridViewMeal.AllowUserToDeleteRows = false;
+      this.dataGridViewMeal.AllowUserToResizeColumns = false;
+      this.dataGridViewMeal.AllowUserToResizeRows = false;
+      this.dataGridViewMeal.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewMeal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewMeal.ColumnHeadersVisible = false;
+      this.dataGridViewMeal.Location = new System.Drawing.Point(182, 24);
+      this.dataGridViewMeal.MultiSelect = false;
+      this.dataGridViewMeal.Name = "dataGridViewMeal";
+      this.dataGridViewMeal.ReadOnly = true;
+      this.dataGridViewMeal.RowHeadersVisible = false;
+      this.dataGridViewMeal.Size = new System.Drawing.Size(173, 118);
+      this.dataGridViewMeal.TabIndex = 4;
+      // 
+      // dataGridViewDessert
+      // 
+      this.dataGridViewDessert.AllowUserToAddRows = false;
+      this.dataGridViewDessert.AllowUserToDeleteRows = false;
+      this.dataGridViewDessert.AllowUserToResizeColumns = false;
+      this.dataGridViewDessert.AllowUserToResizeRows = false;
+      this.dataGridViewDessert.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewDessert.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewDessert.ColumnHeadersVisible = false;
+      this.dataGridViewDessert.Location = new System.Drawing.Point(361, 24);
+      this.dataGridViewDessert.MultiSelect = false;
+      this.dataGridViewDessert.Name = "dataGridViewDessert";
+      this.dataGridViewDessert.ReadOnly = true;
+      this.dataGridViewDessert.RowHeadersVisible = false;
+      this.dataGridViewDessert.Size = new System.Drawing.Size(174, 118);
+      this.dataGridViewDessert.TabIndex = 5;
       // 
       // FormReceptionDetail
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(571, 684);
+      this.Controls.Add(this.panelMenu);
+      this.Controls.Add(this.panelModified);
       this.Controls.Add(this.panelDetails);
       this.Name = "FormReceptionDetail";
-      this.Text = "FormReceptionDetail";
+      this.Text = "Détails d\'une réception";
       this.Load += new System.EventHandler(this.FormReceptionDetail_Load);
       this.panelDetails.ResumeLayout(false);
       this.panelDetails.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeatsPerTable)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCapacity)).EndInit();
+      this.panelModified.ResumeLayout(false);
+      this.panelModified.PerformLayout();
+      this.panelMenu.ResumeLayout(false);
+      this.panelMenu.PerformLayout();
+      this.tableLayoutPanel1.ResumeLayout(false);
+      this.tableLayoutPanel1.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStarter)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMeal)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDessert)).EndInit();
       this.ResumeLayout(false);
 
     }
@@ -230,5 +418,18 @@
     private System.Windows.Forms.Label labelSeatsPerTable;
     private System.Windows.Forms.NumericUpDown numericUpDownSeatsPerTable;
     private System.Windows.Forms.CheckBox checkBoxValid;
+    private System.Windows.Forms.Panel panelModified;
+    private System.Windows.Forms.DateTimePicker dateTimePickerModifiedAt;
+    private System.Windows.Forms.TextBox textBoxModifiedBy;
+    private System.Windows.Forms.Label labelLastModified;
+    private System.Windows.Forms.Panel panelMenu;
+    private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+    private System.Windows.Forms.Label labelStarter;
+    private System.Windows.Forms.Label labelMeat;
+    private System.Windows.Forms.Label labelDessert;
+    private System.Windows.Forms.DataGridView dataGridViewStarter;
+    private System.Windows.Forms.DataGridView dataGridViewMeal;
+    private System.Windows.Forms.DataGridView dataGridViewDessert;
+    private System.Windows.Forms.Label labelMenuTitle;
   }
 }
