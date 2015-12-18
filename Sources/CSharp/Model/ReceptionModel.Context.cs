@@ -37,7 +37,7 @@ namespace Model
         public virtual DbSet<DishType> DishType { get; set; }
         public virtual DbSet<DishWish> DishWish { get; set; }
         public virtual DbSet<Menu> Menu { get; set; }
-        public virtual DbSet<ReceptionAdmin> Reception1 { get; set; }
+        public virtual DbSet<ReceptionAdmin> ReceptionAdmin { get; set; }
         public virtual DbSet<TablesMap> TablesMap { get; set; }
     
         public virtual int SP_VALIDATE_BOOK(Nullable<int> recId, Nullable<int> cliId)

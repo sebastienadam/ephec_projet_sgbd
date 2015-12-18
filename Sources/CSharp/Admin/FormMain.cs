@@ -17,7 +17,7 @@ namespace Admin {
 
     private void FormMain_Load(object sender, EventArgs e) {
       using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-        IQueryable<ReceptionAdmin> Receptions = from item in context.Reception1 select item;
+        IQueryable<ReceptionAdmin> Receptions = from item in context.ReceptionAdmin select item;
         IQueryable<Client> Clients = from item in context.Client select item;
         IQueryable<Dish> Dishes = from item in context.Dish select item;
         dataGridViewReceptions.DataSource = Receptions.ToList();
@@ -57,7 +57,9 @@ namespace Admin {
 
     private void RecaptionDetail() {
       int recId = (int)dataGridViewReceptions.SelectedRows[0].Cells[6].Value;
-      MessageBox.Show(recId.ToString());
+      FormReceptionDetail formDetail = new FormReceptionDetail();
+      formDetail.LoadReception(recId);
+      formDetail.ShowDialog();
     }
   }
 }
