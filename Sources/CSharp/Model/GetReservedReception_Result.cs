@@ -11,12 +11,12 @@ namespace Model
 {
     using System;
     
-    public partial class SP_RESERVATION_Result
+    public partial class GetReservedReception_Result
     {
-        public string ClientFirstName { get; set; }
-        public string ClientLastName { get; set; }
+        public string ReceptionName { get; set; }
+        public System.DateTime ReceptionDate { get; set; }
         public bool IsValid { get; set; }
-        public int ClientId { get; set; }
+        public int ReceptionId { get; set; }
         public Nullable<System.DateTime> ModifiedAt { get; set; }
         public string ModifiedBy { get; set; }
     }

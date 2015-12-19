@@ -11,12 +11,16 @@ namespace Model
 {
     using System;
     
-    public partial class F_MENU_Result
+    public partial class NewFeeling_Result
     {
-        public string DishType { get; set; }
-        public string DishName { get; set; }
-        public Nullable<int> DishId { get; set; }
-        public Nullable<int> DishTypeId { get; set; }
+        public string ClientFromFirstName { get; set; }
+        public string ClientFromLastName { get; set; }
+        public string Feeling { get; set; }
+        public string ClientToFirstName { get; set; }
+        public string ClientToLastName { get; set; }
+        public Nullable<int> ClientFromId { get; set; }
+        public Nullable<int> ClientToId { get; set; }
+        public Nullable<int> FeelingTypeId { get; set; }
         public Nullable<System.DateTime> ModifiedAt { get; set; }
         public string ModifiedBy { get; set; }
     }

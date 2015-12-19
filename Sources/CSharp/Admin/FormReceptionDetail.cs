@@ -12,17 +12,17 @@ using System.Windows.Forms;
 namespace Admin {
   public partial class FormReceptionDetail : Form {
     private ReceptionAdmin currentReception;
-    private IList<F_MENU_Result> starters;
-    private IList<F_MENU_Result> meals;
-    private IList<F_MENU_Result> desserts;
+    private IList<GetMenu_Result> starters;
+    private IList<GetMenu_Result> meals;
+    private IList<GetMenu_Result> desserts;
     private IList<Reservation> reservations;
 
     public void LoadReception(int id) {
       using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
         currentReception = context.ReceptionAdmin.Where(rec => rec.ReceptionId == id).First();
-        starters = context.F_MENU(id, 1).ToList();
-        meals = context.F_MENU(id, 2).ToList();
-        desserts = context.F_MENU(id, 3).ToList();
+        starters = context.GetMenu(id, 1).ToList();
+        meals = context.GetMenu(id, 2).ToList();
+        desserts = context.GetMenu(id, 3).ToList();
         reservations = context.Reservation.Where(res => res.ReceptionId == id).ToList();
       }
     }

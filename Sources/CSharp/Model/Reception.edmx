@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ProjetSGBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ProjetSGBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ProjetSGBD.CLIENTAREA.Client' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Client">
@@ -214,8 +214,8 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.Menu' does not have a prima
           <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.Reception' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="Reception1">
+warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.ReceptionAdmin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ReceptionAdmin">
           <Key>
             <PropertyRef Name="Name" />
             <PropertyRef Name="Date" />
@@ -261,64 +261,191 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
           <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
         </EntityType>
-        <Function Name="IS_VALID_BOOK" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="bit">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="CliId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="IS_VALID_RECEPTION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="bit">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="IS_VALID_TABLE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="bit">
-          <Parameter Name="TabId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_VALIDATE_BOOK" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="CliId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_VALIDATE_RECEPTION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_VALIDATE_TABLE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE">
-          <Parameter Name="TabId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="UPDATE_AT_BOOK" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="datetime2">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="CliId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="UPDATE_AT_CHOOSE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="datetime2">
+        <Function Name="DeleteDishWish" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="CliId" Type="int" Mode="In" />
           <Parameter Name="DisId" Type="int" Mode="In" />
-          <Parameter Name="RecId" Type="int" Mode="In" />
+          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
         </Function>
-        <Function Name="UPDATE_AT_CLIENT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="datetime2">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="UPDATE_AT_DISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="datetime2">
-          <Parameter Name="DisId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="UPDATE_AT_FEEL_CLI_CLI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="datetime2">
+        <Function Name="DeleteFeeling" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="CliId" Type="int" Mode="In" />
           <Parameter Name="CliCliId" Type="int" Mode="In" />
+          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
         </Function>
-        <Function Name="UPDATE_AT_FEEL_CLI_DIS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="datetime2">
+        <Function Name="DeleteReservation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="RecId" Type="int" Mode="In" />
+          <Parameter Name="CliId" Type="int" Mode="In" />
+          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
+        </Function>
+        <Function Name="DeleteReservedDish" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="CliId" Type="int" Mode="In" />
           <Parameter Name="DisId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="UPDATE_AT_OFFER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="datetime2">
           <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="DisId" Type="int" Mode="In" />
+          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
         </Function>
-        <Function Name="UPDATE_AT_RECEPTION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="datetime2">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="UPDATE_AT_SIT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="datetime2">
-          <Parameter Name="TabId" Type="int" Mode="In" />
+        <Function Name="GetFeeling" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="CliId" Type="int" Mode="In" />
+          <Parameter Name="FtyId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="FirstName" Type="varchar" MaxLength="64" />
+                <Property Name="LastName" Type="varchar" MaxLength="64" />
+                <Property Name="Feeling" Type="varchar" MaxLength="64" />
+                <Property Name="ClientId" Type="int" />
+                <Property Name="FeelingTypeId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
         </Function>
-        <Function Name="UPDATE_AT_TABLE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="BACKOFFICE" ReturnType="datetime2">
+        <Function Name="GetMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="RecId" Type="int" Mode="In" />
+          <Parameter Name="DtyId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="DishType" Type="varchar" MaxLength="64" />
+                <Property Name="DishName" Type="varchar" MaxLength="64" />
+                <Property Name="DishId" Type="int" />
+                <Property Name="DishTypeId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetReservableReception" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="CliId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Name" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="Date" Type="datetime2" Precision="7" Nullable="false" />
+                <Property Name="BookingClosingDate" Type="datetime2" Precision="7" Nullable="false" />
+                <Property Name="Capacity" Type="int" Nullable="false" />
+                <Property Name="SeatsPerTable" Type="int" Nullable="false" />
+                <Property Name="ReceptionId" Type="int" Nullable="false" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetReservation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="RecId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ClientFirstName" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="ClientLastName" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="IsValid" Type="bit" Nullable="false" />
+                <Property Name="ClientId" Type="int" Nullable="false" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetReservedDish" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="RecId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ClientFirstName" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="ClientLastName" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="DishType" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="DishName" Type="int" Nullable="false" />
+                <Property Name="ClientId" Type="int" Nullable="false" />
+                <Property Name="DishId" Type="int" Nullable="false" />
+                <Property Name="DishTypeId" Type="int" Nullable="false" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetReservedReception" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="CliId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ReceptionName" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="ReceptionDate" Type="datetime2" Precision="7" Nullable="false" />
+                <Property Name="IsValid" Type="bit" Nullable="false" />
+                <Property Name="ReceptionId" Type="int" Nullable="false" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetTableMap" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="RecId" Type="int" Mode="In" />
           <Parameter Name="TabId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="TableId" Type="int" />
+                <Property Name="ClientFirstName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientLastName" Type="varchar" MaxLength="64" />
+                <Property Name="IsValid" Type="bit" />
+                <Property Name="ReceptionId" Type="int" />
+                <Property Name="ClientId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
         </Function>
-        <Function Name="F_DISH_UNWISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+        <Function Name="GetUnfeeling" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="CliId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="FirstName" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="LastName" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="ClientId" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetUnreservation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="RecId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Acronym" Type="char" MaxLength="8" Nullable="false" />
+                <Property Name="FirstName" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="LastName" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="Sex" Type="char" MaxLength="1" Nullable="false" />
+                <Property Name="BirthDay" Type="date" Nullable="false" />
+                <Property Name="Job" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="ClientId" Type="int" Nullable="false" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetUnreservedReception" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="CliId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Name" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="Date" Type="datetime2" Precision="7" Nullable="false" />
+                <Property Name="BookingClosingDate" Type="datetime2" Precision="7" Nullable="false" />
+                <Property Name="Capacity" Type="int" Nullable="false" />
+                <Property Name="SeatsPerTable" Type="int" Nullable="false" />
+                <Property Name="ReceptionId" Type="int" Nullable="false" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetUnwishedDish" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="CliId" Type="int" Mode="In" />
           <ReturnType>
             <CollectionType>
@@ -331,7 +458,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             </CollectionType>
           </ReturnType>
         </Function>
-        <Function Name="F_DISH_WISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+        <Function Name="GetWishedDish" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="CliId" Type="int" Mode="In" />
           <Parameter Name="FtyId" Type="int" Mode="In" />
           <ReturnType>
@@ -349,14 +476,44 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             </CollectionType>
           </ReturnType>
         </Function>
-        <Function Name="F_MENU" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="DtyId" Type="int" Mode="In" />
+        <Function Name="NewFeeling" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="CliFromId" Type="int" Mode="In" />
+          <Parameter Name="CliToId" Type="int" Mode="In" />
+          <Parameter Name="FtyId" Type="int" Mode="In" />
+          <Parameter Name="ModifiedBy" Type="char" Mode="In" />
           <ReturnType>
             <CollectionType>
               <RowType>
+                <Property Name="ClientFromFirstName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientFromLastName" Type="varchar" MaxLength="64" />
+                <Property Name="Feeling" Type="varchar" MaxLength="64" />
+                <Property Name="ClientToFirstName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientToLastName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientFromId" Type="int" />
+                <Property Name="ClientToId" Type="int" />
+                <Property Name="FeelingTypeId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="NewReservedDish" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="CliId" Type="int" Mode="In" />
+          <Parameter Name="DisId" Type="int" Mode="In" />
+          <Parameter Name="RecId" Type="int" Mode="In" />
+          <Parameter Name="ModifiedBy" Type="char" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ReceptionName" Type="varchar" MaxLength="64" />
+                <Property Name="ReceptionDate" Type="datetime2" Precision="7" />
+                <Property Name="ClientFirstName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientLastName" Type="varchar" MaxLength="64" />
                 <Property Name="DishType" Type="varchar" MaxLength="64" />
                 <Property Name="DishName" Type="varchar" MaxLength="64" />
+                <Property Name="ReceptionId" Type="int" />
+                <Property Name="ClientId" Type="int" />
                 <Property Name="DishId" Type="int" />
                 <Property Name="DishTypeId" Type="int" />
                 <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
@@ -365,113 +522,180 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             </CollectionType>
           </ReturnType>
         </Function>
-        <Function Name="SP_DELETE_DISH_WISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+        <Function Name="NewResrvation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="RecId" Type="int" Mode="In" />
+          <Parameter Name="CliId" Type="int" Mode="In" />
+          <Parameter Name="ModifiedBy" Type="char" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ReceptionName" Type="varchar" MaxLength="64" />
+                <Property Name="ReceptionDate" Type="datetime2" Precision="7" />
+                <Property Name="ClientFirstName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientLastName" Type="varchar" MaxLength="64" />
+                <Property Name="IsValid" Type="bit" />
+                <Property Name="ReceptionId" Type="int" />
+                <Property Name="ClientId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="NewWishedDish" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="CliId" Type="int" Mode="In" />
           <Parameter Name="DisId" Type="int" Mode="In" />
-          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
+          <Parameter Name="DtyId" Type="int" Mode="In" />
+          <Parameter Name="ModifiedBy" Type="char" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ClientFirstName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientLastName" Type="varchar" MaxLength="64" />
+                <Property Name="Feeling" Type="varchar" MaxLength="64" />
+                <Property Name="DishType" Type="varchar" MaxLength="64" />
+                <Property Name="DishName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientId" Type="int" />
+                <Property Name="DishId" Type="int" />
+                <Property Name="DishTypeId" Type="int" />
+                <Property Name="FeelingTypeId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
         </Function>
-        <Function Name="SP_DELETE_FEELING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="CliCliId" Type="int" Mode="In" />
-          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
-        </Function>
-        <Function Name="SP_DELETE_RESERVATION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
-        </Function>
-        <Function Name="SP_DELETE_RESERVED_DISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="DisId" Type="int" Mode="In" />
-          <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
-        </Function>
-        <Function Name="SP_FEELING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="FtyId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_NEW_DISH_WISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="DisId" Type="int" Mode="In" />
-          <Parameter Name="FtyId" Type="int" Mode="In" />
-          <Parameter Name="UpdateBy" Type="char" Mode="In" />
-        </Function>
-        <Function Name="SP_NEW_FEELING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="CliCliId" Type="int" Mode="In" />
-          <Parameter Name="FtyId" Type="int" Mode="In" />
-          <Parameter Name="UpdateBy" Type="char" Mode="In" />
-        </Function>
-        <Function Name="SP_NEW_RESERVATION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="UpdateBy" Type="char" Mode="In" />
-        </Function>
-        <Function Name="SP_NEW_RESERVED_DISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="DisId" Type="int" Mode="In" />
-          <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="UpdateBy" Type="char" Mode="In" />
-        </Function>
-        <Function Name="SP_RESERVATION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_RESERVED_DISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_TABLE_MAP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="TabId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_UNFEELING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_UNRESERVATION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_UPDATE_DISH_WISH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="DisId" Type="int" Mode="In" />
+        <Function Name="UpdateFeeling" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+          <Parameter Name="CliFromId" Type="int" Mode="In" />
+          <Parameter Name="CliToId" Type="int" Mode="In" />
           <Parameter Name="FtyId" Type="int" Mode="In" />
           <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
+          <Parameter Name="ModifiedBy" Type="char" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ClientFromFirstName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientFromLastName" Type="varchar" MaxLength="64" />
+                <Property Name="Feeling" Type="varchar" MaxLength="64" />
+                <Property Name="ClientToFirstName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientToLastName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientFromId" Type="int" />
+                <Property Name="ClientToId" Type="int" />
+                <Property Name="FeelingTypeId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
         </Function>
-        <Function Name="SP_UPDATE_FEELING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+        <Function Name="UpdateWishedDish" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="CliCliId" Type="int" Mode="In" />
-          <Parameter Name="FtyId" Type="int" Mode="In" />
+          <Parameter Name="DisId" Type="int" Mode="In" />
+          <Parameter Name="DtyId" Type="int" Mode="In" />
           <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
+          <Parameter Name="ModifiedBy" Type="char" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ClientFirstName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientLastName" Type="varchar" MaxLength="64" />
+                <Property Name="Feeling" Type="varchar" MaxLength="64" />
+                <Property Name="DishType" Type="varchar" MaxLength="64" />
+                <Property Name="DishName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientId" Type="int" />
+                <Property Name="DishId" Type="int" />
+                <Property Name="DishTypeId" Type="int" />
+                <Property Name="FeelingTypeId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
         </Function>
-        <Function Name="SP_DELETE_MENU" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
+        <Function Name="DeleteMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
           <Parameter Name="RecId" Type="int" Mode="In" />
           <Parameter Name="DisId" Type="int" Mode="In" />
           <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
         </Function>
-        <Function Name="SP_DELETE_SIT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
-          <Parameter Name="TabId" Type="int" Mode="In" />
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
-        </Function>
-        <Function Name="SP_DELETE_TABLE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
-          <Parameter Name="TabId" Type="int" Mode="In" />
-          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
-        </Function>
-        <Function Name="SP_DISHES_TO_PREPARE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_NEW_MENU" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
-          <Parameter Name="RecId" Type="int" Mode="In" />
-          <Parameter Name="DisId" Type="int" Mode="In" />
-          <Parameter Name="UpdateBy" Type="char" Mode="In" />
-        </Function>
-        <Function Name="SP_NEW_SIT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
+        <Function Name="DeleteSit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
           <Parameter Name="TabId" Type="int" Mode="In" />
           <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="UpdateBy" Type="char" Mode="In" />
+          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
         </Function>
-        <Function Name="SP_NEW_TABLE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
+        <Function Name="DeleteTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
+          <Parameter Name="TabId" Type="int" Mode="In" />
+          <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
+        </Function>
+        <Function Name="GetDishToPrepare" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
+          <Parameter Name="RecId" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="DishType" Type="varchar" MaxLength="64" Nullable="false" />
+                <Property Name="DishName" Type="int" Nullable="false" />
+                <Property Name="DishId" Type="int" Nullable="false" />
+                <Property Name="DishTypeId" Type="int" Nullable="false" />
+                <Property Name="Quantity" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="NewMenu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
+          <Parameter Name="RecId" Type="int" Mode="In" />
+          <Parameter Name="DisId" Type="int" Mode="In" />
+          <Parameter Name="ModifiedBy" Type="char" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ReceptionName" Type="varchar" MaxLength="64" />
+                <Property Name="ReceptionDate" Type="datetime2" Precision="7" />
+                <Property Name="DishType" Type="varchar" MaxLength="64" />
+                <Property Name="DishName" Type="varchar" MaxLength="64" />
+                <Property Name="ReceptionId" Type="int" />
+                <Property Name="DishId" Type="int" />
+                <Property Name="DishTypeId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="NewSit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
+          <Parameter Name="TabId" Type="int" Mode="In" />
+          <Parameter Name="CliId" Type="int" Mode="In" />
+          <Parameter Name="UpdateBy" Type="char" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ReceptionName" Type="varchar" MaxLength="64" />
+                <Property Name="ReceptionDate" Type="datetime2" Precision="7" />
+                <Property Name="TableId" Type="int" />
+                <Property Name="ClientFirstName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientLastName" Type="varchar" MaxLength="64" />
+                <Property Name="IsValid" Type="bit" />
+                <Property Name="ReceptionId" Type="int" />
+                <Property Name="ClientId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="NewTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
           <Parameter Name="RecId" Type="int" Mode="In" />
           <Parameter Name="UpdateBy" Type="char" Mode="In" />
-          <Parameter Name="TabId" Type="int" Mode="InOut" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ReceptionName" Type="varchar" MaxLength="64" />
+                <Property Name="ReceptionDate" Type="datetime2" Precision="7" />
+                <Property Name="TableId" Type="int" />
+                <Property Name="ReceptionId" Type="int" />
+                <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
         </Function>
         <EntityContainer Name="ProjetSGBDModelStoreContainer">
           <EntitySet Name="Client" EntityType="Self.Client" store:Type="Views" store:Schema="CLIENTAREA">
@@ -592,18 +816,18 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
     [Menu].[ModifiedBy] AS [ModifiedBy]
     FROM [MANAGERAREA].[Menu] AS [Menu]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="Reception1" EntityType="Self.Reception1" store:Type="Views" store:Schema="MANAGERAREA" store:Name="Reception">
+          <EntitySet Name="ReceptionAdmin" EntityType="Self.ReceptionAdmin" store:Type="Views" store:Schema="MANAGERAREA">
             <DefiningQuery>SELECT 
-    [Reception1].[Name] AS [Name], 
-    [Reception1].[Date] AS [Date], 
-    [Reception1].[BookingClosingDate] AS [BookingClosingDate], 
-    [Reception1].[Capacity] AS [Capacity], 
-    [Reception1].[SeatsPerTable] AS [SeatsPerTable], 
-    [Reception1].[IsValid] AS [IsValid], 
-    [Reception1].[ReceptionId] AS [ReceptionId], 
-    [Reception1].[ModifiedAt] AS [ModifiedAt], 
-    [Reception1].[ModifiedBy] AS [ModifiedBy]
-    FROM [MANAGERAREA].[Reception] AS [Reception1]</DefiningQuery>
+    [ReceptionAdmin].[Name] AS [Name], 
+    [ReceptionAdmin].[Date] AS [Date], 
+    [ReceptionAdmin].[BookingClosingDate] AS [BookingClosingDate], 
+    [ReceptionAdmin].[Capacity] AS [Capacity], 
+    [ReceptionAdmin].[SeatsPerTable] AS [SeatsPerTable], 
+    [ReceptionAdmin].[IsValid] AS [IsValid], 
+    [ReceptionAdmin].[ReceptionId] AS [ReceptionId], 
+    [ReceptionAdmin].[ModifiedAt] AS [ModifiedAt], 
+    [ReceptionAdmin].[ModifiedBy] AS [ModifiedBy]
+    FROM [MANAGERAREA].[ReceptionAdmin] AS [ReceptionAdmin]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="TablesMap" EntityType="Self.TablesMap" store:Type="Views" store:Schema="MANAGERAREA">
             <DefiningQuery>SELECT 
@@ -620,10 +844,230 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
     FROM [MANAGERAREA].[TablesMap] AS [TablesMap]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProjetSGBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="GetFeeling_Result">
+          <Property Name="FirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Feeling" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="FeelingTypeId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="GetMenu_Result">
+          <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DishName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DishId" Type="Int32" />
+          <Property Name="DishTypeId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="GetReservableReception_Result">
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="BookingClosingDate" Type="DateTime" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="SeatsPerTable" Type="Int32" Nullable="false" />
+          <Property Name="ReceptionId" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetReservation_Result">
+          <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetReservedDish_Result">
+          <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DishName" Type="Int32" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="DishId" Type="Int32" Nullable="false" />
+          <Property Name="DishTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetReservedReception_Result">
+          <Property Name="ReceptionName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReceptionDate" Type="DateTime" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="ReceptionId" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetTableMap_Result">
+          <Property Name="TableId" Type="Int32" />
+          <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="ReceptionId" Type="Int32" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="GetUnfeeling_Result">
+          <Property Name="FirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetUnreservation_Result">
+          <Property Name="Acronym" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="BirthDay" Type="DateTime" Nullable="false" />
+          <Property Name="Job" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetUnreservedReception_Result">
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="BookingClosingDate" Type="DateTime" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="SeatsPerTable" Type="Int32" Nullable="false" />
+          <Property Name="ReceptionId" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetUnwishedDish_Result">
+          <Property Name="Type" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DishId" Type="Int32" Nullable="false" />
+          <Property Name="DishTypeId" Type="Int32" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetWishedDish_Result">
+          <Property Name="Feeling" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DishName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DishId" Type="Int32" Nullable="false" />
+          <Property Name="DishTypeId" Type="Int32" Nullable="false" />
+          <Property Name="FeelingTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="NewFeeling_Result">
+          <Property Name="ClientFromFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientFromLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Feeling" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientToFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientToLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientFromId" Type="Int32" />
+          <Property Name="ClientToId" Type="Int32" />
+          <Property Name="FeelingTypeId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="NewReservedDish_Result">
+          <Property Name="ReceptionName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ReceptionDate" Type="DateTime" />
+          <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DishName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ReceptionId" Type="Int32" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="DishId" Type="Int32" />
+          <Property Name="DishTypeId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="NewResrvation_Result">
+          <Property Name="ReceptionName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ReceptionDate" Type="DateTime" />
+          <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="ReceptionId" Type="Int32" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="NewWishedDish_Result">
+          <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Feeling" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DishName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="DishId" Type="Int32" />
+          <Property Name="DishTypeId" Type="Int32" />
+          <Property Name="FeelingTypeId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="UpdateFeeling_Result">
+          <Property Name="ClientFromFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientFromLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Feeling" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientToFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientToLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientFromId" Type="Int32" />
+          <Property Name="ClientToId" Type="Int32" />
+          <Property Name="FeelingTypeId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="UpdateWishedDish_Result">
+          <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="Feeling" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DishName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="DishId" Type="Int32" />
+          <Property Name="DishTypeId" Type="Int32" />
+          <Property Name="FeelingTypeId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="GetDishToPrepare_Result">
+          <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DishName" Type="Int32" Nullable="false" />
+          <Property Name="DishId" Type="Int32" Nullable="false" />
+          <Property Name="DishTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" />
+        </ComplexType>
+        <ComplexType Name="NewMenu_Result">
+          <Property Name="ReceptionName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ReceptionDate" Type="DateTime" />
+          <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DishName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ReceptionId" Type="Int32" />
+          <Property Name="DishId" Type="Int32" />
+          <Property Name="DishTypeId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="NewSit_Result">
+          <Property Name="ReceptionName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ReceptionDate" Type="DateTime" />
+          <Property Name="TableId" Type="Int32" />
+          <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="IsValid" Type="Boolean" />
+          <Property Name="ReceptionId" Type="Int32" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
+        <ComplexType Name="NewTable_Result">
+          <Property Name="ReceptionName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ReceptionDate" Type="DateTime" />
+          <Property Name="TableId" Type="Int32" />
+          <Property Name="ReceptionId" Type="Int32" />
+          <Property Name="ModifiedAt" Type="DateTime" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </ComplexType>
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="Acronym" />
@@ -867,223 +1311,138 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <EntitySet Name="DishType" EntityType="Self.DishType" />
           <EntitySet Name="DishWish" EntityType="Self.DishWish" />
           <EntitySet Name="Menu" EntityType="Self.Menu" />
-          <EntitySet Name="Reception1" EntityType="ProjetSGBDModel.ReceptionAdmin" />
+          <EntitySet Name="ReceptionAdmin" EntityType="Self.ReceptionAdmin" />
           <EntitySet Name="TablesMap" EntityType="Self.TablesMap" />
-          <FunctionImport Name="SP_VALIDATE_BOOK">
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_VALIDATE_RECEPTION">
-          <Parameter Name="RecId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_VALIDATE_TABLE">
-          <Parameter Name="TabId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_DELETE_DISH_WISH">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="DisId" Mode="In" Type="Int32" />
-            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_DELETE_FEELING">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="CliCliId" Mode="In" Type="Int32" />
-            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_DELETE_RESERVATION">
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_DELETE_RESERVED_DISH">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="DisId" Mode="In" Type="Int32" />
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
-            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_DISH_UNWISH">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_DISH_WISH">
+          <FunctionImport Name="GetFeeling" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetFeeling_Result)">
             <Parameter Name="CliId" Mode="In" Type="Int32" />
             <Parameter Name="FtyId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_FEELING" ReturnType="Collection(ProjetSGBDModel.SP_FEELING_Result)">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="FtyId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_MENU">
+          <FunctionImport Name="GetMenu" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetMenu_Result)">
             <Parameter Name="RecId" Mode="In" Type="Int32" />
             <Parameter Name="DtyId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_NEW_DISH_WISH">
+          <FunctionImport Name="GetReservableReception" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetReservableReception_Result)">
             <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="DisId" Mode="In" Type="Int32" />
-            <Parameter Name="FtyId" Mode="In" Type="Int32" />
-            <Parameter Name="UpdateBy" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_NEW_FEELING">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="CliCliId" Mode="In" Type="Int32" />
-            <Parameter Name="FtyId" Mode="In" Type="Int32" />
-            <Parameter Name="UpdateBy" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="SP_NEW_RESERVATION">
+          <FunctionImport Name="GetReservation" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetReservation_Result)">
             <Parameter Name="RecId" Mode="In" Type="Int32" />
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="UpdateBy" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_NEW_RESERVED_DISH">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="DisId" Mode="In" Type="Int32" />
+          <FunctionImport Name="GetReservedDish" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetReservedDish_Result)">
             <Parameter Name="RecId" Mode="In" Type="Int32" />
-            <Parameter Name="UpdateBy" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_RESERVATION" ReturnType="Collection(ProjetSGBDModel.SP_RESERVATION_Result)">
-          <Parameter Name="RecId" Mode="In" Type="Int32" />
+          <FunctionImport Name="GetReservedReception" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetReservedReception_Result)">
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_RESERVED_DISH" ReturnType="Collection(ProjetSGBDModel.SP_RESERVED_DISH_Result)">
-          <Parameter Name="RecId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_TABLE_MAP">
+          <FunctionImport Name="GetTableMap" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetTableMap_Result)">
             <Parameter Name="RecId" Mode="In" Type="Int32" />
             <Parameter Name="TabId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_UNFEELING" ReturnType="Collection(ProjetSGBDModel.SP_UNFEELING_Result)">
-          <Parameter Name="CliId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_UNRESERVATION" ReturnType="Collection(ProjetSGBDModel.SP_UNRESERVATION_Result)">
-          <Parameter Name="CliId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_UPDATE_DISH_WISH">
+          <FunctionImport Name="GetUnfeeling" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetUnfeeling_Result)">
             <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="DisId" Mode="In" Type="Int32" />
-            <Parameter Name="FtyId" Mode="In" Type="Int32" />
-            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="SP_UPDATE_FEELING">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="CliCliId" Mode="In" Type="Int32" />
-            <Parameter Name="FtyId" Mode="In" Type="Int32" />
-            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_DELETE_MENU">
+          <FunctionImport Name="GetUnreservation" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetUnreservation_Result)">
             <Parameter Name="RecId" Mode="In" Type="Int32" />
-            <Parameter Name="DisId" Mode="In" Type="Int32" />
-            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="SP_DELETE_SIT">
-            <Parameter Name="TabId" Mode="In" Type="Int32" />
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_DELETE_TABLE">
-            <Parameter Name="TabId" Mode="In" Type="Int32" />
-            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_DISHES_TO_PREPARE" ReturnType="Collection(ProjetSGBDModel.SP_DISHES_TO_PREPARE_Result)">
-          <Parameter Name="RecId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SP_NEW_MENU">
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
-            <Parameter Name="DisId" Mode="In" Type="Int32" />
-            <Parameter Name="UpdateBy" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="SP_NEW_SIT">
-            <Parameter Name="TabId" Mode="In" Type="Int32" />
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="UpdateBy" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="SP_NEW_TABLE">
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
-            <Parameter Name="UpdateBy" Mode="In" Type="String" />
-            <Parameter Name="TabId" Mode="InOut" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="F_DISH_UNWISH" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.F_DISH_UNWISH_Result)">
+          <FunctionImport Name="GetUnreservedReception" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetUnreservedReception_Result)">
             <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="F_DISH_WISH" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.F_DISH_WISH_Result)">
+          <FunctionImport Name="GetUnwishedDish" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetUnwishedDish_Result)">
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetWishedDish" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetWishedDish_Result)">
             <Parameter Name="CliId" Mode="In" Type="Int32" />
             <Parameter Name="FtyId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="F_MENU" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.F_MENU_Result)">
+          <FunctionImport Name="NewFeeling" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.NewFeeling_Result)">
+            <Parameter Name="CliFromId" Mode="In" Type="Int32" />
+            <Parameter Name="CliToId" Mode="In" Type="Int32" />
+            <Parameter Name="FtyId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="NewReservedDish" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.NewReservedDish_Result)">
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+            <Parameter Name="DisId" Mode="In" Type="Int32" />
             <Parameter Name="RecId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="NewResrvation" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.NewResrvation_Result)">
+            <Parameter Name="RecId" Mode="In" Type="Int32" />
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="NewWishedDish" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.NewWishedDish_Result)">
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+            <Parameter Name="DisId" Mode="In" Type="Int32" />
             <Parameter Name="DtyId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateFeeling" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.UpdateFeeling_Result)">
+            <Parameter Name="CliFromId" Mode="In" Type="Int32" />
+            <Parameter Name="CliToId" Mode="In" Type="Int32" />
+            <Parameter Name="FtyId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifiedBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateWishedDish" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.UpdateWishedDish_Result)">
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+            <Parameter Name="DisId" Mode="In" Type="Int32" />
+            <Parameter Name="DtyId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifiedBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetDishToPrepare" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetDishToPrepare_Result)">
+            <Parameter Name="RecId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="NewMenu" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.NewMenu_Result)">
+            <Parameter Name="RecId" Mode="In" Type="Int32" />
+            <Parameter Name="DisId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="NewSit" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.NewSit_Result)">
+            <Parameter Name="TabId" Mode="In" Type="Int32" />
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+            <Parameter Name="UpdateBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="NewTable" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.NewTable_Result)">
+            <Parameter Name="RecId" Mode="In" Type="Int32" />
+            <Parameter Name="UpdateBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteDishWish">
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+            <Parameter Name="DisId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteFeeling">
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+            <Parameter Name="CliCliId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteReservation">
+            <Parameter Name="RecId" Mode="In" Type="Int32" />
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteReservedDish">
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+            <Parameter Name="DisId" Mode="In" Type="Int32" />
+            <Parameter Name="RecId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteMenu">
+            <Parameter Name="RecId" Mode="In" Type="Int32" />
+            <Parameter Name="DisId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteSit">
+            <Parameter Name="TabId" Mode="In" Type="Int32" />
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteTable">
+            <Parameter Name="TabId" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
           </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="SP_FEELING_Result">
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="64" />
-          <Property Type="String" Name="LastName" Nullable="false" MaxLength="64" />
-          <Property Type="String" Name="Feeling" Nullable="false" MaxLength="64" />
-          <Property Type="Int32" Name="ClientId" Nullable="false" />
-          <Property Type="Int32" Name="FeelingTypeId" Nullable="false" />
-          <Property Type="DateTime" Name="ModifiedAt" Nullable="true" />
-          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="8" />
-        </ComplexType>
-        <ComplexType Name="SP_RESERVATION_Result">
-          <Property Type="String" Name="ClientFirstName" Nullable="false" MaxLength="64" />
-          <Property Type="String" Name="ClientLastName" Nullable="false" MaxLength="64" />
-          <Property Type="Boolean" Name="IsValid" Nullable="false" />
-          <Property Type="Int32" Name="ClientId" Nullable="false" />
-          <Property Type="DateTime" Name="ModifiedAt" Nullable="true" />
-          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="8" />
-        </ComplexType>
-        <ComplexType Name="SP_RESERVED_DISH_Result">
-          <Property Type="String" Name="ClientFirstName" Nullable="false" MaxLength="64" />
-          <Property Type="String" Name="ClientLastName" Nullable="false" MaxLength="64" />
-          <Property Type="String" Name="DishType" Nullable="false" MaxLength="64" />
-          <Property Type="Int32" Name="DishName" Nullable="false" />
-          <Property Type="Int32" Name="ClientId" Nullable="false" />
-          <Property Type="Int32" Name="DishId" Nullable="false" />
-          <Property Type="Int32" Name="DishTypeId" Nullable="false" />
-          <Property Type="DateTime" Name="ModifiedAt" Nullable="true" />
-          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="8" />
-        </ComplexType>
-        <ComplexType Name="SP_UNFEELING_Result">
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="64" />
-          <Property Type="String" Name="LastName" Nullable="false" MaxLength="64" />
-          <Property Type="Int32" Name="ClientId" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="SP_UNRESERVATION_Result">
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="64" />
-          <Property Type="DateTime" Name="Date" Nullable="false" />
-          <Property Type="DateTime" Name="BookingClosingDate" Nullable="false" />
-          <Property Type="Int32" Name="Capacity" Nullable="false" />
-          <Property Type="Int32" Name="SeatsPerTable" Nullable="false" />
-          <Property Type="Int32" Name="ReceptionId" Nullable="false" />
-          <Property Type="DateTime" Name="ModifiedAt" Nullable="true" />
-          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="8" />
-        </ComplexType>
-        <ComplexType Name="SP_DISHES_TO_PREPARE_Result">
-          <Property Type="String" Name="DishType" Nullable="false" MaxLength="64" />
-          <Property Type="Int32" Name="DishName" Nullable="false" />
-          <Property Type="Int32" Name="DishId" Nullable="false" />
-          <Property Type="Int32" Name="DishTypeId" Nullable="false" />
-          <Property Type="Int32" Name="Quantity" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="F_DISH_UNWISH_Result">
-          <Property Type="String" Name="Type" Nullable="false" MaxLength="64" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="64" />
-          <Property Type="Int32" Name="DishId" Nullable="false" />
-          <Property Type="Int32" Name="DishTypeId" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="F_DISH_WISH_Result">
-          <Property Type="String" Name="Feeling" Nullable="false" MaxLength="64" />
-          <Property Type="String" Name="DishType" Nullable="false" MaxLength="64" />
-          <Property Type="String" Name="DishName" Nullable="false" MaxLength="64" />
-          <Property Type="Int32" Name="DishId" Nullable="false" />
-          <Property Type="Int32" Name="DishTypeId" Nullable="false" />
-          <Property Type="Int32" Name="FeelingTypeId" Nullable="false" />
-          <Property Type="DateTime" Name="ModifiedAt" Nullable="true" Precision="27" />
-          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="8" />
-        </ComplexType>
-        <ComplexType Name="F_MENU_Result">
-          <Property Type="String" Name="DishType" Nullable="true" MaxLength="64" />
-          <Property Type="String" Name="DishName" Nullable="true" MaxLength="64" />
-          <Property Type="Int32" Name="DishId" Nullable="true" />
-          <Property Type="Int32" Name="DishTypeId" Nullable="true" />
-          <Property Type="DateTime" Name="ModifiedAt" Nullable="true" Precision="27" />
-          <Property Type="String" Name="ModifiedBy" Nullable="true" MaxLength="8" />
-        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1228,9 +1587,9 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Reception1">
+          <EntitySetMapping Name="ReceptionAdmin">
             <EntityTypeMapping TypeName="ProjetSGBDModel.ReceptionAdmin">
-              <MappingFragment StoreEntitySet="Reception1">
+              <MappingFragment StoreEntitySet="ReceptionAdmin">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="BookingClosingDate" ColumnName="BookingClosingDate" />
@@ -1259,16 +1618,9 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_VALIDATE_BOOK" FunctionName="ProjetSGBDModel.Store.SP_VALIDATE_BOOK" />
-          <FunctionImportMapping FunctionImportName="SP_VALIDATE_RECEPTION" FunctionName="ProjetSGBDModel.Store.SP_VALIDATE_RECEPTION" />
-          <FunctionImportMapping FunctionImportName="SP_VALIDATE_TABLE" FunctionName="ProjetSGBDModel.Store.SP_VALIDATE_TABLE" />
-          <FunctionImportMapping FunctionImportName="SP_DELETE_DISH_WISH" FunctionName="ProjetSGBDModel.Store.SP_DELETE_DISH_WISH" />
-          <FunctionImportMapping FunctionImportName="SP_DELETE_FEELING" FunctionName="ProjetSGBDModel.Store.SP_DELETE_FEELING" />
-          <FunctionImportMapping FunctionImportName="SP_DELETE_RESERVATION" FunctionName="ProjetSGBDModel.Store.SP_DELETE_RESERVATION" />
-          <FunctionImportMapping FunctionImportName="SP_DELETE_RESERVED_DISH" FunctionName="ProjetSGBDModel.Store.SP_DELETE_RESERVED_DISH" />
-          <FunctionImportMapping FunctionImportName="SP_FEELING" FunctionName="ProjetSGBDModel.Store.SP_FEELING">
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetFeeling" FunctionImportName="GetFeeling">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ProjetSGBDModel.SP_FEELING_Result">
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetFeeling_Result">
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Feeling" ColumnName="Feeling" />
@@ -1279,30 +1631,11 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_NEW_DISH_WISH" FunctionName="ProjetSGBDModel.Store.SP_NEW_DISH_WISH" />
-          <FunctionImportMapping FunctionImportName="SP_NEW_FEELING" FunctionName="ProjetSGBDModel.Store.SP_NEW_FEELING" />
-          <FunctionImportMapping FunctionImportName="SP_NEW_RESERVATION" FunctionName="ProjetSGBDModel.Store.SP_NEW_RESERVATION" />
-          <FunctionImportMapping FunctionImportName="SP_NEW_RESERVED_DISH" FunctionName="ProjetSGBDModel.Store.SP_NEW_RESERVED_DISH" />
-          <FunctionImportMapping FunctionImportName="SP_RESERVATION" FunctionName="ProjetSGBDModel.Store.SP_RESERVATION">
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetMenu" FunctionImportName="GetMenu">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ProjetSGBDModel.SP_RESERVATION_Result">
-                <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
-                <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
-                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
-                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_RESERVED_DISH" FunctionName="ProjetSGBDModel.Store.SP_RESERVED_DISH">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ProjetSGBDModel.SP_RESERVED_DISH_Result">
-                <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
-                <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetMenu_Result">
                 <ScalarProperty Name="DishType" ColumnName="DishType" />
                 <ScalarProperty Name="DishName" ColumnName="DishName" />
-                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="DishId" ColumnName="DishId" />
                 <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
                 <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
@@ -1310,19 +1643,9 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_TABLE_MAP" FunctionName="ProjetSGBDModel.Store.SP_TABLE_MAP" />
-          <FunctionImportMapping FunctionImportName="SP_UNFEELING" FunctionName="ProjetSGBDModel.Store.SP_UNFEELING">
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetReservableReception" FunctionImportName="GetReservableReception">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ProjetSGBDModel.SP_UNFEELING_Result">
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_UNRESERVATION" FunctionName="ProjetSGBDModel.Store.SP_UNRESERVATION">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ProjetSGBDModel.SP_UNRESERVATION_Result">
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetReservableReception_Result">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="BookingClosingDate" ColumnName="BookingClosingDate" />
@@ -1334,28 +1657,100 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_UPDATE_DISH_WISH" FunctionName="ProjetSGBDModel.Store.SP_UPDATE_DISH_WISH" />
-          <FunctionImportMapping FunctionImportName="SP_UPDATE_FEELING" FunctionName="ProjetSGBDModel.Store.SP_UPDATE_FEELING" />
-          <FunctionImportMapping FunctionImportName="SP_DELETE_MENU" FunctionName="ProjetSGBDModel.Store.SP_DELETE_MENU" />
-          <FunctionImportMapping FunctionImportName="SP_DELETE_SIT" FunctionName="ProjetSGBDModel.Store.SP_DELETE_SIT" />
-          <FunctionImportMapping FunctionImportName="SP_DELETE_TABLE" FunctionName="ProjetSGBDModel.Store.SP_DELETE_TABLE" />
-          <FunctionImportMapping FunctionImportName="SP_DISHES_TO_PREPARE" FunctionName="ProjetSGBDModel.Store.SP_DISHES_TO_PREPARE">
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetReservation" FunctionImportName="GetReservation">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ProjetSGBDModel.SP_DISHES_TO_PREPARE_Result">
-                <ScalarProperty Name="DishType" ColumnName="DishType" />
-                <ScalarProperty Name="DishName" ColumnName="DishName" />
-                <ScalarProperty Name="DishId" ColumnName="DishId" />
-                <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetReservation_Result">
+                <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
+                <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_NEW_MENU" FunctionName="ProjetSGBDModel.Store.SP_NEW_MENU" />
-          <FunctionImportMapping FunctionImportName="SP_NEW_SIT" FunctionName="ProjetSGBDModel.Store.SP_NEW_SIT" />
-          <FunctionImportMapping FunctionImportName="SP_NEW_TABLE" FunctionName="ProjetSGBDModel.Store.SP_NEW_TABLE" />
-          <FunctionImportMapping FunctionImportName="F_DISH_UNWISH" FunctionName="ProjetSGBDModel.Store.F_DISH_UNWISH">
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetReservedDish" FunctionImportName="GetReservedDish">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ProjetSGBDModel.F_DISH_UNWISH_Result">
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetReservedDish_Result">
+                <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
+                <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
+                <ScalarProperty Name="DishType" ColumnName="DishType" />
+                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
+                <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetReservedReception" FunctionImportName="GetReservedReception">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetReservedReception_Result">
+                <ScalarProperty Name="ReceptionName" ColumnName="ReceptionName" />
+                <ScalarProperty Name="ReceptionDate" ColumnName="ReceptionDate" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetTableMap" FunctionImportName="GetTableMap">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetTableMap_Result">
+                <ScalarProperty Name="TableId" ColumnName="TableId" />
+                <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
+                <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetUnfeeling" FunctionImportName="GetUnfeeling">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetUnfeeling_Result">
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetUnreservation" FunctionImportName="GetUnreservation">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetUnreservation_Result">
+                <ScalarProperty Name="Acronym" ColumnName="Acronym" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetUnreservedReception" FunctionImportName="GetUnreservedReception">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetUnreservedReception_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="BookingClosingDate" ColumnName="BookingClosingDate" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="SeatsPerTable" ColumnName="SeatsPerTable" />
+                <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetUnwishedDish" FunctionImportName="GetUnwishedDish">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetUnwishedDish_Result">
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DishId" ColumnName="DishId" />
@@ -1363,9 +1758,9 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="F_DISH_WISH" FunctionName="ProjetSGBDModel.Store.F_DISH_WISH">
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetWishedDish" FunctionImportName="GetWishedDish">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ProjetSGBDModel.F_DISH_WISH_Result">
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetWishedDish_Result">
                 <ScalarProperty Name="Feeling" ColumnName="Feeling" />
                 <ScalarProperty Name="DishType" ColumnName="DishType" />
                 <ScalarProperty Name="DishName" ColumnName="DishName" />
@@ -1377,11 +1772,33 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="F_MENU" FunctionName="ProjetSGBDModel.Store.F_MENU">
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.NewFeeling" FunctionImportName="NewFeeling">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ProjetSGBDModel.F_MENU_Result">
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.NewFeeling_Result">
+                <ScalarProperty Name="ClientFromFirstName" ColumnName="ClientFromFirstName" />
+                <ScalarProperty Name="ClientFromLastName" ColumnName="ClientFromLastName" />
+                <ScalarProperty Name="Feeling" ColumnName="Feeling" />
+                <ScalarProperty Name="ClientToFirstName" ColumnName="ClientToFirstName" />
+                <ScalarProperty Name="ClientToLastName" ColumnName="ClientToLastName" />
+                <ScalarProperty Name="ClientFromId" ColumnName="ClientFromId" />
+                <ScalarProperty Name="ClientToId" ColumnName="ClientToId" />
+                <ScalarProperty Name="FeelingTypeId" ColumnName="FeelingTypeId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.NewReservedDish" FunctionImportName="NewReservedDish">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.NewReservedDish_Result">
+                <ScalarProperty Name="ReceptionName" ColumnName="ReceptionName" />
+                <ScalarProperty Name="ReceptionDate" ColumnName="ReceptionDate" />
+                <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
+                <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
                 <ScalarProperty Name="DishType" ColumnName="DishType" />
                 <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="DishId" ColumnName="DishId" />
                 <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
                 <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
@@ -1389,6 +1806,132 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.NewResrvation" FunctionImportName="NewResrvation">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.NewResrvation_Result">
+                <ScalarProperty Name="ReceptionName" ColumnName="ReceptionName" />
+                <ScalarProperty Name="ReceptionDate" ColumnName="ReceptionDate" />
+                <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
+                <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.NewWishedDish" FunctionImportName="NewWishedDish">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.NewWishedDish_Result">
+                <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
+                <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
+                <ScalarProperty Name="Feeling" ColumnName="Feeling" />
+                <ScalarProperty Name="DishType" ColumnName="DishType" />
+                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
+                <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
+                <ScalarProperty Name="FeelingTypeId" ColumnName="FeelingTypeId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.UpdateFeeling" FunctionImportName="UpdateFeeling">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.UpdateFeeling_Result">
+                <ScalarProperty Name="ClientFromFirstName" ColumnName="ClientFromFirstName" />
+                <ScalarProperty Name="ClientFromLastName" ColumnName="ClientFromLastName" />
+                <ScalarProperty Name="Feeling" ColumnName="Feeling" />
+                <ScalarProperty Name="ClientToFirstName" ColumnName="ClientToFirstName" />
+                <ScalarProperty Name="ClientToLastName" ColumnName="ClientToLastName" />
+                <ScalarProperty Name="ClientFromId" ColumnName="ClientFromId" />
+                <ScalarProperty Name="ClientToId" ColumnName="ClientToId" />
+                <ScalarProperty Name="FeelingTypeId" ColumnName="FeelingTypeId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.UpdateWishedDish" FunctionImportName="UpdateWishedDish">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.UpdateWishedDish_Result">
+                <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
+                <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
+                <ScalarProperty Name="Feeling" ColumnName="Feeling" />
+                <ScalarProperty Name="DishType" ColumnName="DishType" />
+                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
+                <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
+                <ScalarProperty Name="FeelingTypeId" ColumnName="FeelingTypeId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetDishToPrepare" FunctionImportName="GetDishToPrepare">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetDishToPrepare_Result">
+                <ScalarProperty Name="DishType" ColumnName="DishType" />
+                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
+                <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.NewMenu" FunctionImportName="NewMenu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.NewMenu_Result">
+                <ScalarProperty Name="ReceptionName" ColumnName="ReceptionName" />
+                <ScalarProperty Name="ReceptionDate" ColumnName="ReceptionDate" />
+                <ScalarProperty Name="DishType" ColumnName="DishType" />
+                <ScalarProperty Name="DishName" ColumnName="DishName" />
+                <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
+                <ScalarProperty Name="DishId" ColumnName="DishId" />
+                <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.NewSit" FunctionImportName="NewSit">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.NewSit_Result">
+                <ScalarProperty Name="ReceptionName" ColumnName="ReceptionName" />
+                <ScalarProperty Name="ReceptionDate" ColumnName="ReceptionDate" />
+                <ScalarProperty Name="TableId" ColumnName="TableId" />
+                <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
+                <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.NewTable" FunctionImportName="NewTable">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.NewTable_Result">
+                <ScalarProperty Name="ReceptionName" ColumnName="ReceptionName" />
+                <ScalarProperty Name="ReceptionDate" ColumnName="ReceptionDate" />
+                <ScalarProperty Name="TableId" ColumnName="TableId" />
+                <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
+                <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DeleteDishWish" FunctionName="ProjetSGBDModel.Store.DeleteDishWish" />
+          <FunctionImportMapping FunctionImportName="DeleteFeeling" FunctionName="ProjetSGBDModel.Store.DeleteFeeling" />
+          <FunctionImportMapping FunctionImportName="DeleteReservation" FunctionName="ProjetSGBDModel.Store.DeleteReservation" />
+          <FunctionImportMapping FunctionImportName="DeleteReservedDish" FunctionName="ProjetSGBDModel.Store.DeleteReservedDish" />
+          <FunctionImportMapping FunctionImportName="DeleteMenu" FunctionName="ProjetSGBDModel.Store.DeleteMenu" />
+          <FunctionImportMapping FunctionImportName="DeleteSit" FunctionName="ProjetSGBDModel.Store.DeleteSit" />
+          <FunctionImportMapping FunctionImportName="DeleteTable" FunctionName="ProjetSGBDModel.Store.DeleteTable" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

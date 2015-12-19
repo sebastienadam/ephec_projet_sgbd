@@ -11,7 +11,7 @@ namespace Model
 {
     using System;
     
-    public partial class SP_UNFEELING_Result
+    public partial class GetUnfeeling_Result
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

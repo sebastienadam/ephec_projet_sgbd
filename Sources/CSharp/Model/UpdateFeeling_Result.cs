@@ -11,14 +11,16 @@ namespace Model
 {
     using System;
     
-    public partial class SP_UNRESERVATION_Result
+    public partial class UpdateFeeling_Result
     {
-        public string Name { get; set; }
-        public System.DateTime Date { get; set; }
-        public System.DateTime BookingClosingDate { get; set; }
-        public int Capacity { get; set; }
-        public int SeatsPerTable { get; set; }
-        public int ReceptionId { get; set; }
+        public string ClientFromFirstName { get; set; }
+        public string ClientFromLastName { get; set; }
+        public string Feeling { get; set; }
+        public string ClientToFirstName { get; set; }
+        public string ClientToLastName { get; set; }
+        public Nullable<int> ClientFromId { get; set; }
+        public Nullable<int> ClientToId { get; set; }
+        public Nullable<int> FeelingTypeId { get; set; }
         public Nullable<System.DateTime> ModifiedAt { get; set; }
         public string ModifiedBy { get; set; }
     }

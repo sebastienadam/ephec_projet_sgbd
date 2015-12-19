@@ -11,12 +11,14 @@ namespace Model
 {
     using System;
     
-    public partial class SP_DISHES_TO_PREPARE_Result
+    public partial class GetFeeling_Result
     {
-        public string DishType { get; set; }
-        public int DishName { get; set; }
-        public int DishId { get; set; }
-        public int DishTypeId { get; set; }
-        public Nullable<int> Quantity { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Feeling { get; set; }
+        public Nullable<int> ClientId { get; set; }
+        public Nullable<int> FeelingTypeId { get; set; }
+        public Nullable<System.DateTime> ModifiedAt { get; set; }
+        public string ModifiedBy { get; set; }
     }
 }

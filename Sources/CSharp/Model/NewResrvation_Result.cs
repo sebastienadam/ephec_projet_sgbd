@@ -11,13 +11,15 @@ namespace Model
 {
     using System;
     
-    public partial class SP_FEELING_Result
+    public partial class NewResrvation_Result
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Feeling { get; set; }
-        public int ClientId { get; set; }
-        public int FeelingTypeId { get; set; }
+        public string ReceptionName { get; set; }
+        public Nullable<System.DateTime> ReceptionDate { get; set; }
+        public string ClientFirstName { get; set; }
+        public string ClientLastName { get; set; }
+        public Nullable<bool> IsValid { get; set; }
+        public Nullable<int> ReceptionId { get; set; }
+        public Nullable<int> ClientId { get; set; }
         public Nullable<System.DateTime> ModifiedAt { get; set; }
         public string ModifiedBy { get; set; }
     }

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{25E335EB-DD64-410A-AFF4-C951876CCE49}</ProjectGuid>
+    <ProjectGuid>{E4011E4E-0DF1-4D9C-B575-E450E5CC5D5C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Model</RootNamespace>
@@ -51,112 +51,148 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Client.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="Dish.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="DishType.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="DishWish.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="Feeling.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="FeelingType.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
-    <Compile Include="F_DISH_UNWISH_Result.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+    <Compile Include="GetDishToPrepare_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
-    <Compile Include="F_DISH_WISH_Result.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+    <Compile Include="GetFeeling_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
-    <Compile Include="F_MENU_Result.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+    <Compile Include="GetMenu_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetReservableReception_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetReservation_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetReservedDish_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetReservedReception_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTableMap_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetUnfeeling_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetUnreservation_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetUnreservedReception_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetUnwishedDish_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetWishedDish_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="Menu.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewFeeling_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewMenu_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewReservedDish_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewResrvation_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewSit_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewTable_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewWishedDish_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reception.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reception.Context.tt</DependentUpon>
+    </Compile>
     <Compile Include="Reception.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Reception.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reception.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Reception1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="ReceptionAdmin.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ReceptionModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReceptionModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ReceptionModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ReceptionModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReceptionModel.edmx</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="Reservation.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="ReservedDish.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_DISHES_TO_PREPARE_Result.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_FEELING_Result.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_RESERVATION_Result.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_RESERVED_DISH_Result.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_UNFEELING_Result.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_UNRESERVATION_Result.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="TablesMap.cs">
-      <DependentUpon>ReceptionModel.tt</DependentUpon>
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateFeeling_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateWishedDish_Result.cs">
+      <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="ReceptionModel.edmx">
+    <EntityDeploy Include="Reception.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ReceptionModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>Reception.Designer.cs</LastGenOutput>
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.Config" />
     <None Include="packages.config" />
-    <None Include="ReceptionModel.edmx.diagram">
-      <DependentUpon>ReceptionModel.edmx</DependentUpon>
+    <None Include="Reception.edmx.diagram">
+      <DependentUpon>Reception.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ReceptionModel.Context.tt">
+    <Content Include="Reception.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ReceptionModel.edmx</DependentUpon>
-      <LastGenOutput>ReceptionModel.Context.cs</LastGenOutput>
+      <DependentUpon>Reception.edmx</DependentUpon>
+      <LastGenOutput>Reception.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="ReceptionModel.tt">
+    <Content Include="Reception.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ReceptionModel.edmx</DependentUpon>
-      <LastGenOutput>ReceptionModel.cs</LastGenOutput>
+      <DependentUpon>Reception.edmx</DependentUpon>
+      <LastGenOutput>Reception1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -11,11 +11,13 @@ namespace Model
 {
     using System;
     
-    public partial class F_DISH_UNWISH_Result
+    public partial class NewTable_Result
     {
-        public string Type { get; set; }
-        public string Name { get; set; }
-        public int DishId { get; set; }
-        public int DishTypeId { get; set; }
+        public string ReceptionName { get; set; }
+        public Nullable<System.DateTime> ReceptionDate { get; set; }
+        public Nullable<int> TableId { get; set; }
+        public Nullable<int> ReceptionId { get; set; }
+        public Nullable<System.DateTime> ModifiedAt { get; set; }
+        public string ModifiedBy { get; set; }
     }
 }

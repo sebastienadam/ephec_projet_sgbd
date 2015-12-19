@@ -11,14 +11,18 @@ namespace Model
 {
     using System;
     
-    public partial class F_DISH_WISH_Result
+    public partial class NewReservedDish_Result
     {
-        public string Feeling { get; set; }
+        public string ReceptionName { get; set; }
+        public Nullable<System.DateTime> ReceptionDate { get; set; }
+        public string ClientFirstName { get; set; }
+        public string ClientLastName { get; set; }
         public string DishType { get; set; }
         public string DishName { get; set; }
-        public int DishId { get; set; }
-        public int DishTypeId { get; set; }
-        public int FeelingTypeId { get; set; }
+        public Nullable<int> ReceptionId { get; set; }
+        public Nullable<int> ClientId { get; set; }
+        public Nullable<int> DishId { get; set; }
+        public Nullable<int> DishTypeId { get; set; }
         public Nullable<System.DateTime> ModifiedAt { get; set; }
         public string ModifiedBy { get; set; }
     }

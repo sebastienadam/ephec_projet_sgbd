@@ -11,16 +11,12 @@ namespace Model
 {
     using System;
     
-    public partial class SP_RESERVED_DISH_Result
+    public partial class GetDishToPrepare_Result
     {
-        public string ClientFirstName { get; set; }
-        public string ClientLastName { get; set; }
         public string DishType { get; set; }
         public int DishName { get; set; }
-        public int ClientId { get; set; }
         public int DishId { get; set; }
         public int DishTypeId { get; set; }
-        public Nullable<System.DateTime> ModifiedAt { get; set; }
-        public string ModifiedBy { get; set; }
+        public Nullable<int> Quantity { get; set; }
     }
 }
