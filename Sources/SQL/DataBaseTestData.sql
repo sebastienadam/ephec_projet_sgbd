@@ -2,7 +2,7 @@ USE ProjetSGBD;
 GO
 DECLARE @i int,
         @Id int,
-		@Id2 int,
+        @Id2 int,
         @RandInt int;
 -- Réceptions ------------------------------------------------------------------
 SET @i = 1;
@@ -126,25 +126,28 @@ FOR SELECT CLI_ID
 OPEN InsertCursor;
 FETCH InsertCursor INTO @Id;
 WHILE @@FETCH_STATUS = 0 BEGIN
-  FETCH InsertCursor INTO @Id;
-  IF ROUND(RAND()*3,0) = 0 BEGIN
+  IF ROUND(RAND()*2,0) = 0 BEGIN
     SET @RandInt = ROUND(RAND()*8,0)
     SET @i = 0;
     WHILE @i < @RandInt BEGIN
-	  SELECT TOP 1 @Id2 = REC_ID
-	  FROM BACKOFFICE._RECEPTION
-	  WHERE REC_VALID = 1
-		AND REC_ID NOT IN (SELECT BOO_REC_ID FROM BACKOFFICE._BOOK WHERE BOO_CLI_ID = @Id)
-		AND REC_ID NOT IN (SELECT REC_ID
-                           FROM BACKOFFICE._RECEPTION
-                           WHERE CONVERT(date, REC_DATE) NOT IN (SELECT CONVERT(date, REC_DATE)
-                                                                 FROM BACKOFFICE._BOOK, BACKOFFICE._RECEPTION
-                                                                 WHERE BOO_REC_ID = REC_ID
-                                                                   AND BOO_CLI_ID = 8))
-	  ORDER BY NEWID();
-	  IF @Id2 IS NOT NULL BEGIN
-	    INSERT INTO BACKOFFICE._BOOK (BOO_CLI_ID, BOO_REC_ID)
-	    VALUES (@Id,@Id2);
+      SELECT TOP 1 @Id2 = REC_ID
+      FROM BACKOFFICE._RECEPTION
+      WHERE CONVERT(DATE,REC_DATE) NOT IN (SELECT CONVERT(DATE,REC_DATE)
+                                           FROM BACKOFFICE._RECEPTION
+                                           WHERE REC_ID IN (SELECT BOO_REC_ID
+                                                            FROM BACKOFFICE._BOOK
+                                                            WHERE BOO_CLI_ID = @Id))
+        AND REC_VALID = 1
+        AND REC_DATE_CLOSING_REG > GETDATE()
+        AND REC_CAPACITY > (SELECT COUNT(*)
+                            FROM BACKOFFICE._BOOK
+                            WHERE BOO_CLI_ID = @Id)
+      ORDER BY NEWID();
+      IF @Id2 IS NOT NULL BEGIN
+        INSERT INTO BACKOFFICE._BOOK (BOO_CLI_ID, BOO_REC_ID)
+        VALUES (@Id,@Id2);
+      END ELSE BEGIN
+        BREAK;
       END
       SET @i = @i +1;
     END
@@ -153,7 +156,6 @@ WHILE @@FETCH_STATUS = 0 BEGIN
 END
 CLOSE InsertCursor;
 DEALLOCATE InsertCursor;
-
 
 SELECT * FROM CLIENTAREA.Client;
 SELECT * FROM CLIENTAREA.Dish;
