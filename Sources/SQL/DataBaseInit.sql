@@ -724,9 +724,9 @@ CREATE FUNCTION CLIENTAREA.GetFeeling
 )
 RETURNS @Feeling TABLE
 (
+  Feeling varchar(64),
   FirstName varchar(64),
   LastName varchar(64),
-  Feeling varchar(64),
   ClientId int,
   FeelingTypeId int,
   ModifiedAt datetime2,
@@ -736,9 +736,9 @@ AS
 BEGIN
   IF @FtyId IS NULL BEGIN
     INSERT INTO @Feeling
-    SELECT ClientToFirstName,
+    SELECT Feeling,
+           ClientToFirstName,
            ClientToLastName,
-           Feeling,
            ClientToId,
            FeelingTypeId,
            ModifiedAt,
@@ -747,9 +747,9 @@ BEGIN
     WHERE ClientFromId = @CliId;
   END ELSE BEGIN
     INSERT INTO @Feeling
-    SELECT ClientToFirstName,
+    SELECT Feeling,
+           ClientToFirstName,
            ClientToLastName,
-           Feeling,
            ClientToId,
            FeelingTypeId,
            ModifiedAt,
