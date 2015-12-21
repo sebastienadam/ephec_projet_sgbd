@@ -13,9 +13,9 @@ namespace Model
     
     public partial class GetFeeling_Result
     {
+        public string Feeling { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Feeling { get; set; }
         public Nullable<int> ClientId { get; set; }
         public Nullable<int> FeelingTypeId { get; set; }
         public Nullable<System.DateTime> ModifiedAt { get; set; }

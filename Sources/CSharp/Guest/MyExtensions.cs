@@ -10,5 +10,8 @@ namespace Guest {
     public static string DisplayName(this Client client) {
       return String.Format("{0} {1}", client.FirstName, client.LastName);
     }
+    public static string DisplayName(this GetReservableReception_Result reception) {
+      return String.Format("{0} du {1}", reception.Name, reception.Date.ToString("dd MMMM yyyy"));
+    }
   }
 }

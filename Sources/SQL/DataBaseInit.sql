@@ -255,84 +255,10 @@ FROM BACKOFFICE._DISH, BACKOFFICE._DISHTYPE
 WHERE DIS_TYPE = DTY_ID;
 GO
 --------------------------------------------------------------------------------
-CREATE VIEW CLIENTAREA.Feeling AS
-SELECT _CLIENT_FROM.CLI_FNAME AS ClientFromFirstName,
-       _CLIENT_FROM.CLI_LNAME AS ClientFromLastName,
-       FTY_NAME AS Feeling,
-       _CLIENT_TO.CLI_FNAME AS ClientToFirstName,
-       _CLIENT_TO.CLI_LNAME AS ClientToLastName,
-       _CLIENT_FROM.CLI_ID AS ClientFromId,
-       _CLIENT_TO.CLI_ID AS ClientToId,
-       FTY_ID AS FeelingTypeId,
-       FCC_UPDATE_AT AS ModifiedAt,
-       FCC_UPDATE_BY AS ModifiedBy
-FROM BACKOFFICE._FEEL_CLI_CLI,
-     BACKOFFICE._CLIENT AS _CLIENT_FROM,
-     BACKOFFICE._CLIENT AS _CLIENT_TO,
-     BACKOFFICE._FEELINGTYPE
-WHERE FCC_CLI_FROM_ID = _CLIENT_FROM.CLI_ID
-  AND FCC_CLI_TO_ID = _CLIENT_TO.CLI_ID
-  AND FCC_FTY_ID = FTY_ID;
-GO
---------------------------------------------------------------------------------
 CREATE VIEW CLIENTAREA.FeelingType AS
 SELECT FTY_NAME AS Label,
        FTY_ID AS Id
 FROM BACKOFFICE._FEELINGTYPE;
-GO
---------------------------------------------------------------------------------
-CREATE VIEW CLIENTAREA.Reception AS
-SELECT REC_NAME AS Name,
-       REC_DATE AS [Date],
-       REC_DATE_CLOSING_REG AS BookingClosingDate,
-       REC_CAPACITY AS Capacity,
-       REC_SEAT_TABLE AS SeatsPerTable,
-       REC_ID AS ReceptionId,
-       REC_UPDATE_AT AS ModifiedAt,
-       REC_UPDATE_BY AS ModifiedBy
-FROM BACKOFFICE._RECEPTION
-WHERE REC_VALID = 1;
-GO
---------------------------------------------------------------------------------
-CREATE VIEW CLIENTAREA.Reservation AS
-SELECT REC_NAME AS ReceptionName,
-       REC_DATE AS ReceptionDate,
-       CLI_FNAME AS ClientFirstName,
-       CLI_LNAME AS ClientLastName,
-       BOO_VALID AS IsValid,
-       REC_ID AS ReceptionId,
-       CLI_ID AS ClientId,
-       BOO_UPDATE_AT AS ModifiedAt,
-       BOO_UPDATE_BY AS ModifiedBy
-FROM BACKOFFICE._RECEPTION,
-     BACKOFFICE._BOOK,
-     BACKOFFICE._CLIENT
-WHERE REC_ID = BOO_REC_ID
-  AND BOO_CLI_ID = CLI_ID;
-GO
---------------------------------------------------------------------------------
-CREATE VIEW CLIENTAREA.ReservedDish AS
-SELECT REC_NAME AS ReceptionName,
-       REC_DATE AS ReceptionDate,
-       CLI_FNAME AS ClientFirstName,
-       CLI_LNAME AS ClientLastName,
-       DTY_NAME AS DishType,
-       DIS_ID AS DishName,
-       REC_ID AS ReceptionId,
-       CLI_ID AS ClientId,
-       DIS_ID AS DishId,
-       DTY_ID AS DishTypeId,
-       CHO_UPDATE_AT AS ModifiedAt,
-       CHO_UPDATE_BY AS ModifiedBy
-FROM BACKOFFICE._RECEPTION,
-     BACKOFFICE._CHOOSE,
-     BACKOFFICE._DISH,
-     BACKOFFICE._DISHTYPE,
-     BACKOFFICE._CLIENT
-WHERE REC_ID = CHO_REC_ID
-  AND CHO_CLI_ID = CLI_ID
-  AND CHO_DIS_ID = DIS_ID
-  AND DIS_TYPE = DTY_ID;
 GO
 --------------------------------------------------------------------------------
 CREATE VIEW MANAGERAREA.DishType AS
@@ -364,6 +290,26 @@ WHERE FCD_CLI_ID = CLI_ID
   AND FCD_FTY_ID = FTY_ID;
 GO
 --------------------------------------------------------------------------------
+CREATE VIEW MANAGERAREA.Feeling AS
+SELECT _CLIENT_FROM.CLI_FNAME AS ClientFromFirstName,
+       _CLIENT_FROM.CLI_LNAME AS ClientFromLastName,
+       FTY_NAME AS Feeling,
+       _CLIENT_TO.CLI_FNAME AS ClientToFirstName,
+       _CLIENT_TO.CLI_LNAME AS ClientToLastName,
+       _CLIENT_FROM.CLI_ID AS ClientFromId,
+       _CLIENT_TO.CLI_ID AS ClientToId,
+       FTY_ID AS FeelingTypeId,
+       FCC_UPDATE_AT AS ModifiedAt,
+       FCC_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._FEEL_CLI_CLI,
+     BACKOFFICE._CLIENT AS _CLIENT_FROM,
+     BACKOFFICE._CLIENT AS _CLIENT_TO,
+     BACKOFFICE._FEELINGTYPE
+WHERE FCC_CLI_FROM_ID = _CLIENT_FROM.CLI_ID
+  AND FCC_CLI_TO_ID = _CLIENT_TO.CLI_ID
+  AND FCC_FTY_ID = FTY_ID;
+GO
+--------------------------------------------------------------------------------
 CREATE VIEW MANAGERAREA.Menu AS
 SELECT REC_NAME AS ReceptionName,
        REC_DATE AS ReceptionDate,
@@ -383,7 +329,7 @@ WHERE REC_ID = OFF_REC_ID
   AND DIS_TYPE = DTY_ID;
 GO
 --------------------------------------------------------------------------------
-CREATE VIEW MANAGERAREA.ReceptionAdmin AS
+CREATE VIEW MANAGERAREA.Reception AS
 SELECT REC_NAME AS Name,
        REC_DATE AS [Date],
        REC_DATE_CLOSING_REG AS BookingClosingDate,
@@ -394,6 +340,47 @@ SELECT REC_NAME AS Name,
        REC_UPDATE_AT AS ModifiedAt,
        REC_UPDATE_BY AS ModifiedBy
 FROM BACKOFFICE._RECEPTION;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW MANAGERAREA.Reservation AS
+SELECT REC_NAME AS ReceptionName,
+       REC_DATE AS ReceptionDate,
+       CLI_FNAME AS ClientFirstName,
+       CLI_LNAME AS ClientLastName,
+       BOO_VALID AS IsValid,
+       REC_ID AS ReceptionId,
+       CLI_ID AS ClientId,
+       BOO_UPDATE_AT AS ModifiedAt,
+       BOO_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._RECEPTION,
+     BACKOFFICE._BOOK,
+     BACKOFFICE._CLIENT
+WHERE REC_ID = BOO_REC_ID
+  AND BOO_CLI_ID = CLI_ID;
+GO
+--------------------------------------------------------------------------------
+CREATE VIEW MANAGERAREA.ReservedDish AS
+SELECT REC_NAME AS ReceptionName,
+       REC_DATE AS ReceptionDate,
+       CLI_FNAME AS ClientFirstName,
+       CLI_LNAME AS ClientLastName,
+       DTY_NAME AS DishType,
+       DIS_ID AS DishName,
+       REC_ID AS ReceptionId,
+       CLI_ID AS ClientId,
+       DIS_ID AS DishId,
+       DTY_ID AS DishTypeId,
+       CHO_UPDATE_AT AS ModifiedAt,
+       CHO_UPDATE_BY AS ModifiedBy
+FROM BACKOFFICE._RECEPTION,
+     BACKOFFICE._CHOOSE,
+     BACKOFFICE._DISH,
+     BACKOFFICE._DISHTYPE,
+     BACKOFFICE._CLIENT
+WHERE REC_ID = CHO_REC_ID
+  AND CHO_CLI_ID = CLI_ID
+  AND CHO_DIS_ID = DIS_ID
+  AND DIS_TYPE = DTY_ID;
 GO
 --------------------------------------------------------------------------------
 CREATE VIEW MANAGERAREA.TablesMap AS
@@ -743,7 +730,7 @@ BEGIN
            FeelingTypeId,
            ModifiedAt,
            ModifiedBy
-    FROM CLIENTAREA.Feeling
+    FROM MANAGERAREA.Feeling
     WHERE ClientFromId = @CliId;
   END ELSE BEGIN
     INSERT INTO @Feeling
@@ -754,7 +741,7 @@ BEGIN
            FeelingTypeId,
            ModifiedAt,
            ModifiedBy
-    FROM CLIENTAREA.Feeling
+    FROM MANAGERAREA.Feeling
     WHERE ClientFromId = @CliId
       AND FeelingTypeId = @FtyId;
   END
@@ -821,13 +808,14 @@ AS
 RETURN
 (
   SELECT *
-  FROM CLIENTAREA.Reception
+  FROM MANAGERAREA.Reception
   WHERE CONVERT(date,[Date]) NOT IN (SELECT CONVERT(DATE,REC_DATE)
                                      FROM BACKOFFICE._RECEPTION
                                      WHERE REC_ID IN (SELECT BOO_REC_ID
                                                       FROM BACKOFFICE._BOOK
                                                       WHERE BOO_CLI_ID = @CLIID))
   AND BookingClosingDate > GETDATE()
+  AND IsValid = 1
 )
 GO
 -- =============================================================================
@@ -849,7 +837,7 @@ RETURN
          ClientId,
          ModifiedAt,
          ModifiedBy
-  FROM CLIENTAREA.Reservation
+  FROM MANAGERAREA.Reservation
   WHERE ReceptionId = @RecId
 )
 GO
@@ -876,7 +864,7 @@ RETURN
          DishTypeId,
          ModifiedAt,
          ModifiedBy
-  FROM CLIENTAREA.ReservedDish
+  FROM MANAGERAREA.ReservedDish
   WHERE ReceptionId = @RecId
 )
 GO
@@ -899,7 +887,7 @@ RETURN
          ReceptionId,
          ModifiedAt,
          ModifiedBy
-  FROM CLIENTAREA.Reservation
+  FROM MANAGERAREA.Reservation
   WHERE ClientId = @CliId
 )
 GO
@@ -972,7 +960,7 @@ RETURN
   SELECT FirstName, LastName, ClientId
   FROM CLIENTAREA.Client
   WHERE ClientId NOT IN (SELECT ClientToId
-                         FROM CLIENTAREA.Feeling
+                         FROM MANAGERAREA.Feeling
                          WHERE ClientFromId = @CliId)
     AND ClientId <> @CliId
 )
@@ -994,7 +982,7 @@ RETURN
   SELECT *
   FROM CLIENTAREA.Client
   WHERE ClientId NOT IN (SELECT ClientId
-                         FROM CLIENTAREA.Reservation
+                         FROM MANAGERAREA.Reservation
                          WHERE ReceptionId = @RecId)
 )
 GO
@@ -1012,9 +1000,9 @@ AS
 RETURN
 (
   SELECT *
-  FROM CLIENTAREA.Reception
+  FROM MANAGERAREA.Reception
   WHERE ReceptionId NOT IN (SELECT ReceptionId
-                            FROM CLIENTAREA.Reservation
+                            FROM MANAGERAREA.Reservation
                             WHERE ClientId = @CliId)
 )
 GO
@@ -1093,220 +1081,6 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
--- Description: Creates new feeling between clients
--- =============================================================================
-CREATE FUNCTION CLIENTAREA.NewFeeling
-(
-  @CliFromId int,
-  @CliToId int,
-  @FtyId int,
-  @ModifiedBy char(8)
-)
-RETURNS @Feeling TABLE
-(
-  ClientFromFirstName varchar(64),
-  ClientFromLastName varchar(64),
-  Feeling varchar(64),
-  ClientToFirstName varchar(64),
-  ClientToLastName varchar(64),
-  ClientFromId int,
-  ClientToId int,
-  FeelingTypeId int,
-  ModifiedAt datetime2,
-  ModifiedBy char(8)
-)
-AS
-BEGIN
-  EXECUTE BACKOFFICE.SP_NEW_FEELING @CliFromId, @CliToId, @FtyId, @ModifiedBy;
-  INSERT INTO @Feeling
-  SELECT *
-  FROM CLIENTAREA.Feeling
-  WHERE ClientFromId = @CliFromId AND ClientToId = @CliToId AND FeelingTypeId = @FtyId;
-  RETURN
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Chooses a dish for a reception.
--- =============================================================================
-CREATE FUNCTION CLIENTAREA.NewReservedDish
-(
-  @CliId int,
-  @DisId int,
-  @RecId int,
-  @ModifiedBy char(8)
-)
-RETURNS @ReservedDish TABLE
-(
-  ReceptionName varchar(64),
-  ReceptionDate datetime2,
-  ClientFirstName varchar(64),
-  ClientLastName varchar(64),
-  DishType varchar(64),
-  DishName varchar(64),
-  ReceptionId int,
-  ClientId int,
-  DishId int,
-  DishTypeId int,
-  ModifiedAt datetime2,
-  ModifiedBy char(8)
-)
-AS
-BEGIN
-  EXECUTE BACKOFFICE.SP_NEW_RESERVED_DISH @CliId, @DisId, @RecId, @ModifiedBy
-  INSERT INTO @ReservedDish
-  SELECT *
-  FROM CLIENTAREA.ReservedDish
-  WHERE ReceptionId = @RecId AND ClientId = @CliId AND DishId = @DisId;
-  RETURN
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Registers for a reception.
--- =============================================================================
-CREATE FUNCTION CLIENTAREA.NewResrvation
-(
-  @RecId int,
-  @CliId int,
-  @ModifiedBy char(8)
-)
-RETURNS @Resrvation TABLE
-(
-  ReceptionName varchar(64),
-  ReceptionDate datetime2,
-  ClientFirstName varchar(64),
-  ClientLastName varchar(64),
-  IsValid bit,
-  ReceptionId int,
-  ClientId int,
-  ModifiedAt datetime2,
-  ModifiedBy char(8)
-)
-AS
-BEGIN
-  EXECUTE BACKOFFICE.SP_NEW_RESERVATION @RecId, @CliId, @ModifiedBy
-  INSERT INTO @Resrvation
-  SELECT *
-  FROM CLIENTAREA.Reservation
-  WHERE ReceptionId = @RecId AND ClientId = @CliId;
-  RETURN
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Creates new "dish wish"
--- =============================================================================
-CREATE FUNCTION CLIENTAREA.NewWishedDish
-(
-  @CliId int,
-  @DisId int,
-  @DtyId int,
-  @ModifiedBy char(8)
-)
-RETURNS @DishWish TABLE
-(
-  ClientFirstName varchar(64),
-  ClientLastName varchar(64),
-  Feeling varchar(64),
-  DishType varchar(64),
-  DishName varchar(64),
-  ClientId int,
-  DishId int,
-  DishTypeId int,
-  FeelingTypeId int,
-  ModifiedAt datetime2,
-  ModifiedBy char(8)
-)
-AS
-BEGIN
-  EXECUTE BACKOFFICE.SP_NEW_DISH_WISH @CliId, @DisId, @DtyId, @ModifiedBy;
-  INSERT INTO @DishWish
-  SELECT *
-  FROM MANAGERAREA.DishWish
-  WHERE ClientId = @CliId AND DishId = @DisId AND DishTypeId = @DtyId;
-  RETURN
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Update a feeling between clients
--- =============================================================================
-CREATE FUNCTION CLIENTAREA.UpdateFeeling
-(
-  @CliFromId int,
-  @CliToId int,
-  @FtyId int,
-  @ModifiedAt datetime2,
-  @ModifiedBy char(8)
-)
-RETURNS @Feeling TABLE
-(
-  ClientFromFirstName varchar(64),
-  ClientFromLastName varchar(64),
-  Feeling varchar(64),
-  ClientToFirstName varchar(64),
-  ClientToLastName varchar(64),
-  ClientFromId int,
-  ClientToId int,
-  FeelingTypeId int,
-  ModifiedAt datetime2,
-  ModifiedBy char(8)
-)
-AS
-BEGIN
-  EXECUTE BACKOFFICE.SP_UPDATE_FEELING @CliFromId, @CliToId, @FtyId, @ModifiedAt, @ModifiedBy;
-  INSERT INTO @Feeling
-  SELECT *
-  FROM CLIENTAREA.Feeling
-  WHERE ClientFromId = @CliFromId AND ClientToId = @CliToId AND FeelingTypeId = @FtyId;
-  RETURN
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Update a "dish wish"
--- =============================================================================
-CREATE FUNCTION CLIENTAREA.UpdateWishedDish
-(
-  @CliId int,
-  @DisId int,
-  @DtyId int,
-  @ModifiedAt datetime2,
-  @ModifiedBy char(8)
-)
-RETURNS @DishWish TABLE
-(
-  ClientFirstName varchar(64),
-  ClientLastName varchar(64),
-  Feeling varchar(64),
-  DishType varchar(64),
-  DishName varchar(64),
-  ClientId int,
-  DishId int,
-  DishTypeId int,
-  FeelingTypeId int,
-  ModifiedAt datetime2,
-  ModifiedBy char(8)
-)
-AS
-BEGIN
-  EXECUTE BACKOFFICE.SP_UPDATE_DISH_WISH @CliId, @DisId, @DtyId, @ModifiedAt, @ModifiedBy;
-  INSERT INTO @DishWish
-  SELECT *
-  FROM MANAGERAREA.DishWish
-  WHERE ClientId = @CliId AND DishId = @DisId AND DishTypeId = @DtyId;
-  RETURN
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
 -- Description: Returns the list of the dishes to prepare for a reception.
 -- =============================================================================
 CREATE FUNCTION MANAGERAREA.GetDishToPrepare
@@ -1322,108 +1096,10 @@ RETURN
          DishId,
          DishTypeId,
          COUNT(*) AS Quantity
-  FROM CLIENTAREA.ReservedDish
+  FROM MANAGERAREA.ReservedDish
   WHERE ReceptionId = @RecId
   GROUP BY DishType, DishName, DishId, DishTypeId
 )
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Adds a dish on a reception menu.
--- =============================================================================
-CREATE FUNCTION MANAGERAREA.NewMenu
-(
-  @RecId int,
-  @DisId int,
-  @ModifiedBy char(8)
-)
-RETURNS @Menu TABLE
-(
-  ReceptionName varchar(64),
-  ReceptionDate datetime2,
-  DishType varchar(64),
-  DishName varchar(64),
-  ReceptionId int,
-  DishId int,
-  DishTypeId int,
-  ModifiedAt datetime2,
-  ModifiedBy char(8)
-)
-AS
-BEGIN
-  EXECUTE MANAGERAREA.SP_NEW_MENU @RecId, @DisId, @ModifiedBy;
-  INSERT INTO @Menu
-  SELECT *
-  FROM MANAGERAREA.Menu
-  WHERE ReceptionId = @RecId AND DishId = @DisId;
-  RETURN
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Sit a client at a table.
--- =============================================================================
-CREATE FUNCTION MANAGERAREA.NewSit
-(
-  @TabId int,
-  @CliId int,
-  @UpdateBy char(8)
-)
-RETURNS @TableMap TABLE
-(
-  ReceptionName varchar(64),
-  ReceptionDate datetime2,
-  TableId int,
-  ClientFirstName varchar(64),
-  ClientLastName varchar(64),
-  IsValid bit,
-  ReceptionId int,
-  ClientId int,
-  ModifiedAt datetime2,
-  ModifiedBy char(8)
-)
-AS
-BEGIN
-  EXECUTE BACKOFFICE.SP_NEW_SIT @TabId, @CliId, @UpdateBy;
-  INSERT INTO @TableMap
-  SELECT *
-  FROM MANAGERAREA.TablesMap
-  WHERE TableId = @TabId AND ClientId = @CliId;
- RETURN
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Creates a table for a reception.
--- =============================================================================
-CREATE FUNCTION MANAGERAREA.NewTable
-(
-  @RecId int,
-  @UpdateBy char(8)
-)
-RETURNS @Table TABLE
-(
-  ReceptionName varchar(64),
-  ReceptionDate datetime2,
-  TableId int,
-  ReceptionId int,
-  ModifiedAt datetime2,
-  ModifiedBy char(8)
-)
-AS
-BEGIN
-  DECLARE @TabId int;
-  EXECUTE BACKOFFICE.SP_NEW_TABLE @RecId, @UpdateBy, @TabId;
-  INSERT INTO @Table
-  SELECT REC_NAME, REC_DATE, TAB_ID, REC_ID, TAB_UPDATE_AT, TAB_UPDATE_BY
-  FROM BACKOFFICE._RECEPTION, BACKOFFICE._TABLE
-  WHERE REC_ID = TAB_REC_ID
-    AND TAB_ID = @TabId;
-  RETURN
-END
 GO
 
 -- ========================================================================== --
@@ -1432,120 +1108,9 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
--- Description: Creates new "dish wish"
--- =============================================================================
-CREATE PROCEDURE BACKOFFICE.SP_NEW_DISH_WISH
-  @CliId int,
-  @DisId int,
-  @FtyId int,
-  @ModifiedBy char(8)
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF (@CliId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
-    INSERT INTO BACKOFFICE._FEEL_CLI_DIS (FCD_CLI_ID, FCD_DIS_ID, FCD_FTY_ID, FCD_UPDATE_BY)
-    VALUES (@CliId, @DisId, @FtyId, @ModifiedBy);
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Creates new feeling between clients
--- =============================================================================
-CREATE PROCEDURE BACKOFFICE.SP_NEW_FEELING
-  @CliId int,
-  @CliCliId int,
-  @FtyId int,
-  @ModifiedBy char(8)
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF (@CliId IS NOT NULL) AND (@CliCliId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
-    INSERT INTO BACKOFFICE._FEEL_CLI_CLI (FCC_CLI_FROM_ID, FCC_CLI_TO_ID, FCC_FTY_ID, FCC_UPDATE_BY)
-    VALUES (@CliId, @CliCliId, @FtyId, @ModifiedBy);
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Adds a dish on a reception menu.
--- =============================================================================
-CREATE PROCEDURE BACKOFFICE.SP_NEW_MENU
-  @RecId int,
-  @DisId int,
-  @ModifiedBy char(8)
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF (@RecId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
-    INSERT INTO BACKOFFICE._OFFER (OFF_DIS_ID, OFF_REC_ID, OFF_UPDATE_BY)
-    VALUES (@DisId, @RecId, @ModifiedBy);
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Registers for a reception.
--- =============================================================================
-CREATE PROCEDURE BACKOFFICE.SP_NEW_RESERVATION
-  @RecId int,
-  @CliId int,
-  @ModifiedBy char(8)
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF (@RecId IS NOT NULL) AND (@CliId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
-    INSERT INTO BACKOFFICE._BOOK (BOO_CLI_ID, BOO_REC_ID, BOO_UPDATE_BY)
-    VALUES (@CliId, @RecId, @ModifiedBy);
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Chooses a dish for a reception.
--- =============================================================================
-CREATE PROCEDURE BACKOFFICE.SP_NEW_RESERVED_DISH
-  @CliId int,
-  @DisId int,
-  @RecId int,
-  @ModifiedBy char(8)
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF (@CliId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@RecId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
-    INSERT INTO BACKOFFICE._CHOOSE (CHO_CLI_ID, CHO_DIS_ID, CHO_REC_ID, CHO_UPDATE_BY)
-    VALUES (@CliId, @DisId, @RecId, @ModifiedBy);
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Sit a client at a table.
--- =============================================================================
-CREATE PROCEDURE BACKOFFICE.SP_NEW_SIT
-  @TabId int,
-  @CliId int,
-  @ModifiedBy char(8)
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF (@TabId IS NOT NULL) AND (@CliId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
-    INSERT INTO BACKOFFICE._SIT (SIT_TAB_ID, SIT_CLI_ID, SIT_UPDATE_BY)
-    VALUES (@TabId, @CliId, @ModifiedBy);
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
 -- Description: Creates a table for a reception.
 -- =============================================================================
-CREATE PROCEDURE BACKOFFICE.SP_NEW_TABLE
+CREATE PROCEDURE MANAGERAREA.NewTable
   @RecId int,
   @ModifiedBy char(8),
   @TabId int = NULL OUTPUT
@@ -1562,56 +1127,6 @@ BEGIN
       VALUES (@RecId, @NbSeats, @ModifiedBy);
       SET @TabId = IDENT_CURRENT('BACKOFFICE._TABLE');
     END
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Update a "dish wish"
--- =============================================================================
-CREATE PROCEDURE BACKOFFICE.SP_UPDATE_DISH_WISH
-  @CliId int,
-  @DisId int,
-  @DtyId int,
-  @ModifiedAt datetime2,
-  @ModifiedBy char(8)
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_DIS(@CliId,@DisId) BEGIN
-    UPDATE BACKOFFICE._FEEL_CLI_DIS
-    SET FCD_FTY_ID = @DtyId,
-        FCD_UPDATE_BY = @ModifiedBy
-    WHERE FCD_CLI_ID = @CliId
-      AND FCD_DIS_ID = @DisId;
-  END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
--- Description: Update a feeling between clients
--- =============================================================================
-CREATE PROCEDURE BACKOFFICE.SP_UPDATE_FEELING
-  @CliId int,
-  @CliCliId int,
-  @FtyId int,
-  @ModifiedAt datetime2,
-  @ModifiedBy char(8)
-AS
-BEGIN
-  SET NOCOUNT ON;
-  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI(@CliId,@CliCliId) BEGIN
-    UPDATE BACKOFFICE._FEEL_CLI_CLI
-    SET FCC_FTY_ID = @FtyId,
-        FCC_UPDATE_BY = @ModifiedBy
-    WHERE FCC_CLI_FROM_ID = @CliId
-      AND FCC_CLI_TO_ID = @CliCliId;
-  END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
   END
 END
 GO
@@ -1780,6 +1295,131 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
+-- Description: Creates new feeling between clients
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.NewFeeling
+  @CliId int,
+  @CliCliId int,
+  @FtyId int,
+  @ModifiedBy char(8)
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF (@CliId IS NOT NULL) AND (@CliCliId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._FEEL_CLI_CLI (FCC_CLI_FROM_ID, FCC_CLI_TO_ID, FCC_FTY_ID, FCC_UPDATE_BY)
+    VALUES (@CliId, @CliCliId, @FtyId, @ModifiedBy);
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Registers for a reception.
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.NewReservation
+  @RecId int,
+  @CliId int,
+  @ModifiedBy char(8)
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF (@RecId IS NOT NULL) AND (@CliId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._BOOK (BOO_CLI_ID, BOO_REC_ID, BOO_UPDATE_BY)
+    VALUES (@CliId, @RecId, @ModifiedBy);
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Chooses a dish for a reception.
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.NewReservedDish
+  @CliId int,
+  @DisId int,
+  @RecId int,
+  @ModifiedBy char(8)
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF (@CliId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@RecId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._CHOOSE (CHO_CLI_ID, CHO_DIS_ID, CHO_REC_ID, CHO_UPDATE_BY)
+    VALUES (@CliId, @DisId, @RecId, @ModifiedBy);
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Creates new "dish wish"
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.NewWishedDish
+  @CliId int,
+  @DisId int,
+  @FtyId int,
+  @ModifiedBy char(8)
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF (@CliId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._FEEL_CLI_DIS (FCD_CLI_ID, FCD_DIS_ID, FCD_FTY_ID, FCD_UPDATE_BY)
+    VALUES (@CliId, @DisId, @FtyId, @ModifiedBy);
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Update a feeling between clients
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.UpdateFeeling
+  @CliId int,
+  @CliCliId int,
+  @FtyId int,
+  @ModifiedAt datetime2,
+  @ModifiedBy char(8)
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI(@CliId,@CliCliId) BEGIN
+    UPDATE BACKOFFICE._FEEL_CLI_CLI
+    SET FCC_FTY_ID = @FtyId,
+        FCC_UPDATE_BY = @ModifiedBy
+    WHERE FCC_CLI_FROM_ID = @CliId
+      AND FCC_CLI_TO_ID = @CliCliId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Update a "dish wish"
+-- =============================================================================
+CREATE PROCEDURE CLIENTAREA.UpdateWishedDish
+  @CliId int,
+  @DisId int,
+  @DtyId int,
+  @ModifiedAt datetime2,
+  @ModifiedBy char(8)
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_DIS(@CliId,@DisId) BEGIN
+    UPDATE BACKOFFICE._FEEL_CLI_DIS
+    SET FCD_FTY_ID = @DtyId,
+        FCD_UPDATE_BY = @ModifiedBy
+    WHERE FCD_CLI_ID = @CliId
+      AND FCD_DIS_ID = @DisId;
+  END ELSE BEGIN
+    ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
 -- Description: Removes a dish of a reception menu.
 -- =============================================================================
 CREATE PROCEDURE MANAGERAREA.DeleteMenu
@@ -1835,6 +1475,42 @@ BEGIN
     WHERE TAB_ID = @TabId;
   END ELSE BEGIN
     ;THROW 50010, 'Your record is not up to date', 1;
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Adds a dish on a reception menu.
+-- =============================================================================
+CREATE PROCEDURE MANAGERAREA.NewMenu
+  @RecId int,
+  @DisId int,
+  @ModifiedBy char(8)
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF (@RecId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._OFFER (OFF_DIS_ID, OFF_REC_ID, OFF_UPDATE_BY)
+    VALUES (@DisId, @RecId, @ModifiedBy);
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Sit a client at a table.
+-- =============================================================================
+CREATE PROCEDURE MANAGERAREA.NewSit
+  @TabId int,
+  @CliId int,
+  @ModifiedBy char(8)
+AS
+BEGIN
+  SET NOCOUNT ON;
+  IF (@TabId IS NOT NULL) AND (@CliId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
+    INSERT INTO BACKOFFICE._SIT (SIT_TAB_ID, SIT_CLI_ID, SIT_UPDATE_BY)
+    VALUES (@TabId, @CliId, @ModifiedBy);
   END
 END
 GO

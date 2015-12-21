@@ -5,15 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Guest {
-  public class ClientSelection {
+  public class ReceptionSelection {
     public int Id { get; private set; }
     public string DisplayName { get; private set; }
-    public string Acronym { get; private set; }
 
-    public ClientSelection(int i, string dn, string a) {
-      DisplayName = dn;
+    public ReceptionSelection(int i, string dn) {
       Id = i;
-      Acronym = a;
+      DisplayName = dn;
     }
   }
 }

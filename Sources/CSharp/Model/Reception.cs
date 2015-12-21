@@ -19,6 +19,7 @@ namespace Model
         public System.DateTime BookingClosingDate { get; set; }
         public int Capacity { get; set; }
         public int SeatsPerTable { get; set; }
+        public bool IsValid { get; set; }
         public int ReceptionId { get; set; }
         public Nullable<System.DateTime> ModifiedAt { get; set; }
         public string ModifiedBy { get; set; }

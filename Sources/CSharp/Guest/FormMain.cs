@@ -18,7 +18,7 @@ namespace Guest {
       using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
         IQueryable<Client> Clients = from item in context.Client select item;
         foreach(Client client in Clients) {
-          comboBoxCurrentClient.Items.Add(new ClientSelection(client.ClientId, client.DisplayName()));
+          comboBoxCurrentClient.Items.Add(new ClientSelection(client.ClientId, client.DisplayName(), client.Acronym));
         }
         comboBoxCurrentClient.DisplayMember = "DisplayName";
       }
@@ -31,30 +31,54 @@ namespace Guest {
 
     private void PopulateGrids() {
       if(CurrentClient != null) {
-        using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-          IQueryable<GetReservedReception_Result> Receptions = context.GetReservedReception(CurrentClient.Id);
-          IQueryable <GetFeeling_Result> Feelings = context.GetFeeling(CurrentClient.Id, null);
-          IQueryable<GetWishedDish_Result> DishWishs = context.GetWishedDish(CurrentClient.Id, null);
-          dataGridViewDishWish.DataSource = DishWishs.ToList();
-          foreach(DataGridViewColumn column in dataGridViewDishWish.Columns) {
-            column.Visible = false;
-          }
-          dataGridViewDishWish.Columns[0].Visible = true;
-          dataGridViewDishWish.Columns[1].Visible = true;
-          dataGridViewDishWish.Columns[2].Visible = true;
-          dataGridViewFeeling.DataSource = Feelings.ToList();
-          dataGridViewFeeling.DataSource = DishWishs.ToList();
-          foreach(DataGridViewColumn column in dataGridViewFeeling.Columns) {
-            column.Visible = false;
-          }
-          dataGridViewFeeling.Columns[0].Visible = true;
-          dataGridViewFeeling.Columns[1].Visible = true;
-          dataGridViewFeeling.Columns[2].Visible = true;
-          dataGridViewReceptions.DataSource = Receptions.ToList();
-          dataGridViewReceptions.Columns[3].Visible = false;
-          dataGridViewReceptions.Columns[4].Visible = false;
-          dataGridViewReceptions.Columns[5].Visible = false;
+        PopulateReceptions();
+        PopulateDishWishes();
+        PopulateFeelings();
+      }
+    }
+
+    private void PopulateReceptions() {
+      using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+        IQueryable<GetReservedReception_Result> Receptions = context.GetReservedReception(CurrentClient.Id);
+        dataGridViewReservations.DataSource = Receptions.ToList();
+        dataGridViewReservations.Columns[3].Visible = false;
+        dataGridViewReservations.Columns[4].Visible = false;
+        dataGridViewReservations.Columns[5].Visible = false;
+      }
+    }
+
+    private void PopulateDishWishes() {
+      using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+        IQueryable<GetWishedDish_Result> DishWishs = context.GetWishedDish(CurrentClient.Id, null);
+        dataGridViewDishWish.DataSource = DishWishs.ToList();
+        foreach(DataGridViewColumn column in dataGridViewDishWish.Columns) {
+          column.Visible = false;
         }
+        dataGridViewDishWish.Columns[0].Visible = true;
+        dataGridViewDishWish.Columns[1].Visible = true;
+        dataGridViewDishWish.Columns[2].Visible = true;
+      }
+    }
+
+    private void PopulateFeelings() {
+      using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+        IQueryable<GetFeeling_Result> Feelings = context.GetFeeling(CurrentClient.Id, null);
+        dataGridViewFeeling.DataSource = Feelings.ToList();
+        foreach(DataGridViewColumn column in dataGridViewFeeling.Columns) {
+          column.Visible = false;
+        }
+        dataGridViewFeeling.Columns[0].Visible = true;
+        dataGridViewFeeling.Columns[1].Visible = true;
+        dataGridViewFeeling.Columns[2].Visible = true;
+      }
+    }
+
+    private void buttonAddReservations_Click(object sender, EventArgs e) {
+      if(CurrentClient != null) {
+        FormNewReservation form = new FormNewReservation();
+        form.CurrentClient = CurrentClient;
+        form.ShowDialog();
+        PopulateReceptions();
       }
     }
   }

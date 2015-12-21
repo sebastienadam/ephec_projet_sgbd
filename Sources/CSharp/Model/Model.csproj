@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E4011E4E-0DF1-4D9C-B575-E450E5CC5D5C}</ProjectGuid>
+    <ProjectGuid>{4780BF48-875A-4A32-A1DE-793239C38605}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Model</RootNamespace>
@@ -111,27 +111,6 @@
     <Compile Include="Menu.cs">
       <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
-    <Compile Include="NewFeeling_Result.cs">
-      <DependentUpon>Reception.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewMenu_Result.cs">
-      <DependentUpon>Reception.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewReservedDish_Result.cs">
-      <DependentUpon>Reception.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewResrvation_Result.cs">
-      <DependentUpon>Reception.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewSit_Result.cs">
-      <DependentUpon>Reception.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewTable_Result.cs">
-      <DependentUpon>Reception.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewWishedDish_Result.cs">
-      <DependentUpon>Reception.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reception.Context.cs">
       <AutoGen>True</AutoGen>
@@ -151,9 +130,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
-    <Compile Include="ReceptionAdmin.cs">
-      <DependentUpon>Reception.tt</DependentUpon>
-    </Compile>
     <Compile Include="Reservation.cs">
       <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
@@ -161,12 +137,6 @@
       <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="TablesMap.cs">
-      <DependentUpon>Reception.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UpdateFeeling_Result.cs">
-      <DependentUpon>Reception.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UpdateWishedDish_Result.cs">
       <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
   </ItemGroup>

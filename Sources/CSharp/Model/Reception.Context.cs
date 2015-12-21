@@ -29,15 +29,14 @@ namespace Model
     
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Dish> Dish { get; set; }
-        public virtual DbSet<Feeling> Feeling { get; set; }
         public virtual DbSet<FeelingType> FeelingType { get; set; }
+        public virtual DbSet<DishType> DishType { get; set; }
+        public virtual DbSet<DishWish> DishWish { get; set; }
+        public virtual DbSet<Feeling> Feeling { get; set; }
+        public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<Reception> Reception { get; set; }
         public virtual DbSet<Reservation> Reservation { get; set; }
         public virtual DbSet<ReservedDish> ReservedDish { get; set; }
-        public virtual DbSet<DishType> DishType { get; set; }
-        public virtual DbSet<DishWish> DishWish { get; set; }
-        public virtual DbSet<Menu> Menu { get; set; }
-        public virtual DbSet<ReceptionAdmin> ReceptionAdmin { get; set; }
         public virtual DbSet<TablesMap> TablesMap { get; set; }
     
         [DbFunction("ProjetSGBDEntities", "GetFeeling")]
@@ -176,142 +175,6 @@ namespace Model
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetWishedDish_Result>("[ProjetSGBDEntities].[GetWishedDish](@CliId, @FtyId)", cliIdParameter, ftyIdParameter);
         }
     
-        [DbFunction("ProjetSGBDEntities", "NewFeeling")]
-        public virtual IQueryable<NewFeeling_Result> NewFeeling(Nullable<int> cliFromId, Nullable<int> cliToId, Nullable<int> ftyId, string modifiedBy)
-        {
-            var cliFromIdParameter = cliFromId.HasValue ?
-                new ObjectParameter("CliFromId", cliFromId) :
-                new ObjectParameter("CliFromId", typeof(int));
-    
-            var cliToIdParameter = cliToId.HasValue ?
-                new ObjectParameter("CliToId", cliToId) :
-                new ObjectParameter("CliToId", typeof(int));
-    
-            var ftyIdParameter = ftyId.HasValue ?
-                new ObjectParameter("FtyId", ftyId) :
-                new ObjectParameter("FtyId", typeof(int));
-    
-            var modifiedByParameter = modifiedBy != null ?
-                new ObjectParameter("ModifiedBy", modifiedBy) :
-                new ObjectParameter("ModifiedBy", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<NewFeeling_Result>("[ProjetSGBDEntities].[NewFeeling](@CliFromId, @CliToId, @FtyId, @ModifiedBy)", cliFromIdParameter, cliToIdParameter, ftyIdParameter, modifiedByParameter);
-        }
-    
-        [DbFunction("ProjetSGBDEntities", "NewReservedDish")]
-        public virtual IQueryable<NewReservedDish_Result> NewReservedDish(Nullable<int> cliId, Nullable<int> disId, Nullable<int> recId, string modifiedBy)
-        {
-            var cliIdParameter = cliId.HasValue ?
-                new ObjectParameter("CliId", cliId) :
-                new ObjectParameter("CliId", typeof(int));
-    
-            var disIdParameter = disId.HasValue ?
-                new ObjectParameter("DisId", disId) :
-                new ObjectParameter("DisId", typeof(int));
-    
-            var recIdParameter = recId.HasValue ?
-                new ObjectParameter("RecId", recId) :
-                new ObjectParameter("RecId", typeof(int));
-    
-            var modifiedByParameter = modifiedBy != null ?
-                new ObjectParameter("ModifiedBy", modifiedBy) :
-                new ObjectParameter("ModifiedBy", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<NewReservedDish_Result>("[ProjetSGBDEntities].[NewReservedDish](@CliId, @DisId, @RecId, @ModifiedBy)", cliIdParameter, disIdParameter, recIdParameter, modifiedByParameter);
-        }
-    
-        [DbFunction("ProjetSGBDEntities", "NewResrvation")]
-        public virtual IQueryable<NewResrvation_Result> NewResrvation(Nullable<int> recId, Nullable<int> cliId, string modifiedBy)
-        {
-            var recIdParameter = recId.HasValue ?
-                new ObjectParameter("RecId", recId) :
-                new ObjectParameter("RecId", typeof(int));
-    
-            var cliIdParameter = cliId.HasValue ?
-                new ObjectParameter("CliId", cliId) :
-                new ObjectParameter("CliId", typeof(int));
-    
-            var modifiedByParameter = modifiedBy != null ?
-                new ObjectParameter("ModifiedBy", modifiedBy) :
-                new ObjectParameter("ModifiedBy", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<NewResrvation_Result>("[ProjetSGBDEntities].[NewResrvation](@RecId, @CliId, @ModifiedBy)", recIdParameter, cliIdParameter, modifiedByParameter);
-        }
-    
-        [DbFunction("ProjetSGBDEntities", "NewWishedDish")]
-        public virtual IQueryable<NewWishedDish_Result> NewWishedDish(Nullable<int> cliId, Nullable<int> disId, Nullable<int> dtyId, string modifiedBy)
-        {
-            var cliIdParameter = cliId.HasValue ?
-                new ObjectParameter("CliId", cliId) :
-                new ObjectParameter("CliId", typeof(int));
-    
-            var disIdParameter = disId.HasValue ?
-                new ObjectParameter("DisId", disId) :
-                new ObjectParameter("DisId", typeof(int));
-    
-            var dtyIdParameter = dtyId.HasValue ?
-                new ObjectParameter("DtyId", dtyId) :
-                new ObjectParameter("DtyId", typeof(int));
-    
-            var modifiedByParameter = modifiedBy != null ?
-                new ObjectParameter("ModifiedBy", modifiedBy) :
-                new ObjectParameter("ModifiedBy", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<NewWishedDish_Result>("[ProjetSGBDEntities].[NewWishedDish](@CliId, @DisId, @DtyId, @ModifiedBy)", cliIdParameter, disIdParameter, dtyIdParameter, modifiedByParameter);
-        }
-    
-        [DbFunction("ProjetSGBDEntities", "UpdateFeeling")]
-        public virtual IQueryable<UpdateFeeling_Result> UpdateFeeling(Nullable<int> cliFromId, Nullable<int> cliToId, Nullable<int> ftyId, Nullable<System.DateTime> modifiedAt, string modifiedBy)
-        {
-            var cliFromIdParameter = cliFromId.HasValue ?
-                new ObjectParameter("CliFromId", cliFromId) :
-                new ObjectParameter("CliFromId", typeof(int));
-    
-            var cliToIdParameter = cliToId.HasValue ?
-                new ObjectParameter("CliToId", cliToId) :
-                new ObjectParameter("CliToId", typeof(int));
-    
-            var ftyIdParameter = ftyId.HasValue ?
-                new ObjectParameter("FtyId", ftyId) :
-                new ObjectParameter("FtyId", typeof(int));
-    
-            var modifiedAtParameter = modifiedAt.HasValue ?
-                new ObjectParameter("ModifiedAt", modifiedAt) :
-                new ObjectParameter("ModifiedAt", typeof(System.DateTime));
-    
-            var modifiedByParameter = modifiedBy != null ?
-                new ObjectParameter("ModifiedBy", modifiedBy) :
-                new ObjectParameter("ModifiedBy", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<UpdateFeeling_Result>("[ProjetSGBDEntities].[UpdateFeeling](@CliFromId, @CliToId, @FtyId, @ModifiedAt, @ModifiedBy)", cliFromIdParameter, cliToIdParameter, ftyIdParameter, modifiedAtParameter, modifiedByParameter);
-        }
-    
-        [DbFunction("ProjetSGBDEntities", "UpdateWishedDish")]
-        public virtual IQueryable<UpdateWishedDish_Result> UpdateWishedDish(Nullable<int> cliId, Nullable<int> disId, Nullable<int> dtyId, Nullable<System.DateTime> modifiedAt, string modifiedBy)
-        {
-            var cliIdParameter = cliId.HasValue ?
-                new ObjectParameter("CliId", cliId) :
-                new ObjectParameter("CliId", typeof(int));
-    
-            var disIdParameter = disId.HasValue ?
-                new ObjectParameter("DisId", disId) :
-                new ObjectParameter("DisId", typeof(int));
-    
-            var dtyIdParameter = dtyId.HasValue ?
-                new ObjectParameter("DtyId", dtyId) :
-                new ObjectParameter("DtyId", typeof(int));
-    
-            var modifiedAtParameter = modifiedAt.HasValue ?
-                new ObjectParameter("ModifiedAt", modifiedAt) :
-                new ObjectParameter("ModifiedAt", typeof(System.DateTime));
-    
-            var modifiedByParameter = modifiedBy != null ?
-                new ObjectParameter("ModifiedBy", modifiedBy) :
-                new ObjectParameter("ModifiedBy", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<UpdateWishedDish_Result>("[ProjetSGBDEntities].[UpdateWishedDish](@CliId, @DisId, @DtyId, @ModifiedAt, @ModifiedBy)", cliIdParameter, disIdParameter, dtyIdParameter, modifiedAtParameter, modifiedByParameter);
-        }
-    
         [DbFunction("ProjetSGBDEntities", "GetDishToPrepare")]
         public virtual IQueryable<GetDishToPrepare_Result> GetDishToPrepare(Nullable<int> recId)
         {
@@ -320,56 +183,6 @@ namespace Model
                 new ObjectParameter("RecId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetDishToPrepare_Result>("[ProjetSGBDEntities].[GetDishToPrepare](@RecId)", recIdParameter);
-        }
-    
-        [DbFunction("ProjetSGBDEntities", "NewMenu")]
-        public virtual IQueryable<NewMenu_Result> NewMenu(Nullable<int> recId, Nullable<int> disId, string modifiedBy)
-        {
-            var recIdParameter = recId.HasValue ?
-                new ObjectParameter("RecId", recId) :
-                new ObjectParameter("RecId", typeof(int));
-    
-            var disIdParameter = disId.HasValue ?
-                new ObjectParameter("DisId", disId) :
-                new ObjectParameter("DisId", typeof(int));
-    
-            var modifiedByParameter = modifiedBy != null ?
-                new ObjectParameter("ModifiedBy", modifiedBy) :
-                new ObjectParameter("ModifiedBy", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<NewMenu_Result>("[ProjetSGBDEntities].[NewMenu](@RecId, @DisId, @ModifiedBy)", recIdParameter, disIdParameter, modifiedByParameter);
-        }
-    
-        [DbFunction("ProjetSGBDEntities", "NewSit")]
-        public virtual IQueryable<NewSit_Result> NewSit(Nullable<int> tabId, Nullable<int> cliId, string updateBy)
-        {
-            var tabIdParameter = tabId.HasValue ?
-                new ObjectParameter("TabId", tabId) :
-                new ObjectParameter("TabId", typeof(int));
-    
-            var cliIdParameter = cliId.HasValue ?
-                new ObjectParameter("CliId", cliId) :
-                new ObjectParameter("CliId", typeof(int));
-    
-            var updateByParameter = updateBy != null ?
-                new ObjectParameter("UpdateBy", updateBy) :
-                new ObjectParameter("UpdateBy", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<NewSit_Result>("[ProjetSGBDEntities].[NewSit](@TabId, @CliId, @UpdateBy)", tabIdParameter, cliIdParameter, updateByParameter);
-        }
-    
-        [DbFunction("ProjetSGBDEntities", "NewTable")]
-        public virtual IQueryable<NewTable_Result> NewTable(Nullable<int> recId, string updateBy)
-        {
-            var recIdParameter = recId.HasValue ?
-                new ObjectParameter("RecId", recId) :
-                new ObjectParameter("RecId", typeof(int));
-    
-            var updateByParameter = updateBy != null ?
-                new ObjectParameter("UpdateBy", updateBy) :
-                new ObjectParameter("UpdateBy", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<NewTable_Result>("[ProjetSGBDEntities].[NewTable](@RecId, @UpdateBy)", recIdParameter, updateByParameter);
         }
     
         public virtual int DeleteDishWish(Nullable<int> cliId, Nullable<int> disId, Nullable<System.DateTime> modifiedAt)
@@ -444,6 +257,136 @@ namespace Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteReservedDish", cliIdParameter, disIdParameter, recIdParameter, modifiedAtParameter);
         }
     
+        public virtual int NewFeeling(Nullable<int> cliId, Nullable<int> cliCliId, Nullable<int> ftyId, string modifiedBy)
+        {
+            var cliIdParameter = cliId.HasValue ?
+                new ObjectParameter("CliId", cliId) :
+                new ObjectParameter("CliId", typeof(int));
+    
+            var cliCliIdParameter = cliCliId.HasValue ?
+                new ObjectParameter("CliCliId", cliCliId) :
+                new ObjectParameter("CliCliId", typeof(int));
+    
+            var ftyIdParameter = ftyId.HasValue ?
+                new ObjectParameter("FtyId", ftyId) :
+                new ObjectParameter("FtyId", typeof(int));
+    
+            var modifiedByParameter = modifiedBy != null ?
+                new ObjectParameter("ModifiedBy", modifiedBy) :
+                new ObjectParameter("ModifiedBy", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NewFeeling", cliIdParameter, cliCliIdParameter, ftyIdParameter, modifiedByParameter);
+        }
+    
+        public virtual int NewReservation(Nullable<int> recId, Nullable<int> cliId, string modifiedBy)
+        {
+            var recIdParameter = recId.HasValue ?
+                new ObjectParameter("RecId", recId) :
+                new ObjectParameter("RecId", typeof(int));
+    
+            var cliIdParameter = cliId.HasValue ?
+                new ObjectParameter("CliId", cliId) :
+                new ObjectParameter("CliId", typeof(int));
+    
+            var modifiedByParameter = modifiedBy != null ?
+                new ObjectParameter("ModifiedBy", modifiedBy) :
+                new ObjectParameter("ModifiedBy", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NewReservation", recIdParameter, cliIdParameter, modifiedByParameter);
+        }
+    
+        public virtual int NewReservedDish(Nullable<int> cliId, Nullable<int> disId, Nullable<int> recId, string modifiedBy)
+        {
+            var cliIdParameter = cliId.HasValue ?
+                new ObjectParameter("CliId", cliId) :
+                new ObjectParameter("CliId", typeof(int));
+    
+            var disIdParameter = disId.HasValue ?
+                new ObjectParameter("DisId", disId) :
+                new ObjectParameter("DisId", typeof(int));
+    
+            var recIdParameter = recId.HasValue ?
+                new ObjectParameter("RecId", recId) :
+                new ObjectParameter("RecId", typeof(int));
+    
+            var modifiedByParameter = modifiedBy != null ?
+                new ObjectParameter("ModifiedBy", modifiedBy) :
+                new ObjectParameter("ModifiedBy", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NewReservedDish", cliIdParameter, disIdParameter, recIdParameter, modifiedByParameter);
+        }
+    
+        public virtual int NewWishedDish(Nullable<int> cliId, Nullable<int> disId, Nullable<int> ftyId, string modifiedBy)
+        {
+            var cliIdParameter = cliId.HasValue ?
+                new ObjectParameter("CliId", cliId) :
+                new ObjectParameter("CliId", typeof(int));
+    
+            var disIdParameter = disId.HasValue ?
+                new ObjectParameter("DisId", disId) :
+                new ObjectParameter("DisId", typeof(int));
+    
+            var ftyIdParameter = ftyId.HasValue ?
+                new ObjectParameter("FtyId", ftyId) :
+                new ObjectParameter("FtyId", typeof(int));
+    
+            var modifiedByParameter = modifiedBy != null ?
+                new ObjectParameter("ModifiedBy", modifiedBy) :
+                new ObjectParameter("ModifiedBy", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NewWishedDish", cliIdParameter, disIdParameter, ftyIdParameter, modifiedByParameter);
+        }
+    
+        public virtual int UpdateFeeling(Nullable<int> cliId, Nullable<int> cliCliId, Nullable<int> ftyId, Nullable<System.DateTime> modifiedAt, string modifiedBy)
+        {
+            var cliIdParameter = cliId.HasValue ?
+                new ObjectParameter("CliId", cliId) :
+                new ObjectParameter("CliId", typeof(int));
+    
+            var cliCliIdParameter = cliCliId.HasValue ?
+                new ObjectParameter("CliCliId", cliCliId) :
+                new ObjectParameter("CliCliId", typeof(int));
+    
+            var ftyIdParameter = ftyId.HasValue ?
+                new ObjectParameter("FtyId", ftyId) :
+                new ObjectParameter("FtyId", typeof(int));
+    
+            var modifiedAtParameter = modifiedAt.HasValue ?
+                new ObjectParameter("ModifiedAt", modifiedAt) :
+                new ObjectParameter("ModifiedAt", typeof(System.DateTime));
+    
+            var modifiedByParameter = modifiedBy != null ?
+                new ObjectParameter("ModifiedBy", modifiedBy) :
+                new ObjectParameter("ModifiedBy", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateFeeling", cliIdParameter, cliCliIdParameter, ftyIdParameter, modifiedAtParameter, modifiedByParameter);
+        }
+    
+        public virtual int UpdateWishedDish(Nullable<int> cliId, Nullable<int> disId, Nullable<int> dtyId, Nullable<System.DateTime> modifiedAt, string modifiedBy)
+        {
+            var cliIdParameter = cliId.HasValue ?
+                new ObjectParameter("CliId", cliId) :
+                new ObjectParameter("CliId", typeof(int));
+    
+            var disIdParameter = disId.HasValue ?
+                new ObjectParameter("DisId", disId) :
+                new ObjectParameter("DisId", typeof(int));
+    
+            var dtyIdParameter = dtyId.HasValue ?
+                new ObjectParameter("DtyId", dtyId) :
+                new ObjectParameter("DtyId", typeof(int));
+    
+            var modifiedAtParameter = modifiedAt.HasValue ?
+                new ObjectParameter("ModifiedAt", modifiedAt) :
+                new ObjectParameter("ModifiedAt", typeof(System.DateTime));
+    
+            var modifiedByParameter = modifiedBy != null ?
+                new ObjectParameter("ModifiedBy", modifiedBy) :
+                new ObjectParameter("ModifiedBy", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateWishedDish", cliIdParameter, disIdParameter, dtyIdParameter, modifiedAtParameter, modifiedByParameter);
+        }
+    
         public virtual int DeleteMenu(Nullable<int> recId, Nullable<int> disId, Nullable<System.DateTime> modifiedAt)
         {
             var recIdParameter = recId.HasValue ?
@@ -489,6 +432,53 @@ namespace Model
                 new ObjectParameter("ModifiedAt", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteTable", tabIdParameter, modifiedAtParameter);
+        }
+    
+        public virtual int NewMenu(Nullable<int> recId, Nullable<int> disId, string modifiedBy)
+        {
+            var recIdParameter = recId.HasValue ?
+                new ObjectParameter("RecId", recId) :
+                new ObjectParameter("RecId", typeof(int));
+    
+            var disIdParameter = disId.HasValue ?
+                new ObjectParameter("DisId", disId) :
+                new ObjectParameter("DisId", typeof(int));
+    
+            var modifiedByParameter = modifiedBy != null ?
+                new ObjectParameter("ModifiedBy", modifiedBy) :
+                new ObjectParameter("ModifiedBy", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NewMenu", recIdParameter, disIdParameter, modifiedByParameter);
+        }
+    
+        public virtual int NewSit(Nullable<int> tabId, Nullable<int> cliId, string modifiedBy)
+        {
+            var tabIdParameter = tabId.HasValue ?
+                new ObjectParameter("TabId", tabId) :
+                new ObjectParameter("TabId", typeof(int));
+    
+            var cliIdParameter = cliId.HasValue ?
+                new ObjectParameter("CliId", cliId) :
+                new ObjectParameter("CliId", typeof(int));
+    
+            var modifiedByParameter = modifiedBy != null ?
+                new ObjectParameter("ModifiedBy", modifiedBy) :
+                new ObjectParameter("ModifiedBy", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NewSit", tabIdParameter, cliIdParameter, modifiedByParameter);
+        }
+    
+        public virtual int NewTable(Nullable<int> recId, string modifiedBy, ObjectParameter tabId)
+        {
+            var recIdParameter = recId.HasValue ?
+                new ObjectParameter("RecId", recId) :
+                new ObjectParameter("RecId", typeof(int));
+    
+            var modifiedByParameter = modifiedBy != null ?
+                new ObjectParameter("ModifiedBy", modifiedBy) :
+                new ObjectParameter("ModifiedBy", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NewTable", recIdParameter, modifiedByParameter, tabId);
         }
     }
 }
