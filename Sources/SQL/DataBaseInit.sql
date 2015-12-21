@@ -367,7 +367,7 @@ SELECT REC_NAME AS ReceptionName,
        CLI_FNAME AS ClientFirstName,
        CLI_LNAME AS ClientLastName,
        DTY_NAME AS DishType,
-       DIS_ID AS DishName,
+       DIS_NAME AS DishName,
        REC_ID AS ReceptionId,
        CLI_ID AS ClientId,
        DIS_ID AS DishId,
@@ -851,24 +851,51 @@ GO
 -- =============================================================================
 CREATE FUNCTION CLIENTAREA.GetReservedDish
 (
-  @RecId int
+  @RecId int,
+  @CliId int = NULL
 )
-RETURNS TABLE
-AS
-RETURN
+RETURNS @TableMap TABLE
 (
-  SELECT ClientFirstName,
-         ClientLastName,
-         DishType,
-         DishName,
-         ClientId,
-         DishId,
-         DishTypeId,
-         ModifiedAt,
-         ModifiedBy
-  FROM MANAGERAREA.ReservedDish
-  WHERE ReceptionId = @RecId
+  ClientFirstName varchar(64),
+  ClientLastName varchar(64),
+  DishType varchar(64),
+  DishName varchar(64),
+  ClientId int,
+  DishId int,
+  DishTypeId int,
+  ModifiedAt datetime2,
+  ModifiedBy char(8)
 )
+AS
+BEGIN
+  IF @CliId IS NULL BEGIN
+    SELECT ClientFirstName,
+           ClientLastName,
+           DishType,
+           DishName,
+           ClientId,
+           DishId,
+           DishTypeId,
+           ModifiedAt,
+           ModifiedBy
+    FROM MANAGERAREA.ReservedDish
+    WHERE ReceptionId = @RecId
+  END ELSE BEGIN
+    SELECT ClientFirstName,
+           ClientLastName,
+           DishType,
+           DishName,
+           ClientId,
+           DishId,
+           DishTypeId,
+           ModifiedAt,
+           ModifiedBy
+    FROM MANAGERAREA.ReservedDish
+    WHERE ReceptionId = @RecId
+      AND ClientId = @CliId
+  END
+  RETURN
+END
 GO
 -- =============================================================================
 -- Author:      Sébastien Adam

@@ -42,18 +42,18 @@ namespace Guest {
     private void PopulateMenu(int IdReception) {
       using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
         IQueryable<GetMenu_Result> Starters = context.GetMenu(IdReception, 1);
-        IQueryable<GetMenu_Result> Meals = context.GetMenu(IdReception, 2);
+        IQueryable<GetMenu_Result> Maincoorse = context.GetMenu(IdReception, 2);
         IQueryable<GetMenu_Result> Desserts = context.GetMenu(IdReception, 3);
         dataGridViewDessert.DataSource = Desserts.ToList();
         foreach(DataGridViewColumn colum in dataGridViewDessert.Columns) {
           colum.Visible = false;
         }
         dataGridViewDessert.Columns[1].Visible = true;
-        dataGridViewMeal.DataSource = Meals.ToList();
-        foreach(DataGridViewColumn colum in dataGridViewMeal.Columns) {
+        dataGridViewMaincoorse.DataSource = Maincoorse.ToList();
+        foreach(DataGridViewColumn colum in dataGridViewMaincoorse.Columns) {
           colum.Visible = false;
         }
-        dataGridViewMeal.Columns[1].Visible = true;
+        dataGridViewMaincoorse.Columns[1].Visible = true;
         dataGridViewStarter.DataSource = Starters.ToList();
         foreach(DataGridViewColumn colum in dataGridViewStarter.Columns) {
           colum.Visible = false;
@@ -72,8 +72,8 @@ namespace Guest {
             selectedMenu = (GetMenu_Result)dataGridViewDessert.SelectedRows[0].DataBoundItem;
             context.NewReservedDish(CurrentClient.Id, selectedMenu.DishId, selectedRec.Id, CurrentClient.Acronym);
           }
-          if(dataGridViewMeal.SelectedRows.Count == 1) {
-            selectedMenu = (GetMenu_Result)dataGridViewMeal.SelectedRows[0].DataBoundItem;
+          if(dataGridViewMaincoorse.SelectedRows.Count == 1) {
+            selectedMenu = (GetMenu_Result)dataGridViewMaincoorse.SelectedRows[0].DataBoundItem;
             context.NewReservedDish(CurrentClient.Id, selectedMenu.DishId, selectedRec.Id, CurrentClient.Acronym);
           }
           if(dataGridViewStarter.SelectedRows.Count == 1) {
@@ -99,9 +99,9 @@ namespace Guest {
         disliked = context.GetWishedDish(CurrentClient.Id, 2);
         foreach(DataGridViewRow row in source.Rows) {
           item = (GetMenu_Result)row.DataBoundItem;
-          if(liked.Where(meal => meal.DishId == item.DishId).Count() > 0) {
+          if(liked.Where(maincoorse => maincoorse.DishId == item.DishId).Count() > 0) {
             color = Color.Green;
-          } else if(disliked.Where(meal => meal.DishId == item.DishId).Count() > 0) {
+          } else if(disliked.Where(maincoorse => maincoorse.DishId == item.DishId).Count() > 0) {
             color = Color.Red;
           } else {
             color = Color.Black;
@@ -112,7 +112,7 @@ namespace Guest {
       }
     }
 
-    private void dataGridViewMeal_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+    private void dataGridViewMaincoorse_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
       ColorizeMenu((DataGridView)sender);
     }
 

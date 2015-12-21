@@ -32,7 +32,7 @@
       this.labelMeat = new System.Windows.Forms.Label();
       this.labelDessert = new System.Windows.Forms.Label();
       this.dataGridViewStarter = new System.Windows.Forms.DataGridView();
-      this.dataGridViewMeal = new System.Windows.Forms.DataGridView();
+      this.dataGridViewMaincoorse = new System.Windows.Forms.DataGridView();
       this.dataGridViewDessert = new System.Windows.Forms.DataGridView();
       this.labelMenuTitle = new System.Windows.Forms.Label();
       this.panelButton = new System.Windows.Forms.Panel();
@@ -42,7 +42,7 @@
       this.panelMenu.SuspendLayout();
       this.tableLayoutPanelMenu.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStarter)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMeal)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMaincoorse)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDessert)).BeginInit();
       this.panelButton.SuspendLayout();
       this.SuspendLayout();
@@ -95,7 +95,7 @@
       this.tableLayoutPanelMenu.Controls.Add(this.labelMeat, 1, 0);
       this.tableLayoutPanelMenu.Controls.Add(this.labelDessert, 2, 0);
       this.tableLayoutPanelMenu.Controls.Add(this.dataGridViewStarter, 0, 1);
-      this.tableLayoutPanelMenu.Controls.Add(this.dataGridViewMeal, 1, 1);
+      this.tableLayoutPanelMenu.Controls.Add(this.dataGridViewMaincoorse, 1, 1);
       this.tableLayoutPanelMenu.Controls.Add(this.dataGridViewDessert, 2, 1);
       this.tableLayoutPanelMenu.Location = new System.Drawing.Point(6, 25);
       this.tableLayoutPanelMenu.Name = "tableLayoutPanelMenu";
@@ -155,24 +155,24 @@
       this.dataGridViewStarter.TabIndex = 3;
       this.dataGridViewStarter.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewStarter_DataBindingComplete);
       // 
-      // dataGridViewMeal
+      // dataGridViewMaincoorse
       // 
-      this.dataGridViewMeal.AllowUserToAddRows = false;
-      this.dataGridViewMeal.AllowUserToDeleteRows = false;
-      this.dataGridViewMeal.AllowUserToResizeColumns = false;
-      this.dataGridViewMeal.AllowUserToResizeRows = false;
-      this.dataGridViewMeal.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-      this.dataGridViewMeal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.dataGridViewMeal.ColumnHeadersVisible = false;
-      this.dataGridViewMeal.Location = new System.Drawing.Point(182, 24);
-      this.dataGridViewMeal.MultiSelect = false;
-      this.dataGridViewMeal.Name = "dataGridViewMeal";
-      this.dataGridViewMeal.ReadOnly = true;
-      this.dataGridViewMeal.RowHeadersVisible = false;
-      this.dataGridViewMeal.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-      this.dataGridViewMeal.Size = new System.Drawing.Size(173, 118);
-      this.dataGridViewMeal.TabIndex = 4;
-      this.dataGridViewMeal.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewMeal_DataBindingComplete);
+      this.dataGridViewMaincoorse.AllowUserToAddRows = false;
+      this.dataGridViewMaincoorse.AllowUserToDeleteRows = false;
+      this.dataGridViewMaincoorse.AllowUserToResizeColumns = false;
+      this.dataGridViewMaincoorse.AllowUserToResizeRows = false;
+      this.dataGridViewMaincoorse.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewMaincoorse.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewMaincoorse.ColumnHeadersVisible = false;
+      this.dataGridViewMaincoorse.Location = new System.Drawing.Point(182, 24);
+      this.dataGridViewMaincoorse.MultiSelect = false;
+      this.dataGridViewMaincoorse.Name = "dataGridViewMaincoorse";
+      this.dataGridViewMaincoorse.ReadOnly = true;
+      this.dataGridViewMaincoorse.RowHeadersVisible = false;
+      this.dataGridViewMaincoorse.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+      this.dataGridViewMaincoorse.Size = new System.Drawing.Size(173, 118);
+      this.dataGridViewMaincoorse.TabIndex = 4;
+      this.dataGridViewMaincoorse.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewMaincoorse_DataBindingComplete);
       // 
       // dataGridViewDessert
       // 
@@ -253,7 +253,7 @@
       this.tableLayoutPanelMenu.ResumeLayout(false);
       this.tableLayoutPanelMenu.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStarter)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMeal)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMaincoorse)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDessert)).EndInit();
       this.panelButton.ResumeLayout(false);
       this.ResumeLayout(false);
@@ -271,7 +271,7 @@
     private System.Windows.Forms.Label labelMeat;
     private System.Windows.Forms.Label labelDessert;
     private System.Windows.Forms.DataGridView dataGridViewStarter;
-    private System.Windows.Forms.DataGridView dataGridViewMeal;
+    private System.Windows.Forms.DataGridView dataGridViewMaincoorse;
     private System.Windows.Forms.DataGridView dataGridViewDessert;
     private System.Windows.Forms.Label labelMenuTitle;
     private System.Windows.Forms.Panel panelButton;

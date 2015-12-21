@@ -65,6 +65,12 @@
     <Compile Include="FormNewReservation.Designer.cs">
       <DependentUpon>FormNewReservation.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormReservationDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReservationDetails.Designer.cs">
+      <DependentUpon>FormReservationDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,6 +80,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormNewReservation.resx">
       <DependentUpon>FormNewReservation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReservationDetails.resx">
+      <DependentUpon>FormReservationDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -103,7 +112,7 @@
       <Name>Error</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{4780bf48-875a-4a32-a1de-793239c38605}</Project>
+      <Project>{ca0b5251-7dbf-471b-8f60-7ac7d9b67505}</Project>
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>

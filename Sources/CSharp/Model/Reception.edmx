@@ -304,6 +304,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
                 <Property Name="BookingClosingDate" Type="datetime2" Precision="7" Nullable="false" />
                 <Property Name="Capacity" Type="int" Nullable="false" />
                 <Property Name="SeatsPerTable" Type="int" Nullable="false" />
+                <Property Name="IsValid" Type="bit" Nullable="false" />
                 <Property Name="ReceptionId" Type="int" Nullable="false" />
                 <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
                 <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
@@ -328,18 +329,19 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
         </Function>
         <Function Name="GetReservedDish" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="RecId" Type="int" Mode="In" />
+          <Parameter Name="CliId" Type="int" Mode="In" />
           <ReturnType>
             <CollectionType>
               <RowType>
-                <Property Name="ClientFirstName" Type="varchar" MaxLength="64" Nullable="false" />
-                <Property Name="ClientLastName" Type="varchar" MaxLength="64" Nullable="false" />
-                <Property Name="DishType" Type="varchar" MaxLength="64" Nullable="false" />
-                <Property Name="DishName" Type="int" Nullable="false" />
-                <Property Name="ClientId" Type="int" Nullable="false" />
-                <Property Name="DishId" Type="int" Nullable="false" />
-                <Property Name="DishTypeId" Type="int" Nullable="false" />
+                <Property Name="ClientFirstName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientLastName" Type="varchar" MaxLength="64" />
+                <Property Name="DishType" Type="varchar" MaxLength="64" />
+                <Property Name="DishName" Type="varchar" MaxLength="64" />
+                <Property Name="ClientId" Type="int" />
+                <Property Name="DishId" Type="int" />
+                <Property Name="DishTypeId" Type="int" />
                 <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
-                <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
+                <Property Name="ModifiedBy" Type="char" MaxLength="8" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -417,6 +419,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
                 <Property Name="BookingClosingDate" Type="datetime2" Precision="7" Nullable="false" />
                 <Property Name="Capacity" Type="int" Nullable="false" />
                 <Property Name="SeatsPerTable" Type="int" Nullable="false" />
+                <Property Name="IsValid" Type="bit" Nullable="false" />
                 <Property Name="ReceptionId" Type="int" Nullable="false" />
                 <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
                 <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
@@ -532,6 +535,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
         </Function>
         <Function Name="NewTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="MANAGERAREA">
           <Parameter Name="RecId" Type="int" Mode="In" />
+          <Parameter Name="TableNumber" Type="int" Mode="In" />
           <Parameter Name="ModifiedBy" Type="char" Mode="In" />
           <Parameter Name="TabId" Type="int" Mode="InOut" />
         </Function>
@@ -698,6 +702,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Property Name="BookingClosingDate" Type="DateTime" Nullable="false" />
           <Property Name="Capacity" Type="Int32" Nullable="false" />
           <Property Name="SeatsPerTable" Type="Int32" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
           <Property Name="ReceptionId" Type="Int32" Nullable="false" />
           <Property Name="ModifiedAt" Type="DateTime" />
           <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
@@ -711,15 +716,15 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
         </ComplexType>
         <ComplexType Name="GetReservedDish_Result">
-          <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DishName" Type="Int32" Nullable="false" />
-          <Property Name="ClientId" Type="Int32" Nullable="false" />
-          <Property Name="DishId" Type="Int32" Nullable="false" />
-          <Property Name="DishTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="DishName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="DishId" Type="Int32" />
+          <Property Name="DishTypeId" Type="Int32" />
           <Property Name="ModifiedAt" Type="DateTime" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
         </ComplexType>
         <ComplexType Name="GetReservedReception_Result">
           <Property Name="ReceptionName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
@@ -761,6 +766,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Property Name="BookingClosingDate" Type="DateTime" Nullable="false" />
           <Property Name="Capacity" Type="Int32" Nullable="false" />
           <Property Name="SeatsPerTable" Type="Int32" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
           <Property Name="ReceptionId" Type="Int32" Nullable="false" />
           <Property Name="ModifiedAt" Type="DateTime" />
           <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
@@ -1029,6 +1035,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           </FunctionImport>
           <FunctionImport Name="GetReservedDish" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetReservedDish_Result)">
             <Parameter Name="RecId" Mode="In" Type="Int32" />
+            <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetReservedReception" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetReservedReception_Result)">
             <Parameter Name="CliId" Mode="In" Type="Int32" />
@@ -1140,6 +1147,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           </FunctionImport>
           <FunctionImport Name="NewTable">
             <Parameter Name="RecId" Mode="In" Type="Int32" />
+            <Parameter Name="TableNumber" Mode="In" Type="Int32" />
             <Parameter Name="ModifiedBy" Mode="In" Type="String" />
             <Parameter Name="TabId" Mode="InOut" Type="Int32" />
           </FunctionImport>
@@ -1338,6 +1346,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
                 <ScalarProperty Name="BookingClosingDate" ColumnName="BookingClosingDate" />
                 <ScalarProperty Name="Capacity" ColumnName="Capacity" />
                 <ScalarProperty Name="SeatsPerTable" ColumnName="SeatsPerTable" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
                 <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
                 <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -1429,6 +1438,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
                 <ScalarProperty Name="BookingClosingDate" ColumnName="BookingClosingDate" />
                 <ScalarProperty Name="Capacity" ColumnName="Capacity" />
                 <ScalarProperty Name="SeatsPerTable" ColumnName="SeatsPerTable" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
                 <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
                 <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />

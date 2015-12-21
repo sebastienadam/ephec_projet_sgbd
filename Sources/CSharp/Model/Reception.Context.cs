@@ -88,13 +88,17 @@ namespace Model
         }
     
         [DbFunction("ProjetSGBDEntities", "GetReservedDish")]
-        public virtual IQueryable<GetReservedDish_Result> GetReservedDish(Nullable<int> recId)
+        public virtual IQueryable<GetReservedDish_Result> GetReservedDish(Nullable<int> recId, Nullable<int> cliId)
         {
             var recIdParameter = recId.HasValue ?
                 new ObjectParameter("RecId", recId) :
                 new ObjectParameter("RecId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetReservedDish_Result>("[ProjetSGBDEntities].[GetReservedDish](@RecId)", recIdParameter);
+            var cliIdParameter = cliId.HasValue ?
+                new ObjectParameter("CliId", cliId) :
+                new ObjectParameter("CliId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GetReservedDish_Result>("[ProjetSGBDEntities].[GetReservedDish](@RecId, @CliId)", recIdParameter, cliIdParameter);
         }
     
         [DbFunction("ProjetSGBDEntities", "GetReservedReception")]
@@ -468,17 +472,21 @@ namespace Model
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NewSit", tabIdParameter, cliIdParameter, modifiedByParameter);
         }
     
-        public virtual int NewTable(Nullable<int> recId, string modifiedBy, ObjectParameter tabId)
+        public virtual int NewTable(Nullable<int> recId, Nullable<int> tableNumber, string modifiedBy, ObjectParameter tabId)
         {
             var recIdParameter = recId.HasValue ?
                 new ObjectParameter("RecId", recId) :
                 new ObjectParameter("RecId", typeof(int));
     
+            var tableNumberParameter = tableNumber.HasValue ?
+                new ObjectParameter("TableNumber", tableNumber) :
+                new ObjectParameter("TableNumber", typeof(int));
+    
             var modifiedByParameter = modifiedBy != null ?
                 new ObjectParameter("ModifiedBy", modifiedBy) :
                 new ObjectParameter("ModifiedBy", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NewTable", recIdParameter, modifiedByParameter, tabId);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("NewTable", recIdParameter, tableNumberParameter, modifiedByParameter, tabId);
         }
     }
 }

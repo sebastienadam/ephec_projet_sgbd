@@ -13,7 +13,7 @@ namespace Admin {
   public partial class FormReceptionDetail : Form {
     private Reception currentReception;
     private IList<GetMenu_Result> starters;
-    private IList<GetMenu_Result> meals;
+    private IList<GetMenu_Result> maincoorses;
     private IList<GetMenu_Result> desserts;
     private IList<Reservation> reservations;
 
@@ -21,7 +21,7 @@ namespace Admin {
       using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
         currentReception = context.Reception.Where(rec => rec.ReceptionId == id).First();
         starters = context.GetMenu(id, 1).ToList();
-        meals = context.GetMenu(id, 2).ToList();
+        maincoorses = context.GetMenu(id, 2).ToList();
         desserts = context.GetMenu(id, 3).ToList();
         reservations = context.Reservation.Where(res => res.ReceptionId == id).ToList();
       }
@@ -30,7 +30,7 @@ namespace Admin {
     public FormReceptionDetail() {
       currentReception = null;
       starters = null;
-      meals = null;
+      maincoorses = null;
       desserts = null;
       InitializeComponent();
     }
@@ -51,11 +51,11 @@ namespace Admin {
           colum.Visible = false;
         }
         dataGridViewDessert.Columns[1].Visible = true;
-        dataGridViewMeal.DataSource = meals;
-        foreach(DataGridViewColumn colum in dataGridViewMeal.Columns) {
+        dataGridViewMaincoorse.DataSource = maincoorses;
+        foreach(DataGridViewColumn colum in dataGridViewMaincoorse.Columns) {
           colum.Visible = false;
         }
-        dataGridViewMeal.Columns[1].Visible = true;
+        dataGridViewMaincoorse.Columns[1].Visible = true;
         dataGridViewStarter.DataSource = starters;
         foreach(DataGridViewColumn colum in dataGridViewStarter.Columns) {
           colum.Visible = false;

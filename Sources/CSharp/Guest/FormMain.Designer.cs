@@ -103,6 +103,7 @@
       this.buttonDetailsReservations.TabIndex = 19;
       this.buttonDetailsReservations.Text = "Détails";
       this.buttonDetailsReservations.UseVisualStyleBackColor = true;
+      this.buttonDetailsReservations.Click += new System.EventHandler(this.buttonDetailsReservations_Click);
       // 
       // buttonDeleteReservations
       // 

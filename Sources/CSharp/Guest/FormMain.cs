@@ -81,5 +81,14 @@ namespace Guest {
         PopulateReceptions();
       }
     }
+
+    private void buttonDetailsReservations_Click(object sender, EventArgs e) {
+      if(dataGridViewReservations.SelectedRows.Count == 1) {
+        FormReservationDetails form = new FormReservationDetails();
+        form.CurrentClient = CurrentClient;
+        form.LoadReception(((GetReservedReception_Result)dataGridViewReservations.SelectedRows[0].DataBoundItem).ReceptionId);
+        form.ShowDialog();
+      }
+    }
   }
 }
