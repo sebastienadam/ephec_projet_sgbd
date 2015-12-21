@@ -1498,6 +1498,7 @@ GO
 -- =============================================================================
 CREATE PROCEDURE MANAGERAREA.NewTable
   @RecId int,
+  @TableNumber int,
   @ModifiedBy char(8),
   @TabId int = NULL OUTPUT
 AS
@@ -1509,8 +1510,8 @@ BEGIN
     FROM BACKOFFICE._RECEPTION
     WHERE REC_ID = @RecId;
     IF @RecId IS NOT NULL BEGIN
-      INSERT INTO BACKOFFICE._TABLE (TAB_REC_ID, TAB_SEATING, TAB_UPDATE_BY)
-      VALUES (@RecId, @NbSeats, @ModifiedBy);
+      INSERT INTO BACKOFFICE._TABLE (TAB_REC_ID, TAB_NUMBER, TAB_SEATING, TAB_UPDATE_BY)
+      VALUES (@RecId, @TableNumber, @NbSeats, @ModifiedBy);
       SET @TabId = IDENT_CURRENT('BACKOFFICE._TABLE');
     END
   END
