@@ -84,5 +84,40 @@ namespace Guest {
         this.Close();
       }
     }
+
+    private void dataGridViewStarter_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+      ColorizeMenu((DataGridView)sender);
+    }
+
+    private void ColorizeMenu(DataGridView source) {
+      GetMenu_Result item;
+      IQueryable<GetWishedDish_Result> liked;
+      IQueryable < GetWishedDish_Result> disliked;
+      Color color;
+      using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+        liked = context.GetWishedDish(CurrentClient.Id, 1);
+        disliked = context.GetWishedDish(CurrentClient.Id, 2);
+        foreach(DataGridViewRow row in source.Rows) {
+          item = (GetMenu_Result)row.DataBoundItem;
+          if(liked.Where(meal => meal.DishId == item.DishId).Count() > 0) {
+            color = Color.Green;
+          } else if(disliked.Where(meal => meal.DishId == item.DishId).Count() > 0) {
+            color = Color.Red;
+          } else {
+            color = Color.Black;
+          }
+          row.DefaultCellStyle.ForeColor = color;
+          row.DefaultCellStyle.SelectionForeColor = color;
+        }
+      }
+    }
+
+    private void dataGridViewMeal_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+      ColorizeMenu((DataGridView)sender);
+    }
+
+    private void dataGridViewDessert_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+      ColorizeMenu((DataGridView)sender);
+    }
   }
 }

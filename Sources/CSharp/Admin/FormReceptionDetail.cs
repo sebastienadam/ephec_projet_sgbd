@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Admin {
   public partial class FormReceptionDetail : Form {
-    private ReceptionAdmin currentReception;
+    private Reception currentReception;
     private IList<GetMenu_Result> starters;
     private IList<GetMenu_Result> meals;
     private IList<GetMenu_Result> desserts;
@@ -19,7 +19,7 @@ namespace Admin {
 
     public void LoadReception(int id) {
       using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-        currentReception = context.ReceptionAdmin.Where(rec => rec.ReceptionId == id).First();
+        currentReception = context.Reception.Where(rec => rec.ReceptionId == id).First();
         starters = context.GetMenu(id, 1).ToList();
         meals = context.GetMenu(id, 2).ToList();
         desserts = context.GetMenu(id, 3).ToList();

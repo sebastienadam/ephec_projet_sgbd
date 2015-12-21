@@ -1108,31 +1108,6 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
--- Description: Creates a table for a reception.
--- =============================================================================
-CREATE PROCEDURE MANAGERAREA.NewTable
-  @RecId int,
-  @ModifiedBy char(8),
-  @TabId int = NULL OUTPUT
-AS
-BEGIN
-  SET NOCOUNT ON;
-  DECLARE @NbSeats int;
-  IF (@RecId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
-    SELECT @NbSeats = REC_SEAT_TABLE
-    FROM BACKOFFICE._RECEPTION
-    WHERE REC_ID = @RecId;
-    IF @RecId IS NOT NULL BEGIN
-      INSERT INTO BACKOFFICE._TABLE (TAB_REC_ID, TAB_SEATING, TAB_UPDATE_BY)
-      VALUES (@RecId, @NbSeats, @ModifiedBy);
-      SET @TabId = IDENT_CURRENT('BACKOFFICE._TABLE');
-    END
-  END
-END
-GO
--- =============================================================================
--- Author:      Sébastien Adam
--- Create date: Dec2015
 -- Description: Assignes the validation bit of a reservation for a reception.
 -- =============================================================================
 CREATE PROCEDURE BACKOFFICE.SP_VALIDATE_BOOK
@@ -1511,6 +1486,31 @@ BEGIN
   IF (@TabId IS NOT NULL) AND (@CliId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
     INSERT INTO BACKOFFICE._SIT (SIT_TAB_ID, SIT_CLI_ID, SIT_UPDATE_BY)
     VALUES (@TabId, @CliId, @ModifiedBy);
+  END
+END
+GO
+-- =============================================================================
+-- Author:      Sébastien Adam
+-- Create date: Dec2015
+-- Description: Creates a table for a reception.
+-- =============================================================================
+CREATE PROCEDURE MANAGERAREA.NewTable
+  @RecId int,
+  @ModifiedBy char(8),
+  @TabId int = NULL OUTPUT
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @NbSeats int;
+  IF (@RecId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
+    SELECT @NbSeats = REC_SEAT_TABLE
+    FROM BACKOFFICE._RECEPTION
+    WHERE REC_ID = @RecId;
+    IF @RecId IS NOT NULL BEGIN
+      INSERT INTO BACKOFFICE._TABLE (TAB_REC_ID, TAB_SEATING, TAB_UPDATE_BY)
+      VALUES (@RecId, @NbSeats, @ModifiedBy);
+      SET @TabId = IDENT_CURRENT('BACKOFFICE._TABLE');
+    END
   END
 END
 GO

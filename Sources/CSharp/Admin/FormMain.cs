@@ -17,7 +17,7 @@ namespace Admin {
 
     private void FormMain_Load(object sender, EventArgs e) {
       using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-        IQueryable<ReceptionAdmin> Receptions = from item in context.ReceptionAdmin select item;
+        IQueryable<Reception> Receptions = from item in context.Reception select item;
         IQueryable<Client> Clients = from item in context.Client select item;
         IQueryable<Dish> Dishes = from item in context.Dish select item;
         dataGridViewReceptions.DataSource = Receptions.ToList();

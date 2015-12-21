@@ -153,6 +153,7 @@
       this.dataGridViewStarter.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridViewStarter.Size = new System.Drawing.Size(173, 118);
       this.dataGridViewStarter.TabIndex = 3;
+      this.dataGridViewStarter.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewStarter_DataBindingComplete);
       // 
       // dataGridViewMeal
       // 
@@ -171,6 +172,7 @@
       this.dataGridViewMeal.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridViewMeal.Size = new System.Drawing.Size(173, 118);
       this.dataGridViewMeal.TabIndex = 4;
+      this.dataGridViewMeal.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewMeal_DataBindingComplete);
       // 
       // dataGridViewDessert
       // 
@@ -189,6 +191,7 @@
       this.dataGridViewDessert.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridViewDessert.Size = new System.Drawing.Size(174, 118);
       this.dataGridViewDessert.TabIndex = 5;
+      this.dataGridViewDessert.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewDessert_DataBindingComplete);
       // 
       // labelMenuTitle
       // 
