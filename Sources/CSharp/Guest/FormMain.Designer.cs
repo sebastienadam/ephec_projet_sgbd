@@ -113,6 +113,7 @@
       this.buttonDeleteReservations.TabIndex = 18;
       this.buttonDeleteReservations.Text = "Supprimer";
       this.buttonDeleteReservations.UseVisualStyleBackColor = true;
+      this.buttonDeleteReservations.Click += new System.EventHandler(this.buttonDeleteReservations_Click);
       // 
       // dataGridViewReservations
       // 
@@ -187,6 +188,7 @@
       this.dataGridViewDishWish.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridViewDishWish.Size = new System.Drawing.Size(549, 188);
       this.dataGridViewDishWish.TabIndex = 1;
+      this.dataGridViewDishWish.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewDishWish_DataBindingComplete);
       // 
       // buttonEditDishWish
       // 
@@ -253,6 +255,7 @@
       this.dataGridViewFeeling.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridViewFeeling.Size = new System.Drawing.Size(549, 188);
       this.dataGridViewFeeling.TabIndex = 1;
+      this.dataGridViewFeeling.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewFeeling_DataBindingComplete);
       // 
       // buttonEditFeeling
       // 

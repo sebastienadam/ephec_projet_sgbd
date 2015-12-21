@@ -103,7 +103,7 @@
       <Name>Error</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{ca0b5251-7dbf-471b-8f60-7ac7d9b67505}</Project>
+      <Project>{02f7cde3-ea1d-493c-8d7a-684a7484bb07}</Project>
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>

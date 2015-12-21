@@ -40,6 +40,7 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -71,6 +72,12 @@
     <Compile Include="FormReservationDetails.Designer.cs">
       <DependentUpon>FormReservationDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSelectDish.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSelectDish.Designer.cs">
+      <DependentUpon>FormSelectDish.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormReservationDetails.resx">
       <DependentUpon>FormReservationDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSelectDish.resx">
+      <DependentUpon>FormSelectDish.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -112,7 +122,7 @@
       <Name>Error</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
-      <Project>{ca0b5251-7dbf-471b-8f60-7ac7d9b67505}</Project>
+      <Project>{02f7cde3-ea1d-493c-8d7a-684a7484bb07}</Project>
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>

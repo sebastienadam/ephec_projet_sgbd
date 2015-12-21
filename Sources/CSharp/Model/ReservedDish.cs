@@ -19,7 +19,7 @@ namespace Model
         public string ClientFirstName { get; set; }
         public string ClientLastName { get; set; }
         public string DishType { get; set; }
-        public int DishName { get; set; }
+        public string DishName { get; set; }
         public int ReceptionId { get; set; }
         public int ClientId { get; set; }
         public int DishId { get; set; }

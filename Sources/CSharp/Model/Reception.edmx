@@ -53,7 +53,7 @@ warning 6002: The table/view 'ProjetSGBD.CLIENTAREA.FeelingType' does not have a
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Label" Type="varchar" MaxLength="64" Nullable="false" />
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.DishType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -63,7 +63,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.DishType' does not have a p
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Label" Type="varchar" MaxLength="64" Nullable="false" />
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.DishWish' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -207,7 +207,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.ReservedDish' does not have
           <Property Name="ClientFirstName" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="ClientLastName" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="DishType" Type="varchar" MaxLength="64" Nullable="false" />
-          <Property Name="DishName" Type="int" Nullable="false" />
+          <Property Name="DishName" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="ReceptionId" Type="int" Nullable="false" />
           <Property Name="ClientId" Type="int" Nullable="false" />
           <Property Name="DishId" Type="int" Nullable="false" />
@@ -515,7 +515,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <CollectionType>
               <RowType>
                 <Property Name="DishType" Type="varchar" MaxLength="64" Nullable="false" />
-                <Property Name="DishName" Type="int" Nullable="false" />
+                <Property Name="DishName" Type="varchar" MaxLength="64" Nullable="false" />
                 <Property Name="DishId" Type="int" Nullable="false" />
                 <Property Name="DishTypeId" Type="int" Nullable="false" />
                 <Property Name="Quantity" Type="int" />
@@ -789,7 +789,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
         </ComplexType>
         <ComplexType Name="GetDishToPrepare_Result">
           <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DishName" Type="Int32" Nullable="false" />
+          <Property Name="DishName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DishId" Type="Int32" Nullable="false" />
           <Property Name="DishTypeId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" />
@@ -836,7 +836,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Label" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DishType">
           <Key>
@@ -844,7 +844,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Label" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DishWish">
           <Key>
@@ -976,7 +976,7 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DishType" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DishName" Type="Int32" Nullable="false" />
+          <Property Name="DishName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReceptionId" Type="Int32" Nullable="false" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
           <Property Name="DishId" Type="Int32" Nullable="false" />

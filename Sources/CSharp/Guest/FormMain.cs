@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -84,10 +85,63 @@ namespace Guest {
 
     private void buttonDetailsReservations_Click(object sender, EventArgs e) {
       if(dataGridViewReservations.SelectedRows.Count == 1) {
+        DialogResult result;
         FormReservationDetails form = new FormReservationDetails();
         form.CurrentClient = CurrentClient;
         form.LoadReception(((GetReservedReception_Result)dataGridViewReservations.SelectedRows[0].DataBoundItem).ReceptionId);
-        form.ShowDialog();
+        result = form.ShowDialog();
+        if(result == DialogResult.OK) {
+          PopulateReceptions();
+        }
+      }
+    }
+
+    private void dataGridViewDishWish_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+      int FeelingTypeLike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeLike"]);
+      int FeelingTypeDislike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeDislike"]);
+      Color color;
+      foreach(DataGridViewRow row in dataGridViewDishWish.Rows) {
+        GetWishedDish_Result dishWish = (GetWishedDish_Result)row.DataBoundItem;
+        if(dishWish.FeelingTypeId == FeelingTypeLike) {
+          color = Color.Green;
+        } else if(dishWish.FeelingTypeId == FeelingTypeDislike) {
+          color = Color.Red;
+        } else {
+          color = Color.Black;
+        }
+        row.DefaultCellStyle.ForeColor = color;
+        row.DefaultCellStyle.SelectionBackColor = color;
+      }
+    }
+
+    private void dataGridViewFeeling_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+      int FeelingTypeLike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeLike"]);
+      int FeelingTypeDislike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeDislike"]);
+      Color color;
+      foreach(DataGridViewRow row in dataGridViewFeeling.Rows) {
+        GetFeeling_Result feeling = (GetFeeling_Result)row.DataBoundItem;
+        if(feeling.FeelingTypeId == FeelingTypeLike) {
+          color = Color.Green;
+        } else if(feeling.FeelingTypeId == FeelingTypeDislike) {
+          color = Color.Red;
+        } else {
+          color = Color.Black;
+        }
+        row.DefaultCellStyle.ForeColor = color;
+        row.DefaultCellStyle.SelectionBackColor = color;
+      }
+    }
+
+    private void buttonDeleteReservations_Click(object sender, EventArgs e) {
+      if(dataGridViewReservations.SelectedRows.Count == 1) {
+        GetReservedReception_Result selected = (GetReservedReception_Result)dataGridViewReservations.SelectedRows[0].DataBoundItem;
+        DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer la réservation " + selected.ReceptionName + "?", "Confirmation de suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+        if(result == DialogResult.Yes) {
+          using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+            context.DeleteReservation(selected.ReceptionId, CurrentClient.Id, selected.ModifiedAt);
+          }
+          PopulateReceptions();
+        }
       }
     }
   }

@@ -29,20 +29,21 @@
       this.labelName = new System.Windows.Forms.Label();
       this.textBoxName = new System.Windows.Forms.TextBox();
       this.panelMenu = new System.Windows.Forms.Panel();
-      this.button3 = new System.Windows.Forms.Button();
-      this.button2 = new System.Windows.Forms.Button();
-      this.button1 = new System.Windows.Forms.Button();
+      this.buttonStarter = new System.Windows.Forms.Button();
+      this.buttonMainCourse = new System.Windows.Forms.Button();
+      this.buttonDessert = new System.Windows.Forms.Button();
       this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
       this.label3 = new System.Windows.Forms.Label();
       this.textBoxDessert = new System.Windows.Forms.TextBox();
       this.label2 = new System.Windows.Forms.Label();
       this.textBoxStarter = new System.Windows.Forms.TextBox();
-      this.textBoxMaincoorse = new System.Windows.Forms.TextBox();
+      this.textBoxMainCourse = new System.Windows.Forms.TextBox();
       this.label1 = new System.Windows.Forms.Label();
       this.labelMenuTitle = new System.Windows.Forms.Label();
       this.panel1 = new System.Windows.Forms.Panel();
       this.buttonDelete = new System.Windows.Forms.Button();
-      this.buttonOK = new System.Windows.Forms.Button();
+      this.buttonSave = new System.Windows.Forms.Button();
+      this.buttonCancel = new System.Windows.Forms.Button();
       this.panelDetails.SuspendLayout();
       this.panelMenu.SuspendLayout();
       this.tableLayoutPanel1.SuspendLayout();
@@ -98,9 +99,9 @@
       // panelMenu
       // 
       this.panelMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.panelMenu.Controls.Add(this.button3);
-      this.panelMenu.Controls.Add(this.button2);
-      this.panelMenu.Controls.Add(this.button1);
+      this.panelMenu.Controls.Add(this.buttonStarter);
+      this.panelMenu.Controls.Add(this.buttonMainCourse);
+      this.panelMenu.Controls.Add(this.buttonDessert);
       this.panelMenu.Controls.Add(this.tableLayoutPanel1);
       this.panelMenu.Controls.Add(this.labelMenuTitle);
       this.panelMenu.Location = new System.Drawing.Point(12, 75);
@@ -108,35 +109,35 @@
       this.panelMenu.Size = new System.Drawing.Size(395, 119);
       this.panelMenu.TabIndex = 16;
       // 
-      // button3
+      // buttonStarter
       // 
-      this.button3.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-      this.button3.Location = new System.Drawing.Point(153, 3);
-      this.button3.Name = "button3";
-      this.button3.Size = new System.Drawing.Size(75, 23);
-      this.button3.TabIndex = 5;
-      this.button3.Text = "Entrée";
-      this.button3.UseVisualStyleBackColor = true;
+      this.buttonStarter.Location = new System.Drawing.Point(153, 3);
+      this.buttonStarter.Name = "buttonStarter";
+      this.buttonStarter.Size = new System.Drawing.Size(75, 23);
+      this.buttonStarter.TabIndex = 5;
+      this.buttonStarter.Text = "Entrée";
+      this.buttonStarter.UseVisualStyleBackColor = true;
+      this.buttonStarter.Click += new System.EventHandler(this.buttonStarter_Click);
       // 
-      // button2
+      // buttonMainCourse
       // 
-      this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-      this.button2.Location = new System.Drawing.Point(234, 3);
-      this.button2.Name = "button2";
-      this.button2.Size = new System.Drawing.Size(75, 23);
-      this.button2.TabIndex = 4;
-      this.button2.Text = "Plat principal";
-      this.button2.UseVisualStyleBackColor = true;
+      this.buttonMainCourse.Location = new System.Drawing.Point(234, 3);
+      this.buttonMainCourse.Name = "buttonMainCourse";
+      this.buttonMainCourse.Size = new System.Drawing.Size(75, 23);
+      this.buttonMainCourse.TabIndex = 4;
+      this.buttonMainCourse.Text = "Plat principal";
+      this.buttonMainCourse.UseVisualStyleBackColor = true;
+      this.buttonMainCourse.Click += new System.EventHandler(this.buttonMainCourse_Click);
       // 
-      // button1
+      // buttonDessert
       // 
-      this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-      this.button1.Location = new System.Drawing.Point(315, 3);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(75, 23);
-      this.button1.TabIndex = 3;
-      this.button1.Text = "Dessert";
-      this.button1.UseVisualStyleBackColor = true;
+      this.buttonDessert.Location = new System.Drawing.Point(315, 3);
+      this.buttonDessert.Name = "buttonDessert";
+      this.buttonDessert.Size = new System.Drawing.Size(75, 23);
+      this.buttonDessert.TabIndex = 3;
+      this.buttonDessert.Text = "Dessert";
+      this.buttonDessert.UseVisualStyleBackColor = true;
+      this.buttonDessert.Click += new System.EventHandler(this.buttonDessert_Click);
       // 
       // tableLayoutPanel1
       // 
@@ -147,7 +148,7 @@
       this.tableLayoutPanel1.Controls.Add(this.textBoxDessert, 1, 2);
       this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
       this.tableLayoutPanel1.Controls.Add(this.textBoxStarter, 1, 0);
-      this.tableLayoutPanel1.Controls.Add(this.textBoxMaincoorse, 1, 1);
+      this.tableLayoutPanel1.Controls.Add(this.textBoxMainCourse, 1, 1);
       this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
       this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 32);
       this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -194,13 +195,13 @@
       this.textBoxStarter.Size = new System.Drawing.Size(287, 20);
       this.textBoxStarter.TabIndex = 11;
       // 
-      // textBoxMaincoorse
+      // textBoxMainCourse
       // 
-      this.textBoxMaincoorse.Location = new System.Drawing.Point(100, 29);
-      this.textBoxMaincoorse.Name = "textBoxMaincoorse";
-      this.textBoxMaincoorse.ReadOnly = true;
-      this.textBoxMaincoorse.Size = new System.Drawing.Size(287, 20);
-      this.textBoxMaincoorse.TabIndex = 10;
+      this.textBoxMainCourse.Location = new System.Drawing.Point(100, 29);
+      this.textBoxMainCourse.Name = "textBoxMainCourse";
+      this.textBoxMainCourse.ReadOnly = true;
+      this.textBoxMainCourse.Size = new System.Drawing.Size(287, 20);
+      this.textBoxMainCourse.TabIndex = 10;
       // 
       // label1
       // 
@@ -226,7 +227,8 @@
       // 
       this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
       this.panel1.Controls.Add(this.buttonDelete);
-      this.panel1.Controls.Add(this.buttonOK);
+      this.panel1.Controls.Add(this.buttonSave);
+      this.panel1.Controls.Add(this.buttonCancel);
       this.panel1.Location = new System.Drawing.Point(12, 200);
       this.panel1.Name = "panel1";
       this.panel1.Size = new System.Drawing.Size(395, 31);
@@ -234,28 +236,41 @@
       // 
       // buttonDelete
       // 
-      this.buttonDelete.Location = new System.Drawing.Point(234, 3);
+      this.buttonDelete.DialogResult = System.Windows.Forms.DialogResult.OK;
+      this.buttonDelete.Location = new System.Drawing.Point(153, 3);
       this.buttonDelete.Name = "buttonDelete";
       this.buttonDelete.Size = new System.Drawing.Size(75, 23);
-      this.buttonDelete.TabIndex = 1;
+      this.buttonDelete.TabIndex = 2;
       this.buttonDelete.Text = "Supprimer";
       this.buttonDelete.UseVisualStyleBackColor = true;
+      this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
       // 
-      // buttonOK
+      // buttonSave
       // 
-      this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-      this.buttonOK.Location = new System.Drawing.Point(315, 3);
-      this.buttonOK.Name = "buttonOK";
-      this.buttonOK.Size = new System.Drawing.Size(75, 23);
-      this.buttonOK.TabIndex = 0;
-      this.buttonOK.Text = "OK";
-      this.buttonOK.UseVisualStyleBackColor = true;
+      this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
+      this.buttonSave.Location = new System.Drawing.Point(234, 3);
+      this.buttonSave.Name = "buttonSave";
+      this.buttonSave.Size = new System.Drawing.Size(75, 23);
+      this.buttonSave.TabIndex = 1;
+      this.buttonSave.Text = "Enregistrer";
+      this.buttonSave.UseVisualStyleBackColor = true;
+      this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+      // 
+      // buttonCancel
+      // 
+      this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+      this.buttonCancel.Location = new System.Drawing.Point(315, 3);
+      this.buttonCancel.Name = "buttonCancel";
+      this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+      this.buttonCancel.TabIndex = 0;
+      this.buttonCancel.Text = "Annuler";
+      this.buttonCancel.UseVisualStyleBackColor = true;
       // 
       // FormReservationDetails
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.CancelButton = this.buttonOK;
+      this.CancelButton = this.buttonCancel;
       this.ClientSize = new System.Drawing.Size(419, 245);
       this.Controls.Add(this.panel1);
       this.Controls.Add(this.panelMenu);
@@ -287,14 +302,15 @@
     private System.Windows.Forms.TextBox textBoxDessert;
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.TextBox textBoxStarter;
-    private System.Windows.Forms.TextBox textBoxMaincoorse;
+    private System.Windows.Forms.TextBox textBoxMainCourse;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Label labelMenuTitle;
     private System.Windows.Forms.Panel panel1;
+    private System.Windows.Forms.Button buttonSave;
+    private System.Windows.Forms.Button buttonCancel;
+    private System.Windows.Forms.Button buttonStarter;
+    private System.Windows.Forms.Button buttonMainCourse;
+    private System.Windows.Forms.Button buttonDessert;
     private System.Windows.Forms.Button buttonDelete;
-    private System.Windows.Forms.Button buttonOK;
-    private System.Windows.Forms.Button button3;
-    private System.Windows.Forms.Button button2;
-    private System.Windows.Forms.Button button1;
   }
 }

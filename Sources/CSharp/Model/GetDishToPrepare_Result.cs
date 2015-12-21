@@ -14,7 +14,7 @@ namespace Model
     public partial class GetDishToPrepare_Result
     {
         public string DishType { get; set; }
-        public int DishName { get; set; }
+        public string DishName { get; set; }
         public int DishId { get; set; }
         public int DishTypeId { get; set; }
         public Nullable<int> Quantity { get; set; }

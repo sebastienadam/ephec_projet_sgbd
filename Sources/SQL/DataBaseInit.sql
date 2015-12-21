@@ -129,7 +129,7 @@ CREATE TABLE BACKOFFICE._DISH (
 );
 --------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._DISHTYPE (
-  DTY_ID int IDENTITY(1,1) NOT NULL,
+  DTY_ID int NOT NULL,
   DTY_NAME varchar(64) NOT NULL,
   CONSTRAINT PK_DISHTYPE PRIMARY KEY (DTY_ID)
 );
@@ -153,7 +153,7 @@ CREATE TABLE BACKOFFICE._FEEL_CLI_DIS (
 );
 --------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._FEELINGTYPE (
-  FTY_ID int IDENTITY(1,1) NOT NULL,
+  FTY_ID int NOT NULL,
   FTY_NAME varchar(64) NOT NULL,
   CONSTRAINT PK_FEELINGTYPE PRIMARY KEY (FTY_ID)
 );
@@ -221,13 +221,13 @@ ALTER TABLE BACKOFFICE._TABLE ADD CONSTRAINT FK_TABLE_RECEPTION FOREIGN KEY (TAB
 -- ========================================================================== --
 --   Données statiques                                                        --
 -- ========================================================================== --
-INSERT INTO BACKOFFICE._FEELINGTYPE (FTY_NAME)
-VALUES ('aime'),
-       ('n''aime pas');
-INSERT INTO BACKOFFICE._DISHTYPE (DTY_NAME)
-VALUES ('entrée'),
-       ('plat principal'),
-       ('dessert');
+INSERT INTO BACKOFFICE._FEELINGTYPE (FTY_ID ,FTY_NAME)
+VALUES (1, 'aime'),
+       (2, 'n''aime pas');
+INSERT INTO BACKOFFICE._DISHTYPE (DTY_ID, DTY_NAME)
+VALUES (1, 'entrée'),
+       (2, 'plat principal'),
+       (3, 'dessert');
 GO
 
 -- ========================================================================== --
@@ -869,6 +869,7 @@ RETURNS @TableMap TABLE
 AS
 BEGIN
   IF @CliId IS NULL BEGIN
+    INSERT INTO @TableMap
     SELECT ClientFirstName,
            ClientLastName,
            DishType,
@@ -881,6 +882,7 @@ BEGIN
     FROM MANAGERAREA.ReservedDish
     WHERE ReceptionId = @RecId
   END ELSE BEGIN
+    INSERT INTO @TableMap
     SELECT ClientFirstName,
            ClientLastName,
            DishType,
@@ -1264,7 +1266,7 @@ CREATE PROCEDURE CLIENTAREA.DeleteReservation
 AS
 BEGIN
   SET NOCOUNT ON;
-  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_BOOK(@CliId, @RecId) BEGIN
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_BOOK(@RecId, @CliId) BEGIN
     DELETE BACKOFFICE._BOOK
     WHERE BOO_CLI_ID = @CliId
       AND BOO_REC_ID = @RecId;
