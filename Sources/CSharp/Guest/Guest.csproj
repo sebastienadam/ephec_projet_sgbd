@@ -61,6 +61,12 @@
     <Compile Include="FormEditDishWish.Designer.cs">
       <DependentUpon>FormEditDishWish.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEditFeeling.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditFeeling.Designer.cs">
+      <DependentUpon>FormEditFeeling.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +78,12 @@
     </Compile>
     <Compile Include="FormNewDishWish.Designer.cs">
       <DependentUpon>FormNewDishWish.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormNewFeeling.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNewFeeling.Designer.cs">
+      <DependentUpon>FormNewFeeling.cs</DependentUpon>
     </Compile>
     <Compile Include="FormNewReservation.cs">
       <SubType>Form</SubType>
@@ -98,11 +110,17 @@
     <EmbeddedResource Include="FormEditDishWish.resx">
       <DependentUpon>FormEditDishWish.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormEditFeeling.resx">
+      <DependentUpon>FormEditFeeling.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormNewDishWish.resx">
       <DependentUpon>FormNewDishWish.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNewFeeling.resx">
+      <DependentUpon>FormNewFeeling.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormNewReservation.resx">
       <DependentUpon>FormNewReservation.cs</DependentUpon>

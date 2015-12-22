@@ -1,5 +1,5 @@
 ﻿namespace Guest {
-  partial class FormEditDishWish {
+  partial class FormNewFeeling {
     /// <summary>
     /// Required designer variable.
     /// </summary>
@@ -24,10 +24,10 @@
     /// </summary>
     private void InitializeComponent() {
       this.panelChoice = new System.Windows.Forms.Panel();
+      this.label2 = new System.Windows.Forms.Label();
+      this.labelClient = new System.Windows.Forms.Label();
       this.comboBoxFeeling = new System.Windows.Forms.ComboBox();
-      this.textBoxDish = new System.Windows.Forms.TextBox();
-      this.labelFeeling = new System.Windows.Forms.Label();
-      this.labelDish = new System.Windows.Forms.Label();
+      this.comboBoxClients = new System.Windows.Forms.ComboBox();
       this.panelButton = new System.Windows.Forms.Panel();
       this.buttonSave = new System.Windows.Forms.Button();
       this.buttonCancel = new System.Windows.Forms.Button();
@@ -38,48 +38,48 @@
       // panelChoice
       // 
       this.panelChoice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.panelChoice.Controls.Add(this.label2);
+      this.panelChoice.Controls.Add(this.labelClient);
       this.panelChoice.Controls.Add(this.comboBoxFeeling);
-      this.panelChoice.Controls.Add(this.textBoxDish);
-      this.panelChoice.Controls.Add(this.labelFeeling);
-      this.panelChoice.Controls.Add(this.labelDish);
+      this.panelChoice.Controls.Add(this.comboBoxClients);
       this.panelChoice.Location = new System.Drawing.Point(12, 12);
       this.panelChoice.Name = "panelChoice";
       this.panelChoice.Size = new System.Drawing.Size(395, 58);
       this.panelChoice.TabIndex = 19;
       // 
+      // label2
+      // 
+      this.label2.AutoSize = true;
+      this.label2.Location = new System.Drawing.Point(3, 33);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(49, 13);
+      this.label2.TabIndex = 3;
+      this.label2.Text = "Reesnti :";
+      // 
+      // labelClient
+      // 
+      this.labelClient.AutoSize = true;
+      this.labelClient.Location = new System.Drawing.Point(3, 6);
+      this.labelClient.Name = "labelClient";
+      this.labelClient.Size = new System.Drawing.Size(39, 13);
+      this.labelClient.TabIndex = 2;
+      this.labelClient.Text = "Client :";
+      // 
       // comboBoxFeeling
       // 
       this.comboBoxFeeling.FormattingEnabled = true;
-      this.comboBoxFeeling.Location = new System.Drawing.Point(58, 29);
+      this.comboBoxFeeling.Location = new System.Drawing.Point(58, 30);
       this.comboBoxFeeling.Name = "comboBoxFeeling";
       this.comboBoxFeeling.Size = new System.Drawing.Size(332, 21);
-      this.comboBoxFeeling.TabIndex = 5;
+      this.comboBoxFeeling.TabIndex = 1;
       // 
-      // textBoxDish
+      // comboBoxClients
       // 
-      this.textBoxDish.Location = new System.Drawing.Point(58, 3);
-      this.textBoxDish.Name = "textBoxDish";
-      this.textBoxDish.ReadOnly = true;
-      this.textBoxDish.Size = new System.Drawing.Size(332, 20);
-      this.textBoxDish.TabIndex = 4;
-      // 
-      // labelFeeling
-      // 
-      this.labelFeeling.AutoSize = true;
-      this.labelFeeling.Location = new System.Drawing.Point(3, 32);
-      this.labelFeeling.Name = "labelFeeling";
-      this.labelFeeling.Size = new System.Drawing.Size(49, 13);
-      this.labelFeeling.TabIndex = 3;
-      this.labelFeeling.Text = "Reesnti :";
-      // 
-      // labelDish
-      // 
-      this.labelDish.AutoSize = true;
-      this.labelDish.Location = new System.Drawing.Point(3, 6);
-      this.labelDish.Name = "labelDish";
-      this.labelDish.Size = new System.Drawing.Size(31, 13);
-      this.labelDish.TabIndex = 2;
-      this.labelDish.Text = "Plat :";
+      this.comboBoxClients.FormattingEnabled = true;
+      this.comboBoxClients.Location = new System.Drawing.Point(58, 3);
+      this.comboBoxClients.Name = "comboBoxClients";
+      this.comboBoxClients.Size = new System.Drawing.Size(332, 21);
+      this.comboBoxClients.TabIndex = 0;
       // 
       // panelButton
       // 
@@ -112,16 +112,16 @@
       this.buttonCancel.Text = "Annuler";
       this.buttonCancel.UseVisualStyleBackColor = true;
       // 
-      // FormEditDishWish
+      // FormNewFeeling
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(419, 118);
       this.Controls.Add(this.panelChoice);
       this.Controls.Add(this.panelButton);
-      this.Name = "FormEditDishWish";
-      this.Text = "Modification resenti plat";
-      this.Load += new System.EventHandler(this.FormEditDishWish_Load);
+      this.Name = "FormNewFeeling";
+      this.Text = "Nouveau ressenti vers autre client";
+      this.Load += new System.EventHandler(this.FormNewFeeling_Load);
       this.panelChoice.ResumeLayout(false);
       this.panelChoice.PerformLayout();
       this.panelButton.ResumeLayout(false);
@@ -132,12 +132,12 @@
     #endregion
 
     private System.Windows.Forms.Panel panelChoice;
-    private System.Windows.Forms.TextBox textBoxDish;
-    private System.Windows.Forms.Label labelFeeling;
-    private System.Windows.Forms.Label labelDish;
+    private System.Windows.Forms.Label label2;
+    private System.Windows.Forms.Label labelClient;
+    private System.Windows.Forms.ComboBox comboBoxFeeling;
+    private System.Windows.Forms.ComboBox comboBoxClients;
     private System.Windows.Forms.Panel panelButton;
     private System.Windows.Forms.Button buttonSave;
     private System.Windows.Forms.Button buttonCancel;
-    private System.Windows.Forms.ComboBox comboBoxFeeling;
   }
 }

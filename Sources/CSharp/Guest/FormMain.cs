@@ -181,5 +181,42 @@ namespace Guest {
         }
       }
     }
+
+    private void buttonAddFeeling_Click(object sender, EventArgs e) {
+      if(CurrentClient != null) {
+        FormNewFeeling form = new FormNewFeeling();
+        form.CurrentClient = CurrentClient;
+        DialogResult result = form.ShowDialog();
+        if(result == DialogResult.OK) {
+          PopulateFeelings();
+        }
+      }
+    }
+
+    private void buttonEditFeeling_Click(object sender, EventArgs e) {
+      if(dataGridViewFeeling.SelectedRows.Count == 1) {
+        GetFeeling_Result selected = (GetFeeling_Result)dataGridViewFeeling.SelectedRows[0].DataBoundItem;
+        FormEditFeeling form = new FormEditFeeling();
+        form.ClientTo = selected;
+        form.CurrentClient = CurrentClient;
+        DialogResult result = form.ShowDialog();
+        if(result == DialogResult.OK) {
+          PopulateFeelings();
+        }
+      }
+    }
+
+    private void buttonDeleteFeeling_Click(object sender, EventArgs e) {
+      if(dataGridViewFeeling.SelectedRows.Count == 1) {
+        GetFeeling_Result selected = (GetFeeling_Result)dataGridViewFeeling.SelectedRows[0].DataBoundItem;
+        DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer la ressenti pour le client '" + selected.DisplayName() + "'?", "Confirmation de suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+        if(result == DialogResult.Yes) {
+          using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+            context.DeleteFeeling(CurrentClient.Id, selected.ClientId, selected.ModifiedAt);
+          }
+          PopulateFeelings();
+        }
+      }
+    }
   }
 }

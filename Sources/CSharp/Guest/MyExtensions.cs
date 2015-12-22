@@ -19,5 +19,11 @@ namespace Guest {
     public static string DisplayName(this GetWishedDish_Result dishWish) {
       return String.Format("{0} ({1})", dishWish.DishName, dishWish.DishType);
     }
+    public static string DisplayName(this GetUnfeeling_Result client) {
+      return String.Format("{0} {1}", client.FirstName, client.LastName);
+    }
+    public static string DisplayName(this GetFeeling_Result client) {
+      return String.Format("{0} {1}", client.FirstName, client.LastName);
+    }
   }
 }

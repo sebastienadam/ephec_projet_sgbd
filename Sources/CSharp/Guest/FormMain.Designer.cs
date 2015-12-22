@@ -242,6 +242,7 @@
       this.buttonDeleteFeeling.TabIndex = 12;
       this.buttonDeleteFeeling.Text = "Supprimer";
       this.buttonDeleteFeeling.UseVisualStyleBackColor = true;
+      this.buttonDeleteFeeling.Click += new System.EventHandler(this.buttonDeleteFeeling_Click);
       // 
       // dataGridViewFeeling
       // 
@@ -268,6 +269,7 @@
       this.buttonEditFeeling.TabIndex = 11;
       this.buttonEditFeeling.Text = "Modifier";
       this.buttonEditFeeling.UseVisualStyleBackColor = true;
+      this.buttonEditFeeling.Click += new System.EventHandler(this.buttonEditFeeling_Click);
       // 
       // labelFeeling
       // 
@@ -287,6 +289,7 @@
       this.buttonAddFeeling.TabIndex = 10;
       this.buttonAddFeeling.Text = "Ajouter";
       this.buttonAddFeeling.UseVisualStyleBackColor = true;
+      this.buttonAddFeeling.Click += new System.EventHandler(this.buttonAddFeeling_Click);
       // 
       // FormMain
       // 
