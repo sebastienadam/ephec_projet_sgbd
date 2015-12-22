@@ -144,5 +144,42 @@ namespace Guest {
         }
       }
     }
+
+    private void buttonAddDishWish_Click(object sender, EventArgs e) {
+      if(CurrentClient != null) {
+        FormNewDishWish form = new FormNewDishWish();
+        form.CurrentClient = CurrentClient;
+        DialogResult result = form.ShowDialog();
+        if(result == DialogResult.OK) {
+          PopulateDishWishes();
+        }
+      }
+    }
+
+    private void buttonEditDishWish_Click(object sender, EventArgs e) {
+      if(dataGridViewDishWish.SelectedRows.Count == 1) {
+        GetWishedDish_Result selected = (GetWishedDish_Result)dataGridViewDishWish.SelectedRows[0].DataBoundItem;
+        FormEditDishWish form = new FormEditDishWish();
+        form.CurrentDish = selected;
+        form.CurrentClient = CurrentClient;
+        DialogResult result = form.ShowDialog();
+        if(result == DialogResult.OK) {
+          PopulateDishWishes();
+        }
+      }
+    }
+
+    private void buttonDeleteDishWish_Click(object sender, EventArgs e) {
+      if(dataGridViewDishWish.SelectedRows.Count == 1) {
+        GetWishedDish_Result selected = (GetWishedDish_Result)dataGridViewDishWish.SelectedRows[0].DataBoundItem;
+        DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer la ressenti pour le plat '" + selected.DisplayName() + "'?", "Confirmation de suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+        if(result == DialogResult.Yes) {
+          using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+            context.DeleteDishWish(CurrentClient.Id, selected.DishId, selected.ModifiedAt);
+          }
+          PopulateDishWishes();
+        }
+      }
+    }
   }
 }

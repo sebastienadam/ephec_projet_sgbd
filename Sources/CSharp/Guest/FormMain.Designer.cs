@@ -172,6 +172,7 @@
       this.buttonDeleteDishWish.TabIndex = 15;
       this.buttonDeleteDishWish.Text = "Supprimer";
       this.buttonDeleteDishWish.UseVisualStyleBackColor = true;
+      this.buttonDeleteDishWish.Click += new System.EventHandler(this.buttonDeleteDishWish_Click);
       // 
       // dataGridViewDishWish
       // 
@@ -198,6 +199,7 @@
       this.buttonEditDishWish.TabIndex = 14;
       this.buttonEditDishWish.Text = "Modifier";
       this.buttonEditDishWish.UseVisualStyleBackColor = true;
+      this.buttonEditDishWish.Click += new System.EventHandler(this.buttonEditDishWish_Click);
       // 
       // labelDishWish
       // 
@@ -217,6 +219,7 @@
       this.buttonAddDishWish.TabIndex = 13;
       this.buttonAddDishWish.Text = "Ajouter";
       this.buttonAddDishWish.UseVisualStyleBackColor = true;
+      this.buttonAddDishWish.Click += new System.EventHandler(this.buttonAddDishWish_Click);
       // 
       // panelFeeling
       // 
