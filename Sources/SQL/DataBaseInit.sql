@@ -88,10 +88,10 @@ GO
 CREATE TABLE BACKOFFICE._BOOK (
   BOO_REC_ID int NOT NULL,
   BOO_CLI_ID int NOT NULL,
-  BOO_VALID bit NOT NULL DEFAULT(0), -- BR004 (partial)
+  BOO_VALID bit NOT NULL DEFAULT(0), -- BR010 (partial)
   BOO_UPDATE_AT datetime2,
   BOO_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
-  CONSTRAINT PK_BOOK PRIMARY KEY (BOO_REC_ID,BOO_CLI_ID) -- BR009
+  CONSTRAINT PK_BOOK PRIMARY KEY (BOO_REC_ID,BOO_CLI_ID) -- BR008
 );
 --------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._CHOOSE (
@@ -100,7 +100,7 @@ CREATE TABLE BACKOFFICE._CHOOSE (
   CHO_REC_ID int NOT NULL,
   CHO_UPDATE_AT datetime2,
   CHO_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
-  CONSTRAINT PK_CHOOSE PRIMARY KEY (CHO_CLI_ID,CHO_DIS_ID, CHO_REC_ID) -- BR017
+  CONSTRAINT PK_CHOOSE PRIMARY KEY (CHO_CLI_ID,CHO_DIS_ID, CHO_REC_ID) -- BR013
 );
 --------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._CLIENT(
@@ -115,7 +115,7 @@ CREATE TABLE BACKOFFICE._CLIENT(
   CLI_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_CLIENT PRIMARY KEY (CLI_ID),
   CONSTRAINT UK_CLIENT_ACRONYM UNIQUE (CLI_ACRONYM),
-  CONSTRAINT UK_CLIENT_FIRST_LAST_NAME UNIQUE (CLI_FNAME, CLI_LNAME) -- BR0012
+  CONSTRAINT UK_CLIENT_FIRST_LAST_NAME UNIQUE (CLI_FNAME, CLI_LNAME) -- BR003
 );
 --------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._DISH (
@@ -125,7 +125,7 @@ CREATE TABLE BACKOFFICE._DISH (
   DIS_UPDATE_AT datetime2,
   DIS_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_DISH PRIMARY KEY (DIS_ID),
-  CONSTRAINT UK_DISH_NAME_TYPE UNIQUE (DIS_NAME, DIS_TYPE)
+  CONSTRAINT UK_DISH_NAME_TYPE UNIQUE (DIS_NAME, DIS_TYPE) -- BR004
 );
 --------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._DISHTYPE (
@@ -140,7 +140,7 @@ CREATE TABLE BACKOFFICE._FEEL_CLI_CLI (
   FCC_FTY_ID int NOT NULL,
   FCC_UPDATE_AT datetime2,
   FCC_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
-  CONSTRAINT PK_FEEL_CLI_CLI PRIMARY KEY (FCC_CLI_FROM_ID,FCC_CLI_TO_ID) -- BR002
+  CONSTRAINT PK_FEEL_CLI_CLI PRIMARY KEY (FCC_CLI_FROM_ID,FCC_CLI_TO_ID) -- BR015
 );
 --------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._FEEL_CLI_DIS (
@@ -149,7 +149,7 @@ CREATE TABLE BACKOFFICE._FEEL_CLI_DIS (
   FCD_FTY_ID int NOT NULL,
   FCD_UPDATE_AT datetime2,
   FCD_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
-  CONSTRAINT PK_FEEL_CLI_DIS PRIMARY KEY (FCD_CLI_ID,FCD_DIS_ID) -- BR001
+  CONSTRAINT PK_FEEL_CLI_DIS PRIMARY KEY (FCD_CLI_ID,FCD_DIS_ID) -- BR017
 );
 --------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._FEELINGTYPE (
@@ -163,7 +163,7 @@ CREATE TABLE BACKOFFICE._OFFER (
   OFF_DIS_ID int NOT NULL,
   OFF_UPDATE_AT datetime2,
   OFF_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
-  CONSTRAINT PK_OFFER PRIMARY KEY (OFF_REC_ID,OFF_DIS_ID) -- BR016
+  CONSTRAINT PK_OFFER PRIMARY KEY (OFF_REC_ID,OFF_DIS_ID) -- BR005
 );
 --------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._RECEPTION (
@@ -173,7 +173,7 @@ CREATE TABLE BACKOFFICE._RECEPTION (
   REC_DATE_CLOSING_REG datetime2 NOT NULL,
   REC_CAPACITY int NOT NULL,
   REC_SEAT_TABLE int NOT NULL,
-  REC_VALID bit NOT NULL DEFAULT(0), -- BR003 (partial)
+  REC_VALID bit NOT NULL DEFAULT(0), -- BR004 (partial)
   REC_UPDATE_AT datetime2,
   REC_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_RECEPTION PRIMARY KEY (REC_ID),
@@ -185,7 +185,7 @@ CREATE TABLE BACKOFFICE._SIT (
   SIT_CLI_ID int NOT NULL,
   SIT_UPDATE_AT datetime2,
   SIT_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
-  CONSTRAINT PK_SIT PRIMARY KEY (SIT_TAB_ID,SIT_CLI_ID) -- BR010
+  CONSTRAINT PK_SIT PRIMARY KEY (SIT_TAB_ID,SIT_CLI_ID) -- BRX008
 );
 --------------------------------------------------------------------------------
 CREATE TABLE BACKOFFICE._TABLE (
@@ -193,7 +193,7 @@ CREATE TABLE BACKOFFICE._TABLE (
   TAB_NUMBER int NOT NULL,
   TAB_SEATING int NOT NULL,
   TAB_REC_ID int NOT NULL,
-  TAB_VALID  bit NOT NULL DEFAULT(0), -- BR008
+  TAB_VALID  bit NOT NULL DEFAULT(0), -- BR019 (partial)
   TAB_UPDATE_AT datetime2,
   TAB_UPDATE_BY char(8) NOT NULL DEFAULT(CURRENT_USER),
   CONSTRAINT PK_TABLE PRIMARY KEY (TAB_ID),
@@ -415,7 +415,7 @@ GO
 -- Description: Tests if the reservation is valid for a reception. For a
 --              reservation to be valid, it is necessary that the customer has
 --              reserved its menu. If the reservation is valid, returns 1.
---              Otherwise return 0. (BR004)
+--              Otherwise return 0. (BR010)
 -- =============================================================================
 CREATE FUNCTION BACKOFFICE.IS_VALID_BOOK
 (
@@ -447,7 +447,7 @@ GO
 -- Create date: Dec2015
 -- Description: Tests whether a reception is valid. To be valid, a reception
 --              must offer at least one dish of each type. If the reception is
---              valid, returns 1. Otherwise return 0. (BR003)
+--              valid, returns 1. Otherwise return 0. (BR004)
 -- =============================================================================
 CREATE FUNCTION BACKOFFICE.IS_VALID_RECEPTION
 (
@@ -476,21 +476,23 @@ GO
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
 -- Description: Tests whether a table is valid. To be valid, a table must have
---              at least two customers who are seated. If the table is valid,
---              returns 1. Otherwise return 0. (BR008)
+--              at least two clients who are seated. If the table is valid,
+--              returns 1. Otherwise return 0. (BR019)
 -- =============================================================================
 CREATE FUNCTION BACKOFFICE.IS_VALID_TABLE
 (
-    @TabId int
+  @TabId int
 )
 RETURNS bit
 AS
 BEGIN
   DECLARE @Result bit;
-  IF EXISTS(SELECT *
-            FROM BACKOFFICE._SIT
-            WHERE SIT_TAB_ID = @TabId
-            HAVING COUNT(*) < 2) BEGIN
+  IF @TabId IS NULL BEGIN
+    SET @Result = 0;
+  END ELSE IF EXISTS(SELECT *
+                     FROM BACKOFFICE._SIT
+                     WHERE SIT_TAB_ID = @TabId
+                     HAVING COUNT(*) < 2) BEGIN
     SET @Result = 0;
   END ELSE BEGIN
     SET @Result = 1;
@@ -1169,7 +1171,7 @@ GO
 -- =============================================================================
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
--- Description: Assignes the validation bit of a reception.
+-- Description: Assignes the validation bit of a reception. (BR004)
 -- =============================================================================
 CREATE PROCEDURE BACKOFFICE.SP_VALIDATE_RECEPTION
   @RecId int
@@ -1233,7 +1235,7 @@ BEGIN
     WHERE FCD_CLI_ID = @CliId
       AND FCD_DIS_ID = @DisId;
   END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
+    ;THROW 50000, 'Your record is not up to date', 1;
   END
 END
 GO
@@ -1254,7 +1256,7 @@ BEGIN
     WHERE FCC_CLI_FROM_ID = @CliFromId
       AND FCC_CLI_TO_ID = @CliToId;
   END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
+    ;THROW 50000, 'Your record is not up to date', 1;
   END
 END
 GO
@@ -1275,7 +1277,7 @@ BEGIN
     WHERE BOO_CLI_ID = @CliId
       AND BOO_REC_ID = @RecId;
   END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
+    ;THROW 50000, 'Your record is not up to date', 1;
   END
 END
 GO
@@ -1298,7 +1300,7 @@ BEGIN
       AND CHO_DIS_ID = @DisId
       AND CHO_REC_ID = @RecId;
   END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
+    ;THROW 50000, 'Your record is not up to date', 1;
   END
 END
 GO
@@ -1391,14 +1393,16 @@ CREATE PROCEDURE CLIENTAREA.UpdateFeeling
 AS
 BEGIN
   SET NOCOUNT ON;
-  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI(@CliFromId,@CliToId) BEGIN
-    UPDATE BACKOFFICE._FEEL_CLI_CLI
-    SET FCC_FTY_ID = @FtyId,
-        FCC_UPDATE_BY = @ModifiedBy
-    WHERE FCC_CLI_FROM_ID = @CliFromId
-      AND FCC_CLI_TO_ID = @CliToId;
-  END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
+  IF (@CliFromId IS NOT NULL) AND (@CliToId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@ModifiedAt IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
+    IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI(@CliFromId,@CliToId) BEGIN
+      UPDATE BACKOFFICE._FEEL_CLI_CLI
+      SET FCC_FTY_ID = @FtyId,
+          FCC_UPDATE_BY = @ModifiedBy
+      WHERE FCC_CLI_FROM_ID = @CliFromId
+        AND FCC_CLI_TO_ID = @CliToId;
+    END ELSE BEGIN
+      ;THROW 50000, 'Your record is not up to date', 1;
+    END
   END
 END
 GO
@@ -1416,14 +1420,16 @@ CREATE PROCEDURE CLIENTAREA.UpdateWishedDish
 AS
 BEGIN
   SET NOCOUNT ON;
-  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_DIS(@CliId,@DisId) BEGIN
-    UPDATE BACKOFFICE._FEEL_CLI_DIS
-    SET FCD_FTY_ID = @DtyId,
-        FCD_UPDATE_BY = @ModifiedBy
-    WHERE FCD_CLI_ID = @CliId
-      AND FCD_DIS_ID = @DisId;
-  END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
+  IF (@CliId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@DtyId IS NOT NULL) AND (@ModifiedAt IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
+    IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_DIS(@CliId,@DisId) BEGIN
+      UPDATE BACKOFFICE._FEEL_CLI_DIS
+      SET FCD_FTY_ID = @DtyId,
+          FCD_UPDATE_BY = @ModifiedBy
+      WHERE FCD_CLI_ID = @CliId
+        AND FCD_DIS_ID = @DisId;
+    END ELSE BEGIN
+      ;THROW 50000, 'Your record is not up to date', 1;
+    END
   END
 END
 GO
@@ -1439,12 +1445,14 @@ CREATE PROCEDURE MANAGERAREA.DeleteMenu
 AS
 BEGIN
   SET NOCOUNT ON;
-  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_OFFER(@RecId, @DisId) BEGIN
-    DELETE FROM BACKOFFICE._OFFER
-    WHERE OFF_REC_ID = @RecId
-      AND OFF_DIS_ID = @DisId;
-  END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
+  IF (@RecId IS NOT NULL) AND (@DisId IS NOT NULL) AND (@ModifiedAt IS NOT NULL) BEGIN
+    IF @ModifiedAt = BACKOFFICE.UPDATE_AT_OFFER(@RecId, @DisId) BEGIN
+      DELETE FROM BACKOFFICE._OFFER
+      WHERE OFF_REC_ID = @RecId
+        AND OFF_DIS_ID = @DisId;
+    END ELSE BEGIN
+      ;THROW 50000, 'Your record is not up to date', 1;
+    END
   END
 END
 GO
@@ -1460,12 +1468,14 @@ CREATE PROCEDURE MANAGERAREA.DeleteSit
 AS
 BEGIN
   SET NOCOUNT ON;
-  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_SIT(@TabId,@CliId) BEGIN
-    DELETE BACKOFFICE._SIT
-    WHERE SIT_TAB_ID = @TabId
-      AND SIT_CLI_ID = @CliId;
-  END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
+  IF (@TabId IS NOT NULL) AND (@CliId IS NOT NULL) AND (@ModifiedAt IS NOT NULL) BEGIN
+    IF @ModifiedAt = BACKOFFICE.UPDATE_AT_SIT(@TabId,@CliId) BEGIN
+      DELETE BACKOFFICE._SIT
+      WHERE SIT_TAB_ID = @TabId
+        AND SIT_CLI_ID = @CliId;
+    END ELSE BEGIN
+      ;THROW 50000, 'Your record is not up to date', 1;
+    END
   END
 END
 GO
@@ -1480,11 +1490,13 @@ CREATE PROCEDURE MANAGERAREA.DeleteTable
 AS
 BEGIN
   SET NOCOUNT ON;
-  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_TABLE(@TabId) BEGIN
-    DELETE BACKOFFICE._TABLE
-    WHERE TAB_ID = @TabId;
-  END ELSE BEGIN
-    ;THROW 50010, 'Your record is not up to date', 1;
+  IF (@TabId IS NOT NULL) AND (@ModifiedAt IS NOT NULL) BEGIN
+    IF @ModifiedAt = BACKOFFICE.UPDATE_AT_TABLE(@TabId) BEGIN
+      DELETE BACKOFFICE._TABLE
+      WHERE TAB_ID = @TabId;
+    END ELSE BEGIN
+      ;THROW 50000, 'Your record is not up to date', 1;
+    END
   END
 END
 GO
@@ -1593,12 +1605,12 @@ GO
 -- Create date: Dec2015
 -- Description: Automatically assigns the modification date and the user who
 --              made it. Verifies that:
---              - the reception is valid (BR004)
---              - the reception is not full
---              - the registration for the reception is not closed (BR014)
+--              - the reception is valid (BR006)
+--              - the reception is not full (BR007)
+--              - the registration for the reception is not closed (BR001)
 --              - the client does not register many receptions that go together
---                (BR020)
---              Also assigns the validation bit. (BR004)
+--                (BR009)
+--              Also assigns the validation bit for the resrvation.
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_BOOK_INSERTUPDATE
    ON BACKOFFICE._BOOK
@@ -1620,8 +1632,8 @@ BEGIN
   OPEN InsertCursorBook;
   FETCH InsertCursorBook INTO @RecId, @CliId;
   WHILE @@FETCH_STATUS = 0 BEGIN
-    IF BACKOFFICE.IS_VALID_RECEPTION(@RecId) <> 1 BEGIN
-      SET @Error = 50002;
+    IF BACKOFFICE.IS_VALID_RECEPTION(@RecId) <> 1 BEGIN -- BR006
+      SET @Error = 50006;
       BREAK;
     END
     SELECT @RecDate = REC_DATE, @RecCloseDate = REC_DATE_CLOSING_REG, @RecCapacity = REC_CAPACITY
@@ -1631,12 +1643,12 @@ BEGIN
     IF EXISTS(SELECT *
               FROM BACKOFFICE._BOOK
               WHERE BOO_REC_ID = @RecId
-              HAVING COUNT(*) > @RecCapacity) BEGIN
-      SET @Error = 50011;
+              HAVING COUNT(*) > @RecCapacity) BEGIN -- BR007
+      SET @Error = 50007;
       BREAK;
     END
-    IF @RecCloseDate < @Now BEGIN
-      SET @Error = 50008;
+    IF @RecCloseDate < @Now BEGIN -- BR001
+      SET @Error = 50001;
       BREAK;
     END
     IF EXISTS(SELECT *
@@ -1645,14 +1657,14 @@ BEGIN
                                FROM BACKOFFICE._BOOK
                                WHERE BOO_CLI_ID = @CliId)
                 AND REC_ID <> @RecId
-                AND CONVERT(DATE,REC_DATE) = CONVERT(DATE,@RecDate)) BEGIN
+                AND CONVERT(DATE,REC_DATE) = CONVERT(DATE,@RecDate)) BEGIN -- BR009
       SET @Error = 50009;
       BREAK;
     END
     UPDATE BACKOFFICE._BOOK
     SET BOO_UPDATE_AT = @Now,
 --         BOO_UPDATE_BY = CURRENT_USER,
-        BOO_VALID = BACKOFFICE.IS_VALID_BOOK(@RecId, @CliId) -- BR004 (partial)
+        BOO_VALID = BACKOFFICE.IS_VALID_BOOK(@RecId, @CliId) -- BR010 (partial)
     WHERE BOO_REC_ID = @RecId AND BOO_CLI_ID = @CliId;
     FETCH InsertCursorBook INTO @RecId, @CliId;
   END;
@@ -1696,10 +1708,10 @@ GO
 -- Description: Automatically assigns the modification date and the user who
 --              made it. Also ensures that:
 --              - the customer has booked for the reception for which he chooses
---                his dish (BR005)
---              - the chosen dish is proposed at the chosen reception (BR019)
+--                his dish (BR012)
+--              - the chosen dish is proposed at the chosen reception (BR011)
 --              - the customer provided only one dish of each type for a given
---                reception (BR004)
+--                reception (BR014)
 --              If the customer chose a dish of each type, validate booking.
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_CHOOSE_INSERTUPDATE
@@ -1721,14 +1733,14 @@ BEGIN
   WHILE @@FETCH_STATUS = 0 BEGIN
     IF NOT EXISTS(SELECT *
                   FROM BACKOFFICE._BOOK
-                  WHERE BOO_CLI_ID = @CliId AND BOO_REC_ID = @RecId) BEGIN
-      SET @Error = 50003;
+                  WHERE BOO_CLI_ID = @CliId AND BOO_REC_ID = @RecId) BEGIN -- BR012
+      SET @Error = 50012;
       BREAK;
     END
     IF NOT EXISTS(SELECT *
                   FROM BACKOFFICE._OFFER
-                  WHERE OFF_DIS_ID = @DisId AND OFF_REC_ID = @RecId) BEGIN
-      SET @Error = 50004;
+                  WHERE OFF_DIS_ID = @DisId AND OFF_REC_ID = @RecId) BEGIN -- BR011
+      SET @Error = 50011;
       BREAK;
     END
     IF EXISTS(SELECT *
@@ -1739,8 +1751,8 @@ BEGIN
                                  WHERE CHO_DIS_ID = DIS_ID
                                    AND CHO_CLI_ID = @CliId
                                    AND CHO_REC_ID = @RecId
-                                   AND CHO_DIS_ID <> @DisId)) BEGIN
-      SET @Error = 50001;
+                                   AND CHO_DIS_ID <> @DisId)) BEGIN -- BR014
+      SET @Error = 50014;
       BREAK;
     END
     UPDATE BACKOFFICE._CHOOSE
@@ -1800,7 +1812,7 @@ GO
 -- Create date: Dec2015
 -- Description: Automatically assigns the modification date and the user who
 --              made it. Also prohibit a client to feel something to himself
---              (BR018)
+--              (BR016)
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_FEEL_CLI_CLI_INSERTUPDATE
    ON BACKOFFICE._FEEL_CLI_CLI
@@ -1818,14 +1830,15 @@ BEGIN
   OPEN InsertCursorFeelCC;
   FETCH InsertCursorFeelCC INTO @CliFromId, @CliToId;
   WHILE @@FETCH_STATUS = 0 BEGIN
-    IF @CliFromId = @CliToId BEGIN
-      SET @Error = 50000;
+    IF @CliFromId = @CliToId BEGIN -- BR016
+      SET @Error = 50016;
       BREAK
     END
     UPDATE BACKOFFICE._FEEL_CLI_CLI
     SET FCC_UPDATE_AT = GETDATE()--,
 --         FCC_UPDATE_BY = CURRENT_USER
-    WHERE FCC_CLI_FROM_ID = @CliFromId AND FCC_CLI_TO_ID = @CliToId;
+    WHERE FCC_CLI_FROM_ID = @CliFromId
+      AND FCC_CLI_TO_ID = @CliToId;
     FETCH InsertCursorFeelCC INTO @CliFromId, @CliToId;
   END;
   CLOSE InsertCursorFeelCC;
@@ -1871,7 +1884,7 @@ GO
 -- Create date: Dec2015
 -- Description: Automatically assigns the modification date and the user who
 --              made it. Also validates the correspondig reception when a type
---              of each dish is offered. (BR003)
+--              of each dish is offered. (BR004)
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_OFFER_INSERTUPDATE
    ON BACKOFFICE._OFFER
@@ -1891,7 +1904,8 @@ BEGIN
     UPDATE BACKOFFICE._OFFER
     SET OFF_UPDATE_AT = GETDATE()--,
 --         OFF_UPDATE_BY = CURRENT_USER
-    WHERE OFF_REC_ID = @RecId AND OFF_DIS_ID = @DisId;
+    WHERE OFF_REC_ID = @RecId
+      AND OFF_DIS_ID = @DisId;
     EXECUTE BACKOFFICE.SP_VALIDATE_RECEPTION @RecId;
     FETCH InsertCursorOffer INTO @RecId, @DisId;
   END;
@@ -1903,7 +1917,9 @@ GO
 -- Author:      Sébastien Adam
 -- Create date: Dec2015
 -- Description: Automatically assigns the modification date and the user who
---              made it. Also assigns the validation bit. (BR003)
+--              made it. Also ensures that the closing date for the
+--              registrations is after the date of the reception (BR002).  Also
+--              assigns the validation bit. (BR004)
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_RECEPTION_INSERTUPDATE
    ON BACKOFFICE._RECEPTION
@@ -1911,22 +1927,34 @@ CREATE TRIGGER BACKOFFICE.TR_RECEPTION_INSERTUPDATE
 AS
 BEGIN
   SET NOCOUNT ON;
-  DECLARE @RecId int;
+  DECLARE @RecId int,
+          @RecDate datetime2,
+          @RecEndBook datetime2,
+          @Error int;
+  SET @Error = 0;
   DECLARE InsertCursorReception CURSOR
-  FOR SELECT REC_ID
+  FOR SELECT REC_ID, REC_DATE, REC_DATE_CLOSING_REG
       FROM inserted;
   OPEN InsertCursorReception;
-  FETCH InsertCursorReception INTO @RecId;
+  FETCH InsertCursorReception INTO @RecId, @RecDate, @RecEndBook;
   WHILE @@FETCH_STATUS = 0 BEGIN
+    IF @RecEndBook > @RecDate BEGIN -- BR002
+      SET @Error = 50002;
+      BREAK;
+    END
     UPDATE BACKOFFICE._RECEPTION
     SET REC_UPDATE_AT = GETDATE(),
 --         REC_UPDATE_BY = CURRENT_USER,
-        REC_VALID = BACKOFFICE.IS_VALID_RECEPTION(@RecId) -- BR003 (partial)
+        REC_VALID = BACKOFFICE.IS_VALID_RECEPTION(@RecId) -- BR004 (partial)
     WHERE REC_ID = @RecId;
-    FETCH InsertCursorReception INTO @RecId;
+    FETCH InsertCursorReception INTO @RecId, @RecDate, @RecEndBook;
   END;
   CLOSE InsertCursorReception;
   DEALLOCATE InsertCursorReception;
+  IF @Error <> 0 BEGIN
+    ROLLBACK;
+    THROW @Error, 'Fail to add reception.', 1;
+  END
 END
 GO
 -- =============================================================================
@@ -1960,11 +1988,11 @@ GO
 -- Description: Automatically assigns the modification date and the user who
 --              made it. Also ensure that:
 --              - there are no more client sitting at a table that seats at the
---                table. (BR007)
---              - a client is registered at the reception to sit down. (BR011)
+--                table. (BR020)
+--              - a client is registered at the reception to sit down. (BR021)
 --              - a client does not sit at several tables in the same reception.
---                (BR010)
---              Also assign the validation bit of the table. (BR008)
+--                (BR022)
+--              Also assign the validation bit of the table. (BR019)
 -- =============================================================================
 CREATE TRIGGER BACKOFFICE.TR_SIT_INSERTUPDATE
    ON BACKOFFICE._SIT
@@ -1989,8 +2017,8 @@ BEGIN
               GROUP BY SIT_TAB_ID
               HAVING COUNT(*) > (SELECT TAB_SEATING
                                  FROM BACKOFFICE._TABLE
-                                 WHERE TAB_ID = @TabId)) BEGIN
-      SET @Error = 50007;
+                                 WHERE TAB_ID = @TabId)) BEGIN -- BR020
+      SET @Error = 50020;
       BREAK;
     END
     FETCH InsertCursorSit INTO @TabId;
@@ -2009,8 +2037,8 @@ BEGIN
       WHERE TAB_ID = @TabId;
       IF NOT EXISTS(SELECT *
                     FROM BACKOFFICE._BOOK
-                    WHERE BOO_CLI_ID = @CliId AND BOO_REC_ID = @RecId) BEGIN
-        SET @Error = 50006;
+                    WHERE BOO_CLI_ID = @CliId AND BOO_REC_ID = @RecId) BEGIN -- BR021
+        SET @Error = 50021;
         BREAK;
       END
       IF EXISTS(SELECT *
@@ -2019,8 +2047,8 @@ BEGIN
                   AND SIT_TAB_ID <> @TabId
                   AND SIT_TAB_ID IN (SELECT TAB_ID
                                      FROM BACKOFFICE._TABLE
-                                     WHERE TAB_REC_ID = @RecId)) BEGIN
-        SET @Error = 50005;
+                                     WHERE TAB_REC_ID = @RecId)) BEGIN -- BR022
+        SET @Error = 50022;
         BREAK;
       END
       UPDATE BACKOFFICE._SIT
@@ -2039,7 +2067,7 @@ BEGIN
     OPEN InsertCursorSit;
     FETCH InsertCursorSit INTO @TabId;
     WHILE @@FETCH_STATUS = 0 BEGIN
-      EXECUTE BACKOFFICE.SP_VALIDATE_TABLE @TabId;
+      EXECUTE BACKOFFICE.SP_VALIDATE_TABLE @TabId; -- BR019 (partial)
       FETCH InsertCursorSit INTO @TabId;
     END
     CLOSE InsertCursorSit;
@@ -2073,7 +2101,7 @@ BEGIN
     UPDATE BACKOFFICE._TABLE
     SET TAB_UPDATE_AT = GETDATE(),
 --         TAB_UPDATE_BY = CURRENT_USER,
-        TAB_VALID = BACKOFFICE.IS_VALID_TABLE(@TabId) -- BR008 (partial)
+        TAB_VALID = BACKOFFICE.IS_VALID_TABLE(@TabId) -- BR019 (partial)
     WHERE TAB_ID = @TabId;
     FETCH InsertCursorTable INTO @TabId;
   END;

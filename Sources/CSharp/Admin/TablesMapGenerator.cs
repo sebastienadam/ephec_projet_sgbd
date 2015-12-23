@@ -42,6 +42,7 @@ namespace Admin {
         }
         CurrentTable.Add(client);
       }
+      Tables.Add(CurrentTable);
       //i = 0;
       //while(ClientsToSeat.Count > 0) {
       //  try {
