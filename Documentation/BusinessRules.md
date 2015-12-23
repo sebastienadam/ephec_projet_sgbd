@@ -23,4 +23,4 @@
 * **BR020**: Il ne peut y avoir plus de convives assis à une mêm table que la capacité de celle-ci.
 * **BR021**: Un invité ne peut s'asseoir à une table que s'il est inscrit à la réception.
 * **BR022**: Un invité ne peut s'asseoir qu'à une seule table par réception.
-* **BRX030**: Il ne peut y avoir à une même table des invités qui ne s'apprécient pas.
+* **BR023**: Il ne peut y avoir à une même table des invités qui ne s'apprécient pas.
