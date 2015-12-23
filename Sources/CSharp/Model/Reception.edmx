@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ProjetSGBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ProjetSGBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ProjetSGBD.CLIENTAREA.Client' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Client">
@@ -221,21 +221,23 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Key>
             <PropertyRef Name="ReceptionName" />
             <PropertyRef Name="ReceptionDate" />
-            <PropertyRef Name="TableId" />
+            <PropertyRef Name="TableNumber" />
             <PropertyRef Name="ClientFirstName" />
             <PropertyRef Name="ClientLastName" />
             <PropertyRef Name="IsValid" />
             <PropertyRef Name="ReceptionId" />
+            <PropertyRef Name="TableId" />
             <PropertyRef Name="ClientId" />
             <PropertyRef Name="ModifiedBy" />
           </Key>
           <Property Name="ReceptionName" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="ReceptionDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="TableId" Type="int" Nullable="false" />
+          <Property Name="TableNumber" Type="int" Nullable="false" />
           <Property Name="ClientFirstName" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="ClientLastName" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="IsValid" Type="bit" Nullable="false" />
           <Property Name="ReceptionId" Type="int" Nullable="false" />
+          <Property Name="TableId" Type="int" Nullable="false" />
           <Property Name="ClientId" Type="int" Nullable="false" />
           <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
           <Property Name="ModifiedBy" Type="char" MaxLength="8" Nullable="false" />
@@ -246,8 +248,8 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
         </Function>
         <Function Name="DeleteFeeling" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="CliCliId" Type="int" Mode="In" />
+          <Parameter Name="CliFromId" Type="int" Mode="In" />
+          <Parameter Name="CliToId" Type="int" Mode="In" />
           <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
         </Function>
         <Function Name="DeleteReservation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
@@ -361,17 +363,18 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             </CollectionType>
           </ReturnType>
         </Function>
-        <Function Name="GetTableMap" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
+        <Function Name="GetTablesMap" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
           <Parameter Name="RecId" Type="int" Mode="In" />
           <Parameter Name="TabId" Type="int" Mode="In" />
           <ReturnType>
             <CollectionType>
               <RowType>
-                <Property Name="TableId" Type="int" />
+                <Property Name="TableNumber" Type="int" />
                 <Property Name="ClientFirstName" Type="varchar" MaxLength="64" />
                 <Property Name="ClientLastName" Type="varchar" MaxLength="64" />
                 <Property Name="IsValid" Type="bit" />
                 <Property Name="ReceptionId" Type="int" />
+                <Property Name="TableId" Type="int" />
                 <Property Name="ClientId" Type="int" />
                 <Property Name="ModifiedAt" Type="datetime2" Precision="7" />
                 <Property Name="ModifiedBy" Type="char" MaxLength="8" />
@@ -459,8 +462,8 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           </ReturnType>
         </Function>
         <Function Name="NewFeeling" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="CliCliId" Type="int" Mode="In" />
+          <Parameter Name="CliFromId" Type="int" Mode="In" />
+          <Parameter Name="CliToId" Type="int" Mode="In" />
           <Parameter Name="FtyId" Type="int" Mode="In" />
           <Parameter Name="ModifiedBy" Type="char" Mode="In" />
         </Function>
@@ -482,8 +485,8 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Parameter Name="ModifiedBy" Type="char" Mode="In" />
         </Function>
         <Function Name="UpdateFeeling" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="CLIENTAREA">
-          <Parameter Name="CliId" Type="int" Mode="In" />
-          <Parameter Name="CliCliId" Type="int" Mode="In" />
+          <Parameter Name="CliFromId" Type="int" Mode="In" />
+          <Parameter Name="CliToId" Type="int" Mode="In" />
           <Parameter Name="FtyId" Type="int" Mode="In" />
           <Parameter Name="ModifiedAt" Type="datetime2" Mode="In" />
           <Parameter Name="ModifiedBy" Type="char" Mode="In" />
@@ -663,19 +666,19 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <DefiningQuery>SELECT 
     [TablesMap].[ReceptionName] AS [ReceptionName], 
     [TablesMap].[ReceptionDate] AS [ReceptionDate], 
-    [TablesMap].[TableId] AS [TableId], 
+    [TablesMap].[TableNumber] AS [TableNumber], 
     [TablesMap].[ClientFirstName] AS [ClientFirstName], 
     [TablesMap].[ClientLastName] AS [ClientLastName], 
     [TablesMap].[IsValid] AS [IsValid], 
     [TablesMap].[ReceptionId] AS [ReceptionId], 
+    [TablesMap].[TableId] AS [TableId], 
     [TablesMap].[ClientId] AS [ClientId], 
     [TablesMap].[ModifiedAt] AS [ModifiedAt], 
     [TablesMap].[ModifiedBy] AS [ModifiedBy]
     FROM [MANAGERAREA].[TablesMap] AS [TablesMap]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProjetSGBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -734,12 +737,13 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Property Name="ModifiedAt" Type="DateTime" />
           <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="GetTableMap_Result">
-          <Property Name="TableId" Type="Int32" />
+        <ComplexType Name="GetTablesMap_Result">
+          <Property Name="TableNumber" Type="Int32" />
           <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
           <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
           <Property Name="IsValid" Type="Boolean" />
           <Property Name="ReceptionId" Type="Int32" />
+          <Property Name="TableId" Type="Int32" />
           <Property Name="ClientId" Type="Int32" />
           <Property Name="ModifiedAt" Type="DateTime" />
           <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
@@ -988,21 +992,23 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
           <Key>
             <PropertyRef Name="ReceptionName" />
             <PropertyRef Name="ReceptionDate" />
-            <PropertyRef Name="TableId" />
+            <PropertyRef Name="TableNumber" />
             <PropertyRef Name="ClientFirstName" />
             <PropertyRef Name="ClientLastName" />
             <PropertyRef Name="IsValid" />
             <PropertyRef Name="ReceptionId" />
+            <PropertyRef Name="TableId" />
             <PropertyRef Name="ClientId" />
             <PropertyRef Name="ModifiedBy" />
           </Key>
           <Property Name="ReceptionName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReceptionDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="TableId" Type="Int32" Nullable="false" />
+          <Property Name="TableNumber" Type="Int32" Nullable="false" />
           <Property Name="ClientFirstName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ClientLastName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IsValid" Type="Boolean" Nullable="false" />
           <Property Name="ReceptionId" Type="Int32" Nullable="false" />
+          <Property Name="TableId" Type="Int32" Nullable="false" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
           <Property Name="ModifiedAt" Type="DateTime" Precision="7" />
           <Property Name="ModifiedBy" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
@@ -1028,40 +1034,40 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <Parameter Name="DtyId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetReservableReception" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetReservableReception_Result)">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
+          <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetReservation" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetReservation_Result)">
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
+          <Parameter Name="RecId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetReservedDish" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetReservedDish_Result)">
             <Parameter Name="RecId" Mode="In" Type="Int32" />
             <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetReservedReception" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetReservedReception_Result)">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
+          <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="GetTableMap" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetTableMap_Result)">
+          <FunctionImport Name="GetTablesMap" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetTablesMap_Result)">
             <Parameter Name="RecId" Mode="In" Type="Int32" />
             <Parameter Name="TabId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetUnfeeling" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetUnfeeling_Result)">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
+          <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetUnreservation" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetUnreservation_Result)">
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
+          <Parameter Name="RecId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetUnreservedReception" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetUnreservedReception_Result)">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
+          <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetUnwishedDish" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetUnwishedDish_Result)">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
+          <Parameter Name="CliId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetWishedDish" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetWishedDish_Result)">
             <Parameter Name="CliId" Mode="In" Type="Int32" />
             <Parameter Name="FtyId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetDishToPrepare" IsComposable="true" ReturnType="Collection(ProjetSGBDModel.GetDishToPrepare_Result)">
-            <Parameter Name="RecId" Mode="In" Type="Int32" />
+          <Parameter Name="RecId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteDishWish">
             <Parameter Name="CliId" Mode="In" Type="Int32" />
@@ -1069,8 +1075,8 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="DeleteFeeling">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="CliCliId" Mode="In" Type="Int32" />
+            <Parameter Name="CliFromId" Mode="In" Type="Int32" />
+            <Parameter Name="CliToId" Mode="In" Type="Int32" />
             <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="DeleteReservation">
@@ -1085,8 +1091,8 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="NewFeeling">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="CliCliId" Mode="In" Type="Int32" />
+            <Parameter Name="CliFromId" Mode="In" Type="Int32" />
+            <Parameter Name="CliToId" Mode="In" Type="Int32" />
             <Parameter Name="FtyId" Mode="In" Type="Int32" />
             <Parameter Name="ModifiedBy" Mode="In" Type="String" />
           </FunctionImport>
@@ -1108,8 +1114,8 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
             <Parameter Name="ModifiedBy" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UpdateFeeling">
-            <Parameter Name="CliId" Mode="In" Type="Int32" />
-            <Parameter Name="CliCliId" Mode="In" Type="Int32" />
+            <Parameter Name="CliFromId" Mode="In" Type="Int32" />
+            <Parameter Name="CliToId" Mode="In" Type="Int32" />
             <Parameter Name="FtyId" Mode="In" Type="Int32" />
             <Parameter Name="ModifiedAt" Mode="In" Type="DateTime" />
             <Parameter Name="ModifiedBy" Mode="In" Type="String" />
@@ -1302,11 +1308,12 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
               <MappingFragment StoreEntitySet="TablesMap">
                 <ScalarProperty Name="ReceptionName" ColumnName="ReceptionName" />
                 <ScalarProperty Name="ReceptionDate" ColumnName="ReceptionDate" />
-                <ScalarProperty Name="TableId" ColumnName="TableId" />
+                <ScalarProperty Name="TableNumber" ColumnName="TableNumber" />
                 <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
                 <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
                 <ScalarProperty Name="IsValid" ColumnName="IsValid" />
                 <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
+                <ScalarProperty Name="TableId" ColumnName="TableId" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -1392,14 +1399,15 @@ warning 6002: The table/view 'ProjetSGBD.MANAGERAREA.TablesMap' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetTableMap" FunctionImportName="GetTableMap">
+          <FunctionImportMapping FunctionName="ProjetSGBDModel.Store.GetTablesMap" FunctionImportName="GetTablesMap">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetTableMap_Result">
-                <ScalarProperty Name="TableId" ColumnName="TableId" />
+              <ComplexTypeMapping TypeName="ProjetSGBDModel.GetTablesMap_Result">
+                <ScalarProperty Name="TableNumber" ColumnName="TableNumber" />
                 <ScalarProperty Name="ClientFirstName" ColumnName="ClientFirstName" />
                 <ScalarProperty Name="ClientLastName" ColumnName="ClientLastName" />
                 <ScalarProperty Name="IsValid" ColumnName="IsValid" />
                 <ScalarProperty Name="ReceptionId" ColumnName="ReceptionId" />
+                <ScalarProperty Name="TableId" ColumnName="TableId" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="ModifiedAt" ColumnName="ModifiedAt" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />

@@ -16,11 +16,12 @@ namespace Model
     {
         public string ReceptionName { get; set; }
         public System.DateTime ReceptionDate { get; set; }
-        public int TableId { get; set; }
+        public int TableNumber { get; set; }
         public string ClientFirstName { get; set; }
         public string ClientLastName { get; set; }
         public bool IsValid { get; set; }
         public int ReceptionId { get; set; }
+        public int TableId { get; set; }
         public int ClientId { get; set; }
         public Nullable<System.DateTime> ModifiedAt { get; set; }
         public string ModifiedBy { get; set; }

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{02F7CDE3-EA1D-493C-8D7A-684A7484BB07}</ProjectGuid>
+    <ProjectGuid>{5A87066B-54B8-4242-AD69-9A11EDDF0AC4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Model</RootNamespace>
@@ -90,7 +90,7 @@
     <Compile Include="GetReservedReception_Result.cs">
       <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
-    <Compile Include="GetTableMap_Result.cs">
+    <Compile Include="GetTablesMap_Result.cs">
       <DependentUpon>Reception.tt</DependentUpon>
     </Compile>
     <Compile Include="GetUnfeeling_Result.cs">

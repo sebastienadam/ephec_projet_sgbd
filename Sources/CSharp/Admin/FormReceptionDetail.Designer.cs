@@ -46,24 +46,31 @@
       this.labelStarter = new System.Windows.Forms.Label();
       this.labelMeat = new System.Windows.Forms.Label();
       this.labelDessert = new System.Windows.Forms.Label();
-      this.dataGridViewStarter = new System.Windows.Forms.DataGridView();
-      this.dataGridViewMainCourse = new System.Windows.Forms.DataGridView();
-      this.dataGridViewDessert = new System.Windows.Forms.DataGridView();
+      this.dataGridViewStarters = new System.Windows.Forms.DataGridView();
+      this.dataGridViewMainCourses = new System.Windows.Forms.DataGridView();
+      this.dataGridViewDesserts = new System.Windows.Forms.DataGridView();
       this.labelMenuTitle = new System.Windows.Forms.Label();
       this.panelReservations = new System.Windows.Forms.Panel();
-      this.labelReservations = new System.Windows.Forms.Label();
       this.dataGridViewReservations = new System.Windows.Forms.DataGridView();
+      this.labelReservations = new System.Windows.Forms.Label();
+      this.panelTablesMap = new System.Windows.Forms.Panel();
+      this.dataGridViewTablesMap = new System.Windows.Forms.DataGridView();
+      this.buttonTablesMapGenerate = new System.Windows.Forms.Button();
+      this.buttonTablesMapSave = new System.Windows.Forms.Button();
+      this.labelTablesMap = new System.Windows.Forms.Label();
       this.panelDetails.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSeatsPerTable)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCapacity)).BeginInit();
       this.panelModified.SuspendLayout();
       this.panelMenu.SuspendLayout();
       this.tableLayoutPanel1.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStarter)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMainCourse)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDessert)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStarters)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMainCourses)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDesserts)).BeginInit();
       this.panelReservations.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReservations)).BeginInit();
+      this.panelTablesMap.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTablesMap)).BeginInit();
       this.SuspendLayout();
       // 
       // panelDetails
@@ -277,9 +284,9 @@
       this.tableLayoutPanel1.Controls.Add(this.labelStarter, 0, 0);
       this.tableLayoutPanel1.Controls.Add(this.labelMeat, 1, 0);
       this.tableLayoutPanel1.Controls.Add(this.labelDessert, 2, 0);
-      this.tableLayoutPanel1.Controls.Add(this.dataGridViewStarter, 0, 1);
-      this.tableLayoutPanel1.Controls.Add(this.dataGridViewMainCourse, 1, 1);
-      this.tableLayoutPanel1.Controls.Add(this.dataGridViewDessert, 2, 1);
+      this.tableLayoutPanel1.Controls.Add(this.dataGridViewStarters, 0, 1);
+      this.tableLayoutPanel1.Controls.Add(this.dataGridViewMainCourses, 1, 1);
+      this.tableLayoutPanel1.Controls.Add(this.dataGridViewDesserts, 2, 1);
       this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 25);
       this.tableLayoutPanel1.Name = "tableLayoutPanel1";
       this.tableLayoutPanel1.RowCount = 2;
@@ -318,56 +325,56 @@
       this.labelDessert.TabIndex = 2;
       this.labelDessert.Text = "Desert";
       // 
-      // dataGridViewStarter
+      // dataGridViewStarters
       // 
-      this.dataGridViewStarter.AllowUserToAddRows = false;
-      this.dataGridViewStarter.AllowUserToDeleteRows = false;
-      this.dataGridViewStarter.AllowUserToResizeColumns = false;
-      this.dataGridViewStarter.AllowUserToResizeRows = false;
-      this.dataGridViewStarter.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-      this.dataGridViewStarter.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.dataGridViewStarter.ColumnHeadersVisible = false;
-      this.dataGridViewStarter.Location = new System.Drawing.Point(3, 24);
-      this.dataGridViewStarter.MultiSelect = false;
-      this.dataGridViewStarter.Name = "dataGridViewStarter";
-      this.dataGridViewStarter.ReadOnly = true;
-      this.dataGridViewStarter.RowHeadersVisible = false;
-      this.dataGridViewStarter.Size = new System.Drawing.Size(173, 118);
-      this.dataGridViewStarter.TabIndex = 3;
+      this.dataGridViewStarters.AllowUserToAddRows = false;
+      this.dataGridViewStarters.AllowUserToDeleteRows = false;
+      this.dataGridViewStarters.AllowUserToResizeColumns = false;
+      this.dataGridViewStarters.AllowUserToResizeRows = false;
+      this.dataGridViewStarters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewStarters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewStarters.ColumnHeadersVisible = false;
+      this.dataGridViewStarters.Location = new System.Drawing.Point(3, 24);
+      this.dataGridViewStarters.MultiSelect = false;
+      this.dataGridViewStarters.Name = "dataGridViewStarters";
+      this.dataGridViewStarters.ReadOnly = true;
+      this.dataGridViewStarters.RowHeadersVisible = false;
+      this.dataGridViewStarters.Size = new System.Drawing.Size(173, 118);
+      this.dataGridViewStarters.TabIndex = 3;
       // 
-      // dataGridViewMainCourse
+      // dataGridViewMainCourses
       // 
-      this.dataGridViewMainCourse.AllowUserToAddRows = false;
-      this.dataGridViewMainCourse.AllowUserToDeleteRows = false;
-      this.dataGridViewMainCourse.AllowUserToResizeColumns = false;
-      this.dataGridViewMainCourse.AllowUserToResizeRows = false;
-      this.dataGridViewMainCourse.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-      this.dataGridViewMainCourse.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.dataGridViewMainCourse.ColumnHeadersVisible = false;
-      this.dataGridViewMainCourse.Location = new System.Drawing.Point(182, 24);
-      this.dataGridViewMainCourse.MultiSelect = false;
-      this.dataGridViewMainCourse.Name = "dataGridViewMainCourse";
-      this.dataGridViewMainCourse.ReadOnly = true;
-      this.dataGridViewMainCourse.RowHeadersVisible = false;
-      this.dataGridViewMainCourse.Size = new System.Drawing.Size(173, 118);
-      this.dataGridViewMainCourse.TabIndex = 4;
+      this.dataGridViewMainCourses.AllowUserToAddRows = false;
+      this.dataGridViewMainCourses.AllowUserToDeleteRows = false;
+      this.dataGridViewMainCourses.AllowUserToResizeColumns = false;
+      this.dataGridViewMainCourses.AllowUserToResizeRows = false;
+      this.dataGridViewMainCourses.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewMainCourses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewMainCourses.ColumnHeadersVisible = false;
+      this.dataGridViewMainCourses.Location = new System.Drawing.Point(182, 24);
+      this.dataGridViewMainCourses.MultiSelect = false;
+      this.dataGridViewMainCourses.Name = "dataGridViewMainCourses";
+      this.dataGridViewMainCourses.ReadOnly = true;
+      this.dataGridViewMainCourses.RowHeadersVisible = false;
+      this.dataGridViewMainCourses.Size = new System.Drawing.Size(173, 118);
+      this.dataGridViewMainCourses.TabIndex = 4;
       // 
-      // dataGridViewDessert
+      // dataGridViewDesserts
       // 
-      this.dataGridViewDessert.AllowUserToAddRows = false;
-      this.dataGridViewDessert.AllowUserToDeleteRows = false;
-      this.dataGridViewDessert.AllowUserToResizeColumns = false;
-      this.dataGridViewDessert.AllowUserToResizeRows = false;
-      this.dataGridViewDessert.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-      this.dataGridViewDessert.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.dataGridViewDessert.ColumnHeadersVisible = false;
-      this.dataGridViewDessert.Location = new System.Drawing.Point(361, 24);
-      this.dataGridViewDessert.MultiSelect = false;
-      this.dataGridViewDessert.Name = "dataGridViewDessert";
-      this.dataGridViewDessert.ReadOnly = true;
-      this.dataGridViewDessert.RowHeadersVisible = false;
-      this.dataGridViewDessert.Size = new System.Drawing.Size(174, 118);
-      this.dataGridViewDessert.TabIndex = 5;
+      this.dataGridViewDesserts.AllowUserToAddRows = false;
+      this.dataGridViewDesserts.AllowUserToDeleteRows = false;
+      this.dataGridViewDesserts.AllowUserToResizeColumns = false;
+      this.dataGridViewDesserts.AllowUserToResizeRows = false;
+      this.dataGridViewDesserts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewDesserts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewDesserts.ColumnHeadersVisible = false;
+      this.dataGridViewDesserts.Location = new System.Drawing.Point(361, 24);
+      this.dataGridViewDesserts.MultiSelect = false;
+      this.dataGridViewDesserts.Name = "dataGridViewDesserts";
+      this.dataGridViewDesserts.ReadOnly = true;
+      this.dataGridViewDesserts.RowHeadersVisible = false;
+      this.dataGridViewDesserts.Size = new System.Drawing.Size(174, 118);
+      this.dataGridViewDesserts.TabIndex = 5;
       // 
       // labelMenuTitle
       // 
@@ -389,16 +396,6 @@
       this.panelReservations.Size = new System.Drawing.Size(349, 660);
       this.panelReservations.TabIndex = 2;
       // 
-      // labelReservations
-      // 
-      this.labelReservations.AutoSize = true;
-      this.labelReservations.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.labelReservations.Location = new System.Drawing.Point(0, 0);
-      this.labelReservations.Name = "labelReservations";
-      this.labelReservations.Size = new System.Drawing.Size(120, 22);
-      this.labelReservations.TabIndex = 0;
-      this.labelReservations.Text = "Inscriptions";
-      // 
       // dataGridViewReservations
       // 
       this.dataGridViewReservations.AllowUserToAddRows = false;
@@ -411,11 +408,81 @@
       this.dataGridViewReservations.Size = new System.Drawing.Size(340, 630);
       this.dataGridViewReservations.TabIndex = 1;
       // 
+      // labelReservations
+      // 
+      this.labelReservations.AutoSize = true;
+      this.labelReservations.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labelReservations.Location = new System.Drawing.Point(0, 0);
+      this.labelReservations.Name = "labelReservations";
+      this.labelReservations.Size = new System.Drawing.Size(120, 22);
+      this.labelReservations.TabIndex = 0;
+      this.labelReservations.Text = "Inscriptions";
+      // 
+      // panelTablesMap
+      // 
+      this.panelTablesMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.panelTablesMap.Controls.Add(this.dataGridViewTablesMap);
+      this.panelTablesMap.Controls.Add(this.buttonTablesMapGenerate);
+      this.panelTablesMap.Controls.Add(this.buttonTablesMapSave);
+      this.panelTablesMap.Controls.Add(this.labelTablesMap);
+      this.panelTablesMap.Location = new System.Drawing.Point(12, 317);
+      this.panelTablesMap.Name = "panelTablesMap";
+      this.panelTablesMap.Size = new System.Drawing.Size(549, 355);
+      this.panelTablesMap.TabIndex = 14;
+      // 
+      // dataGridViewTablesMap
+      // 
+      this.dataGridViewTablesMap.AllowUserToAddRows = false;
+      this.dataGridViewTablesMap.AllowUserToDeleteRows = false;
+      this.dataGridViewTablesMap.AllowUserToOrderColumns = true;
+      this.dataGridViewTablesMap.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+      this.dataGridViewTablesMap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridViewTablesMap.Location = new System.Drawing.Point(3, 32);
+      this.dataGridViewTablesMap.Name = "dataGridViewTablesMap";
+      this.dataGridViewTablesMap.ReadOnly = true;
+      this.dataGridViewTablesMap.RowHeadersVisible = false;
+      this.dataGridViewTablesMap.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+      this.dataGridViewTablesMap.Size = new System.Drawing.Size(541, 318);
+      this.dataGridViewTablesMap.TabIndex = 5;
+      // 
+      // buttonTablesMapGenerate
+      // 
+      this.buttonTablesMapGenerate.Enabled = false;
+      this.buttonTablesMapGenerate.Location = new System.Drawing.Point(389, 3);
+      this.buttonTablesMapGenerate.Name = "buttonTablesMapGenerate";
+      this.buttonTablesMapGenerate.Size = new System.Drawing.Size(75, 23);
+      this.buttonTablesMapGenerate.TabIndex = 4;
+      this.buttonTablesMapGenerate.Text = "Générer";
+      this.buttonTablesMapGenerate.UseVisualStyleBackColor = true;
+      this.buttonTablesMapGenerate.Click += new System.EventHandler(this.buttonTablesMapGenerate_Click);
+      // 
+      // buttonTablesMapSave
+      // 
+      this.buttonTablesMapSave.Enabled = false;
+      this.buttonTablesMapSave.Location = new System.Drawing.Point(470, 3);
+      this.buttonTablesMapSave.Name = "buttonTablesMapSave";
+      this.buttonTablesMapSave.Size = new System.Drawing.Size(75, 23);
+      this.buttonTablesMapSave.TabIndex = 3;
+      this.buttonTablesMapSave.Text = "Enregistrer";
+      this.buttonTablesMapSave.UseVisualStyleBackColor = true;
+      this.buttonTablesMapSave.Click += new System.EventHandler(this.buttonTablesMapSave_Click);
+      // 
+      // labelTablesMap
+      // 
+      this.labelTablesMap.AutoSize = true;
+      this.labelTablesMap.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labelTablesMap.Location = new System.Drawing.Point(3, 0);
+      this.labelTablesMap.Name = "labelTablesMap";
+      this.labelTablesMap.Size = new System.Drawing.Size(140, 22);
+      this.labelTablesMap.TabIndex = 2;
+      this.labelTablesMap.Text = "Plan de tables";
+      // 
       // FormReceptionDetail
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(928, 684);
+      this.Controls.Add(this.panelTablesMap);
       this.Controls.Add(this.panelReservations);
       this.Controls.Add(this.panelMenu);
       this.Controls.Add(this.panelModified);
@@ -433,12 +500,15 @@
       this.panelMenu.PerformLayout();
       this.tableLayoutPanel1.ResumeLayout(false);
       this.tableLayoutPanel1.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStarter)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMainCourse)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDessert)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStarters)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMainCourses)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDesserts)).EndInit();
       this.panelReservations.ResumeLayout(false);
       this.panelReservations.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReservations)).EndInit();
+      this.panelTablesMap.ResumeLayout(false);
+      this.panelTablesMap.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTablesMap)).EndInit();
       this.ResumeLayout(false);
 
     }
@@ -468,12 +538,17 @@
     private System.Windows.Forms.Label labelStarter;
     private System.Windows.Forms.Label labelMeat;
     private System.Windows.Forms.Label labelDessert;
-    private System.Windows.Forms.DataGridView dataGridViewStarter;
-    private System.Windows.Forms.DataGridView dataGridViewMainCourse;
-    private System.Windows.Forms.DataGridView dataGridViewDessert;
+    private System.Windows.Forms.DataGridView dataGridViewStarters;
+    private System.Windows.Forms.DataGridView dataGridViewMainCourses;
+    private System.Windows.Forms.DataGridView dataGridViewDesserts;
     private System.Windows.Forms.Label labelMenuTitle;
     private System.Windows.Forms.Panel panelReservations;
     private System.Windows.Forms.DataGridView dataGridViewReservations;
     private System.Windows.Forms.Label labelReservations;
+    private System.Windows.Forms.Panel panelTablesMap;
+    private System.Windows.Forms.DataGridView dataGridViewTablesMap;
+    private System.Windows.Forms.Button buttonTablesMapGenerate;
+    private System.Windows.Forms.Button buttonTablesMapSave;
+    private System.Windows.Forms.Label labelTablesMap;
   }
 }

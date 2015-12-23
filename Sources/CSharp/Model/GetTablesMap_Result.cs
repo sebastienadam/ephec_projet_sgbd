@@ -11,13 +11,14 @@ namespace Model
 {
     using System;
     
-    public partial class GetTableMap_Result
+    public partial class GetTablesMap_Result
     {
-        public Nullable<int> TableId { get; set; }
+        public Nullable<int> TableNumber { get; set; }
         public string ClientFirstName { get; set; }
         public string ClientLastName { get; set; }
         public Nullable<bool> IsValid { get; set; }
         public Nullable<int> ReceptionId { get; set; }
+        public Nullable<int> TableId { get; set; }
         public Nullable<int> ClientId { get; set; }
         public Nullable<System.DateTime> ModifiedAt { get; set; }
         public string ModifiedBy { get; set; }

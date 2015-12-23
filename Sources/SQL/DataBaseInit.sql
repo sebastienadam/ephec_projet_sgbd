@@ -388,11 +388,12 @@ GO
 CREATE VIEW MANAGERAREA.TablesMap AS
 SELECT REC_NAME AS ReceptionName,
        REC_DATE AS ReceptionDate,
-       TAB_ID AS TableId,
+       TAB_NUMBER AS TableNumber,
        CLI_FNAME AS ClientFirstName,
        CLI_LNAME AS ClientLastName,
        TAB_VALID AS IsValid,
        REC_ID AS ReceptionId,
+       TAB_ID AS TableId,
        CLI_ID AS ClientId,
        SIT_UPDATE_AT AS ModifiedAt,
        SIT_UPDATE_BY AS ModifiedBy
@@ -586,8 +587,8 @@ GO
 -- =============================================================================
 CREATE FUNCTION BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI
 (
-  @CliId int,
-  @CliCliId int
+  @CliFromId int,
+  @CliToId int
 )
 RETURNS datetime2
 AS
@@ -595,8 +596,8 @@ BEGIN
   DECLARE @Result datetime2;
   SELECT @Result = FCC_UPDATE_AT
   FROM BACKOFFICE._FEEL_CLI_CLI
-  WHERE FCC_CLI_FROM_ID = @CliId
-    AND FCC_CLI_TO_ID = @CliCliId;
+  WHERE FCC_CLI_FROM_ID = @CliFromId
+    AND FCC_CLI_TO_ID = @CliToId;
   RETURN @Result
 END
 GO
@@ -854,7 +855,7 @@ CREATE FUNCTION CLIENTAREA.GetReservedDish
   @RecId int,
   @CliId int = NULL
 )
-RETURNS @TableMap TABLE
+RETURNS @ReservedDish TABLE
 (
   ClientFirstName varchar(64),
   ClientLastName varchar(64),
@@ -869,7 +870,7 @@ RETURNS @TableMap TABLE
 AS
 BEGIN
   IF @CliId IS NULL BEGIN
-    INSERT INTO @TableMap
+    INSERT INTO @ReservedDish
     SELECT ClientFirstName,
            ClientLastName,
            DishType,
@@ -882,7 +883,7 @@ BEGIN
     FROM MANAGERAREA.ReservedDish
     WHERE ReceptionId = @RecId
   END ELSE BEGIN
-    INSERT INTO @TableMap
+    INSERT INTO @ReservedDish
     SELECT ClientFirstName,
            ClientLastName,
            DishType,
@@ -927,18 +928,19 @@ GO
 -- Create date: Dec2015
 -- Description: Returns the tables map for a reception.
 -- =============================================================================
-CREATE FUNCTION CLIENTAREA.GetTableMap
+CREATE FUNCTION CLIENTAREA.GetTablesMap
 (
   @RecId int,
   @TabId int = NULL
 )
-RETURNS @TableMap TABLE
+RETURNS @TablesMap TABLE
 (
-  TableId int,
+  TableNumber int,
   ClientFirstName varchar(64),
   ClientLastName varchar(64),
   IsValid bit,
   ReceptionId int,
+  TableId int,
   ClientId int,
   ModifiedAt datetime2,
   ModifiedBy char(8)
@@ -946,24 +948,26 @@ RETURNS @TableMap TABLE
 AS
 BEGIN
   IF @TabId IS NULL BEGIN
-    INSERT INTO @TableMap
-    SELECT TableId,
+    INSERT INTO @TablesMap
+    SELECT TableNumber,
            ClientFirstName,
            ClientLastName,
            IsValid,
-       ReceptionId,
+           ReceptionId,
+           TableId,
            ClientId,
            ModifiedAt,
            ModifiedBy
     FROM MANAGERAREA.TablesMap
     WHERE ReceptionId = @RecId;
   END ELSE BEGIN
-    INSERT INTO @TableMap
-    SELECT TableId,
+    INSERT INTO @TablesMap
+    SELECT TableNumber,
            ClientFirstName,
            ClientLastName,
            IsValid,
-       ReceptionId,
+           ReceptionId,
+           TableId,
            ClientId,
            ModifiedAt,
            ModifiedBy
@@ -1239,16 +1243,16 @@ GO
 -- Description: Delete a feeling between clients
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.DeleteFeeling
-  @CliId int,
-  @CliCliId int,
+  @CliFromId int,
+  @CliToId int,
   @ModifiedAt datetime2
 AS
 BEGIN
   SET NOCOUNT ON;
-  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI(@CliId,@CliCliId) BEGIN
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI(@CliFromId,@CliToId) BEGIN
     DELETE BACKOFFICE._FEEL_CLI_CLI
-    WHERE FCC_CLI_FROM_ID = @CliId
-      AND FCC_CLI_TO_ID = @CliCliId;
+    WHERE FCC_CLI_FROM_ID = @CliFromId
+      AND FCC_CLI_TO_ID = @CliToId;
   END ELSE BEGIN
     ;THROW 50010, 'Your record is not up to date', 1;
   END
@@ -1304,16 +1308,16 @@ GO
 -- Description: Creates new feeling between clients
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.NewFeeling
-  @CliId int,
-  @CliCliId int,
+  @CliFromId int,
+  @CliToId int,
   @FtyId int,
   @ModifiedBy char(8)
 AS
 BEGIN
   SET NOCOUNT ON;
-  IF (@CliId IS NOT NULL) AND (@CliCliId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
+  IF (@CliFromId IS NOT NULL) AND (@CliToId IS NOT NULL) AND (@FtyId IS NOT NULL) AND (@ModifiedBy IS NOT NULL) BEGIN
     INSERT INTO BACKOFFICE._FEEL_CLI_CLI (FCC_CLI_FROM_ID, FCC_CLI_TO_ID, FCC_FTY_ID, FCC_UPDATE_BY)
-    VALUES (@CliId, @CliCliId, @FtyId, @ModifiedBy);
+    VALUES (@CliFromId, @CliToId, @FtyId, @ModifiedBy);
   END
 END
 GO
@@ -1379,20 +1383,20 @@ GO
 -- Description: Update a feeling between clients
 -- =============================================================================
 CREATE PROCEDURE CLIENTAREA.UpdateFeeling
-  @CliId int,
-  @CliCliId int,
+  @CliFromId int,
+  @CliToId int,
   @FtyId int,
   @ModifiedAt datetime2,
   @ModifiedBy char(8)
 AS
 BEGIN
   SET NOCOUNT ON;
-  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI(@CliId,@CliCliId) BEGIN
+  IF @ModifiedAt = BACKOFFICE.UPDATE_AT_FEEL_CLI_CLI(@CliFromId,@CliToId) BEGIN
     UPDATE BACKOFFICE._FEEL_CLI_CLI
     SET FCC_FTY_ID = @FtyId,
         FCC_UPDATE_BY = @ModifiedBy
-    WHERE FCC_CLI_FROM_ID = @CliId
-      AND FCC_CLI_TO_ID = @CliCliId;
+    WHERE FCC_CLI_FROM_ID = @CliFromId
+      AND FCC_CLI_TO_ID = @CliToId;
   END ELSE BEGIN
     ;THROW 50010, 'Your record is not up to date', 1;
   END
@@ -1529,7 +1533,7 @@ CREATE PROCEDURE MANAGERAREA.NewTable
   @RecId int,
   @TableNumber int,
   @ModifiedBy char(8),
-  @TabId int = NULL OUTPUT
+  @TabId int OUTPUT
 AS
 BEGIN
   SET NOCOUNT ON;
@@ -1541,7 +1545,10 @@ BEGIN
     IF @NbSeats IS NOT NULL BEGIN
       INSERT INTO BACKOFFICE._TABLE (TAB_REC_ID, TAB_NUMBER, TAB_SEATING, TAB_UPDATE_BY)
       VALUES (@RecId, @TableNumber, @NbSeats, @ModifiedBy);
-      SET @TabId = IDENT_CURRENT('BACKOFFICE._TABLE');
+      SELECT @TabId = TAB_ID
+      FROM BACKOFFICE._TABLE
+      WHERE TAB_NUMBER = @TableNumber
+        AND TAB_REC_ID = @RecId;
     END
   END
 END
@@ -1801,25 +1808,25 @@ CREATE TRIGGER BACKOFFICE.TR_FEEL_CLI_CLI_INSERTUPDATE
 AS
 BEGIN
   SET NOCOUNT ON;
-  DECLARE @CliId int,
-          @CliCliId int,
+  DECLARE @CliFromId int,
+          @CliToId int,
           @Error int;
   SET @Error = 0;
   DECLARE InsertCursorFeelCC CURSOR
   FOR SELECT FCC_CLI_FROM_ID, FCC_CLI_TO_ID
       FROM inserted;
   OPEN InsertCursorFeelCC;
-  FETCH InsertCursorFeelCC INTO @CliId, @CliCliId;
+  FETCH InsertCursorFeelCC INTO @CliFromId, @CliToId;
   WHILE @@FETCH_STATUS = 0 BEGIN
-    IF @CliId = @CliCliId BEGIN
+    IF @CliFromId = @CliToId BEGIN
       SET @Error = 50000;
       BREAK
     END
     UPDATE BACKOFFICE._FEEL_CLI_CLI
     SET FCC_UPDATE_AT = GETDATE()--,
 --         FCC_UPDATE_BY = CURRENT_USER
-    WHERE FCC_CLI_FROM_ID = @CliId AND FCC_CLI_TO_ID = @CliCliId;
-    FETCH InsertCursorFeelCC INTO @CliId, @CliCliId;
+    WHERE FCC_CLI_FROM_ID = @CliFromId AND FCC_CLI_TO_ID = @CliToId;
+    FETCH InsertCursorFeelCC INTO @CliFromId, @CliToId;
   END;
   CLOSE InsertCursorFeelCC;
   DEALLOCATE InsertCursorFeelCC;
@@ -2032,7 +2039,7 @@ BEGIN
     OPEN InsertCursorSit;
     FETCH InsertCursorSit INTO @TabId;
     WHILE @@FETCH_STATUS = 0 BEGIN
-      EXECUTE SP_VALIDATE_TABLE @TabId;
+      EXECUTE BACKOFFICE.SP_VALIDATE_TABLE @TabId;
       FETCH InsertCursorSit INTO @TabId;
     END
     CLOSE InsertCursorSit;

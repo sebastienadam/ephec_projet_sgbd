@@ -58,7 +58,7 @@ namespace Admin {
     private void RecaptionDetail() {
       int recId = (int)dataGridViewReceptions.SelectedRows[0].Cells[6].Value;
       FormReceptionDetail formDetail = new FormReceptionDetail();
-      formDetail.LoadReception(recId);
+      formDetail.SetReception(recId);
       formDetail.ShowDialog();
     }
   }
