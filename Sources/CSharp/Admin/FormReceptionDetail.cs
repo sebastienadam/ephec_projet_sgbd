@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Error;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,13 +44,18 @@ namespace Admin {
         checkBoxValid.Checked = currentReception.IsValid;
         textBoxModifiedBy.Text = currentReception.ModifiedBy;
         dateTimePickerModifiedAt.Value = (DateTime)currentReception.ModifiedAt;
-        PopulateDesserts();
-        PopulateMainCourses();
-        PopulateStarters();
-        PopulateReservations();
-        PopulateTablesMap();
-        if(tablesMap.Count == 0) {
-          buttonTablesMapGenerate.Enabled = true;
+        try {
+          PopulateDesserts();
+          PopulateMainCourses();
+          PopulateStarters();
+          PopulateReservations();
+          PopulateTablesMap();
+          if(tablesMap.Count == 0) {
+            buttonTablesMapGenerate.Enabled = true;
+          }
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
       }
     }
@@ -121,7 +127,12 @@ namespace Admin {
 
     private void buttonTablesMapSave_Click(object sender, EventArgs e) {
       if(tablesMapGenerator != null) {
-        tablesMapGenerator.Save(Acronym);
+        try {
+          tablesMapGenerator.Save(Acronym);
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
         buttonTablesMapSave.Enabled = false;
         PopulateTablesMap();
       }

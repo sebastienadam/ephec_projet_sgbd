@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Error;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,15 +14,22 @@ using System.Windows.Forms;
 namespace Guest {
   public partial class FormMain : Form {
     private ClientSelection CurrentClient;
+    private int FeelingTypeLike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeLike"]);
+    private int FeelingTypeDislike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeDislike"]);
 
     public FormMain() {
       InitializeComponent();
-      using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-        IQueryable<Client> Clients = from item in context.Client select item;
-        foreach(Client client in Clients) {
-          comboBoxCurrentClient.Items.Add(new ClientSelection(client.ClientId, client.DisplayName(), client.Acronym));
+      try {
+        using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+          IQueryable<Client> Clients = from item in context.Client select item;
+          foreach(Client client in Clients) {
+            comboBoxCurrentClient.Items.Add(new ClientSelection(client.ClientId, client.DisplayName(), client.Acronym));
+          }
+          comboBoxCurrentClient.DisplayMember = "DisplayName";
         }
-        comboBoxCurrentClient.DisplayMember = "DisplayName";
+      } catch(Exception ex) {
+        ModelError modelError = new ModelError(ex);
+        MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
 
@@ -32,9 +40,14 @@ namespace Guest {
 
     private void PopulateGrids() {
       if(CurrentClient != null) {
-        PopulateReceptions();
-        PopulateDishWishes();
-        PopulateFeelings();
+        try {
+          PopulateReceptions();
+          PopulateDishWishes();
+          PopulateFeelings();
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
       }
     }
 
@@ -97,8 +110,6 @@ namespace Guest {
     }
 
     private void dataGridViewDishWish_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-      int FeelingTypeLike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeLike"]);
-      int FeelingTypeDislike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeDislike"]);
       Color color;
       foreach(DataGridViewRow row in dataGridViewDishWish.Rows) {
         GetWishedDish_Result dishWish = (GetWishedDish_Result)row.DataBoundItem;
@@ -115,8 +126,6 @@ namespace Guest {
     }
 
     private void dataGridViewFeeling_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-      int FeelingTypeLike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeLike"]);
-      int FeelingTypeDislike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeDislike"]);
       Color color;
       foreach(DataGridViewRow row in dataGridViewFeeling.Rows) {
         GetFeeling_Result feeling = (GetFeeling_Result)row.DataBoundItem;
@@ -137,10 +146,20 @@ namespace Guest {
         GetReservedReception_Result selected = (GetReservedReception_Result)dataGridViewReservations.SelectedRows[0].DataBoundItem;
         DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer la réservation " + selected.ReceptionName + "?", "Confirmation de suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
         if(result == DialogResult.Yes) {
-          using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-            context.DeleteReservation(selected.ReceptionId, CurrentClient.Id, selected.ModifiedAt);
+          try {
+            using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+              context.DeleteReservation(selected.ReceptionId, CurrentClient.Id, selected.ModifiedAt);
+            }
+            PopulateReceptions();
+          } catch(Exception ex) {
+            ModelError modelError = new ModelError(ex);
+            if(modelError.Number == ModelError.DATA_NOT_UP_TO_DATE) {
+              MessageBox.Show(modelError.Message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+              PopulateReceptions();
+            } else {
+              MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
           }
-          PopulateReceptions();
         }
       }
     }
@@ -160,11 +179,16 @@ namespace Guest {
       if(dataGridViewDishWish.SelectedRows.Count == 1) {
         GetWishedDish_Result selected = (GetWishedDish_Result)dataGridViewDishWish.SelectedRows[0].DataBoundItem;
         FormEditDishWish form = new FormEditDishWish();
-        form.CurrentDish = selected;
         form.CurrentClient = CurrentClient;
-        DialogResult result = form.ShowDialog();
-        if(result == DialogResult.OK) {
-          PopulateDishWishes();
+        try {
+          form.LoadDishWish(selected.DishId);
+          DialogResult result = form.ShowDialog();
+          if(result == DialogResult.OK) {
+            PopulateDishWishes();
+          }
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
       }
     }
@@ -174,10 +198,20 @@ namespace Guest {
         GetWishedDish_Result selected = (GetWishedDish_Result)dataGridViewDishWish.SelectedRows[0].DataBoundItem;
         DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer la ressenti pour le plat '" + selected.DisplayName() + "'?", "Confirmation de suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
         if(result == DialogResult.Yes) {
-          using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-            context.DeleteDishWish(CurrentClient.Id, selected.DishId, selected.ModifiedAt);
+          try {
+            using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+              context.DeleteDishWish(CurrentClient.Id, selected.DishId, selected.ModifiedAt);
+            }
+            PopulateDishWishes();
+          } catch(Exception ex) {
+            ModelError modelError = new ModelError(ex);
+            if(modelError.Number == ModelError.DATA_NOT_UP_TO_DATE) {
+              MessageBox.Show(modelError.Message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+              PopulateDishWishes();
+            } else {
+              MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
           }
-          PopulateDishWishes();
         }
       }
     }
@@ -197,11 +231,16 @@ namespace Guest {
       if(dataGridViewFeeling.SelectedRows.Count == 1) {
         GetFeeling_Result selected = (GetFeeling_Result)dataGridViewFeeling.SelectedRows[0].DataBoundItem;
         FormEditFeeling form = new FormEditFeeling();
-        form.ClientTo = selected;
         form.CurrentClient = CurrentClient;
-        DialogResult result = form.ShowDialog();
-        if(result == DialogResult.OK) {
-          PopulateFeelings();
+        try {
+          form.LoadFeeling(selected.ClientId);
+          DialogResult result = form.ShowDialog();
+          if(result == DialogResult.OK) {
+            PopulateFeelings();
+          }
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
       }
     }
@@ -211,10 +250,20 @@ namespace Guest {
         GetFeeling_Result selected = (GetFeeling_Result)dataGridViewFeeling.SelectedRows[0].DataBoundItem;
         DialogResult result = MessageBox.Show("Êtes-vous sûr de vouloir supprimer la ressenti pour le client '" + selected.DisplayName() + "'?", "Confirmation de suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
         if(result == DialogResult.Yes) {
-          using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-            context.DeleteFeeling(CurrentClient.Id, selected.ClientId, selected.ModifiedAt);
+          try {
+            using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+              context.DeleteFeeling(CurrentClient.Id, selected.ClientId, selected.ModifiedAt);
+            }
+            PopulateFeelings();
+          } catch(Exception ex) {
+            ModelError modelError = new ModelError(ex);
+            if(modelError.Number == ModelError.DATA_NOT_UP_TO_DATE) {
+              MessageBox.Show(modelError.Message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+              PopulateFeelings();
+            } else {
+              MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
           }
-          PopulateFeelings();
         }
       }
     }
