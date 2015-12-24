@@ -42,6 +42,8 @@ namespace Guest {
         } catch(Exception ex) {
           ModelError modelError = new ModelError(ex);
           MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          DialogResult = DialogResult.Abort;
+          Close();
         }
       }
     }

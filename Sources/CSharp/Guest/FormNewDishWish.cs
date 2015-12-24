@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Error;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,8 +21,15 @@ namespace Guest {
 
     private void FormNewDishWish_Load(object sender, EventArgs e) {
       if(CurrentClient != null) {
-        PopulateDishes();
-        PopulateFeeling();
+        try {
+          PopulateDishes();
+          PopulateFeeling();
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          DialogResult = DialogResult.Abort;
+          Close();
+        }
       }
     }
 
@@ -47,8 +55,14 @@ namespace Guest {
       DishWishSelection dish = (DishWishSelection)comboBoxDishes.SelectedItem;
       FeelingType feelingtype = (FeelingType)comboBoxFeeling.SelectedItem;
       if((dish != null) && (feelingtype != null)) {
-        using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-          context.NewWishedDish(CurrentClient.Id, dish.DishId, feelingtype.Id, CurrentClient.Acronym);
+        try {
+          using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+            context.NewWishedDish(CurrentClient.Id, dish.DishId, feelingtype.Id, CurrentClient.Acronym);
+          }
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          DialogResult = DialogResult.None;
         }
       }
     }

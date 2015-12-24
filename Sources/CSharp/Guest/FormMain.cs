@@ -101,10 +101,15 @@ namespace Guest {
         DialogResult result;
         FormReservationDetails form = new FormReservationDetails();
         form.CurrentClient = CurrentClient;
-        form.LoadReception(((GetReservedReception_Result)dataGridViewReservations.SelectedRows[0].DataBoundItem).ReceptionId);
-        result = form.ShowDialog();
-        if(result == DialogResult.OK) {
-          PopulateReceptions();
+        try {
+          form.LoadReception(((GetReservedReception_Result)dataGridViewReservations.SelectedRows[0].DataBoundItem).ReceptionId);
+          result = form.ShowDialog();
+          if(result == DialogResult.OK) {
+            PopulateReceptions();
+          }
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
       }
     }
@@ -189,6 +194,9 @@ namespace Guest {
         } catch(Exception ex) {
           ModelError modelError = new ModelError(ex);
           MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          if(modelError.Number == ModelError.INVALID_OPERATION) {
+            PopulateDishWishes();
+          }
         }
       }
     }
@@ -241,6 +249,9 @@ namespace Guest {
         } catch(Exception ex) {
           ModelError modelError = new ModelError(ex);
           MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          if(modelError.Number == ModelError.INVALID_OPERATION) {
+            PopulateFeelings();
+          }
         }
       }
     }

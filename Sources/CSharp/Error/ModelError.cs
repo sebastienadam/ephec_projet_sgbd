@@ -18,6 +18,7 @@ namespace Error {
     public const int DATABASE_NOT_FOUND = 4060;
     public const int DATA_NOT_UP_TO_DATE = 50000;
     public const int FEELING_FOR_HIMSELF = 50016;
+    public const int INVALID_OPERATION = 40001;
     public const int RECEPTION_BOOKING_CLOSED = 50001;
     public const int SERVER_LOGIN_FAILED = 18456;
     public const int SERVER_NOT_FOUND = 53;
@@ -117,13 +118,20 @@ namespace Error {
               break;
           }
         }
+      } else if(ex is InvalidOperationException) {
+        InvalidOperationException thisEx = (InvalidOperationException)ex;
+        Message = thisEx.Message;
+        Number = INVALID_OPERATION;
+        found = true;
       }
       if(!found) {
         Message += "Erreur non supportée. Veuillez communiqer les informations suivantes à votre support informatique:\n" +
                    "Type : " + ex.GetType().ToString() + "\n" +
-                   "Message : " + ex.Message + "\n" +
-                   "Inner Type : " + ex.InnerException.GetType().ToString() + "\n" +
-                   "Inner message : " + ex.InnerException.Message;
+                   "Message : " + ex.Message + "\n";
+        if(ex.InnerException != null) {
+          Message += "Inner Type : " + ex.InnerException.GetType().ToString() + "\n" +
+                     "Inner message : " + ex.InnerException.Message;
+        }
         Number = -1;
         //throw ex;
       }

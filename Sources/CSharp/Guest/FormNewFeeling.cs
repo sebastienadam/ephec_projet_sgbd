@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Error;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,16 +36,29 @@ namespace Guest {
     }
 
     private void FormNewFeeling_Load(object sender, EventArgs e) {
-      PopulateClients();
-      PopulateFeeling();
+      try {
+        PopulateClients();
+        PopulateFeeling();
+      } catch(Exception ex) {
+        ModelError modelError = new ModelError(ex);
+        MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        DialogResult = DialogResult.Abort;
+        Close();
+      }
     }
 
     private void buttonSave_Click(object sender, EventArgs e) {
       ClientSelection client = (ClientSelection)comboBoxClients.SelectedItem;
       FeelingType feelingtype = (FeelingType)comboBoxFeeling.SelectedItem;
       if((client != null) && (feelingtype != null)) {
-        using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-          context.NewFeeling(CurrentClient.Id, client.Id,feelingtype.Id,CurrentClient.Acronym);
+        try {
+          using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+            context.NewFeeling(CurrentClient.Id, client.Id, feelingtype.Id, CurrentClient.Acronym);
+          }
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          DialogResult = DialogResult.None;
         }
       }
     }

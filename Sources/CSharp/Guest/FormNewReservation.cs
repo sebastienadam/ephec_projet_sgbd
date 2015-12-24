@@ -9,10 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
-
+using Error;
 
 namespace Guest {
   public partial class FormNewReservation : Form {
+    private int DishTypeStarter = Int32.Parse(ConfigurationManager.AppSettings["DishTypeStarter"]);
+    private int DishTypeMainDish = Int32.Parse(ConfigurationManager.AppSettings["DishTypeMainDish"]);
+    private int DishTypeDessert = Int32.Parse(ConfigurationManager.AppSettings["DishTypeDessert"]);
+    private int FeelingTypeLike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeLike"]);
+    private int FeelingTypeDislike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeDislike"]);
+
     private ClientSelection _currentClient;
 
     public ClientSelection CurrentClient { get { return _currentClient; } set { _currentClient = value; } }
@@ -24,12 +30,19 @@ namespace Guest {
 
     private void FormNewReservation_Load(object sender, EventArgs e) {
       if(CurrentClient != null) {
-        using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-          IQueryable<GetReservableReception_Result> Receptions = context.GetReservableReception(CurrentClient.Id);
-          foreach(GetReservableReception_Result rec in Receptions) {
-            comboBoxReception.Items.Add(new ReceptionSelection(rec.ReceptionId, rec.DisplayName()));
+        try {
+          using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+            IQueryable<GetReservableReception_Result> Receptions = context.GetReservableReception(CurrentClient.Id);
+            foreach(GetReservableReception_Result rec in Receptions) {
+              comboBoxReception.Items.Add(new ReceptionSelection(rec.ReceptionId, rec.DisplayName()));
+            }
+            comboBoxReception.DisplayMember = "DisplayName";
           }
-          comboBoxReception.DisplayMember = "DisplayName";
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          DialogResult = DialogResult.Abort;
+          Close();
         }
       }
     }
@@ -37,14 +50,16 @@ namespace Guest {
     private void comboBoxReception_SelectedIndexChanged(object sender, EventArgs e) {
       ReceptionSelection selected = (ReceptionSelection)comboBoxReception.SelectedItem;
       if(selected != null) {
-        PopulateMenu(selected.Id);
+        try {
+          PopulateMenu(selected.Id);
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
       }
     }
 
     private void PopulateMenu(int IdReception) {
-      int DishTypeStarter = Int32.Parse(ConfigurationManager.AppSettings["DishTypeStarter"]);
-      int DishTypeMainDish = Int32.Parse(ConfigurationManager.AppSettings["DishTypeMainDish"]);
-      int DishTypeDessert = Int32.Parse(ConfigurationManager.AppSettings["DishTypeDessert"]);
       using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
         IQueryable<GetMenu_Result> Starters = context.GetMenu(IdReception, DishTypeStarter);
         IQueryable<GetMenu_Result> MainCourse = context.GetMenu(IdReception, DishTypeMainDish);
@@ -71,22 +86,28 @@ namespace Guest {
       ReceptionSelection selectedRec = (ReceptionSelection)comboBoxReception.SelectedItem;
       GetMenu_Result selectedMenu;
       if(selectedRec != null) {
-        using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-          context.NewReservation(selectedRec.Id, CurrentClient.Id, CurrentClient.Acronym);
-          if(dataGridViewDessert.SelectedRows.Count == 1) {
-            selectedMenu = (GetMenu_Result)dataGridViewDessert.SelectedRows[0].DataBoundItem;
-            context.NewReservedDish(CurrentClient.Id, selectedMenu.DishId, selectedRec.Id, CurrentClient.Acronym);
+        try {
+          using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
+            context.NewReservation(selectedRec.Id, CurrentClient.Id, CurrentClient.Acronym);
+            if(dataGridViewDessert.SelectedRows.Count == 1) {
+              selectedMenu = (GetMenu_Result)dataGridViewDessert.SelectedRows[0].DataBoundItem;
+              context.NewReservedDish(CurrentClient.Id, selectedMenu.DishId, selectedRec.Id, CurrentClient.Acronym);
+            }
+            if(dataGridViewMainCourse.SelectedRows.Count == 1) {
+              selectedMenu = (GetMenu_Result)dataGridViewMainCourse.SelectedRows[0].DataBoundItem;
+              context.NewReservedDish(CurrentClient.Id, selectedMenu.DishId, selectedRec.Id, CurrentClient.Acronym);
+            }
+            if(dataGridViewStarter.SelectedRows.Count == 1) {
+              selectedMenu = (GetMenu_Result)dataGridViewStarter.SelectedRows[0].DataBoundItem;
+              context.NewReservedDish(CurrentClient.Id, selectedMenu.DishId, selectedRec.Id, CurrentClient.Acronym);
+            }
           }
-          if(dataGridViewMainCourse.SelectedRows.Count == 1) {
-            selectedMenu = (GetMenu_Result)dataGridViewMainCourse.SelectedRows[0].DataBoundItem;
-            context.NewReservedDish(CurrentClient.Id, selectedMenu.DishId, selectedRec.Id, CurrentClient.Acronym);
-          }
-          if(dataGridViewStarter.SelectedRows.Count == 1) {
-            selectedMenu = (GetMenu_Result)dataGridViewStarter.SelectedRows[0].DataBoundItem;
-            context.NewReservedDish(CurrentClient.Id, selectedMenu.DishId, selectedRec.Id, CurrentClient.Acronym);
-          }
+          Close();
+        } catch(Exception ex) {
+          ModelError modelError = new ModelError(ex);
+          MessageBox.Show(modelError.Message, "Erreur fatale!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          DialogResult = DialogResult.None;
         }
-        this.Close();
       }
     }
 
@@ -95,11 +116,9 @@ namespace Guest {
     }
 
     private void ColorizeMenu(DataGridView source) {
-      int FeelingTypeLike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeLike"]);
-      int FeelingTypeDislike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeDislike"]);
       GetMenu_Result item;
       IQueryable<GetWishedDish_Result> liked;
-      IQueryable < GetWishedDish_Result> disliked;
+      IQueryable<GetWishedDish_Result> disliked;
       Color color;
       using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
         liked = context.GetWishedDish(CurrentClient.Id, FeelingTypeLike);
