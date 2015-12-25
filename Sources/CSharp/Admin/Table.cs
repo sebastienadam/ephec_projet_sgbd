@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace Admin {
   public class Table {
     public bool HasRemainingSeats { get { return Seateds.Count < NbSeats; } }
+    public bool isValid { get { return Seateds.Count > 1; } }
     public int NbSeats { get; private set; }
     public int RemainingSeats { get { return NbSeats - Seateds.Count; } }
     public List<GetReservation_Result> Seateds { get; private set; }

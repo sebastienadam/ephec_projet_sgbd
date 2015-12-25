@@ -29,53 +29,42 @@ namespace Admin {
     }
 
     public void Generate() {
-      //List<GetReservation_Result> ClientsToSeat = new List<GetReservation_Result>();
-      //int i;
+      List<GetReservation_Result> ClientsToSeat = new List<GetReservation_Result>();
       Table CurrentTable = new Table(_nbSeats);
-      //bool goodFeeling;
-      //GetReservation_Result CurrentClient;
+      bool goodFeeling;
       _tablesMaps = null;
-      foreach(GetReservation_Result client in _clients.Where(client => client.IsValid == true)) {
-        if(!CurrentTable.HasRemainingSeats) {
-          Tables.Add(CurrentTable);
-          CurrentTable = new Table(_nbSeats);
-        }
-        CurrentTable.Add(client);
-      }
-      Tables.Add(CurrentTable);
-      //i = 0;
-      //while(ClientsToSeat.Count > 0) {
-      //  try {
-      //    CurrentClient = ClientsToSeat[i];
-      //  } catch {
-      //    if(ClientsToSeat.Count == 0) {
-      //      break;
-      //    } else {
-      //      i = 0;
-      //      Tables.Add(CurrentTable);
-      //      CurrentTable = new Table(_nbSeats);
-      //      continue;
-      //    }
-      //  }
+      //foreach(GetReservation_Result client in _clients.Where(client => client.IsValid == true)) {
       //  if(!CurrentTable.HasRemainingSeats) {
-      //    i = -1;
       //    Tables.Add(CurrentTable);
       //    CurrentTable = new Table(_nbSeats);
       //  }
-      //  goodFeeling = true;
-      //  foreach(GetReservation_Result seated in CurrentTable.Seateds) {
-      //    if(HasBadFeeling(seated.ClientId, CurrentClient.ClientId)) {
-      //      goodFeeling = false;
-      //      break;
-      //    }
-      //  }
-      //  if(goodFeeling) {
-      //    CurrentTable.Add(CurrentClient);
-      //    ClientsToSeat.Remove(CurrentClient);
-      //  } else {
-      //    i++;
-      //  }
+      //  CurrentTable.Add(client);
       //}
+      //Tables.Add(CurrentTable);
+      foreach(GetReservation_Result client in _clients.Where(client => client.IsValid == true)) {
+        ClientsToSeat.Add(client);
+      }
+      while(ClientsToSeat.Count > 0) {
+        foreach(GetReservation_Result CurrentClient in ClientsToSeat.ToList()) {
+          if(CurrentTable.HasRemainingSeats) {
+            goodFeeling = true;
+            foreach(GetReservation_Result seated in CurrentTable.Seateds) {
+              if(HasBadFeeling(CurrentClient.ClientId, seated.ClientId)) {
+                goodFeeling = false;
+                break;
+              }
+            }
+            if(goodFeeling) {
+              CurrentTable.Add(CurrentClient);
+              ClientsToSeat.Remove(CurrentClient);
+            }
+          } else {
+            break;
+          }
+        }
+        Tables.Add(CurrentTable);
+        CurrentTable = new Table(_nbSeats);
+      }
     }
 
     private bool HasBadFeeling(int CliId1, int CliId2) {
@@ -84,12 +73,12 @@ namespace Admin {
       } else {
         using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
           if(context.GetFeeling(CliId1, FeelingTypeDislike).Where(client => client.ClientId == CliId2).Count() > 0) {
-            return false;
+            return true;
           } else if(context.GetFeeling(CliId2, FeelingTypeDislike).Where(client => client.ClientId == CliId1).Count() > 0) {
-            return false;
+            return true;
           }
         }
-        return true;
+        return false;
       }
     }
 
@@ -104,6 +93,7 @@ namespace Admin {
             current.ClientFirstName = seated.ClientFirstName;
             current.ClientId = seated.ClientId;
             current.ClientLastName = seated.ClientLastName;
+            current.IsValid = table.isValid;
             current.ReceptionId = _recId;
             current.TableNumber = i;
             _tablesMaps.Add(current);
