@@ -12,6 +12,7 @@ namespace Admin {
     private int _nbSeats;
     private int _recId;
     private List<GetTablesMap_Result> _tablesMaps;
+    private List<Disliked> _disliked;
     private int FeelingTypeLike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeLike"]);
     private int FeelingTypeDislike = Int32.Parse(ConfigurationManager.AppSettings["FeelingTypeDislike"]);
 
@@ -32,17 +33,12 @@ namespace Admin {
       List<GetReservation_Result> ClientsToSeat = new List<GetReservation_Result>();
       Table CurrentTable = new Table(_nbSeats);
       bool goodFeeling;
+      bool found;
       _tablesMaps = null;
-      //foreach(GetReservation_Result client in _clients.Where(client => client.IsValid == true)) {
-      //  if(!CurrentTable.HasRemainingSeats) {
-      //    Tables.Add(CurrentTable);
-      //    CurrentTable = new Table(_nbSeats);
-      //  }
-      //  CurrentTable.Add(client);
-      //}
-      //Tables.Add(CurrentTable);
+      _disliked = new List<Disliked>();
       foreach(GetReservation_Result client in _clients.Where(client => client.IsValid == true)) {
         ClientsToSeat.Add(client);
+        _disliked.Add(new Disliked(client.ClientId));
       }
       while(ClientsToSeat.Count > 0) {
         foreach(GetReservation_Result CurrentClient in ClientsToSeat.ToList()) {
@@ -65,20 +61,57 @@ namespace Admin {
         Tables.Add(CurrentTable);
         CurrentTable = new Table(_nbSeats);
       }
+      foreach(Table table in Tables.Where(table => !table.isValid).ToList()) {
+        if(table.Seateds.Count > 0) {
+          GetReservation_Result seated = table.Seateds[0];
+          foreach(Table otherTable in Tables.Where(tbl => tbl.isValid && tbl.HasRemainingSeats)) {
+            goodFeeling = true;
+            foreach(GetReservation_Result otherSeated in otherTable.Seateds) {
+              if(HasBadFeeling(seated.ClientId, otherSeated.ClientId)) {
+                goodFeeling = false;
+                break;
+              }
+            }
+            if(goodFeeling) {
+              otherTable.Add(seated);
+              Tables.Remove(table);
+              break;
+            }
+          }
+        } else {
+          Tables.Remove(table);
+        }
+      }
+      foreach(Table table in Tables.Where(table => !table.isValid).ToList()) {
+        GetReservation_Result seated = table.Seateds[0];
+        foreach(Table otherTable in Tables.Where(tbl => tbl.isValid && tbl.Seateds.Count > 2)) {
+          found = false;
+          foreach(GetReservation_Result otherSeated in otherTable.Seateds) {
+            if(!HasBadFeeling(seated.ClientId, otherSeated.ClientId)) {
+              otherTable.Seateds.Remove(otherSeated);
+              table.Add(seated);
+              found = true;
+              break;
+            }
+          }
+          if(found) {
+            break;
+          }
+        }
+      }
     }
 
     private bool HasBadFeeling(int CliId1, int CliId2) {
       if(CliId1 == CliId2) {
         return true;
       } else {
-        using(ProjetSGBDEntities context = new ProjetSGBDEntities()) {
-          if(context.GetFeeling(CliId1, FeelingTypeDislike).Where(client => client.ClientId == CliId2).Count() > 0) {
-            return true;
-          } else if(context.GetFeeling(CliId2, FeelingTypeDislike).Where(client => client.ClientId == CliId1).Count() > 0) {
-            return true;
-          }
+        if(_disliked.Where(disliked => disliked.ClientId == CliId1 && disliked.DislikedIds.Contains(CliId2)).Count() > 0) {
+          return true;
+        } else if(_disliked.Where(disliked => disliked.ClientId == CliId2 && disliked.DislikedIds.Contains(CliId1)).Count() > 0) {
+          return true;
+        } else {
+          return false;
         }
-        return false;
       }
     }
 

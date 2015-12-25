@@ -405,6 +405,7 @@
       this.dataGridViewReservations.Location = new System.Drawing.Point(4, 25);
       this.dataGridViewReservations.Name = "dataGridViewReservations";
       this.dataGridViewReservations.RowHeadersVisible = false;
+      this.dataGridViewReservations.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridViewReservations.Size = new System.Drawing.Size(340, 630);
       this.dataGridViewReservations.TabIndex = 1;
       // 
