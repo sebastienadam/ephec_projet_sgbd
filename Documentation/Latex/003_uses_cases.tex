@@ -17,17 +17,16 @@ L'image \refpage{img_use_cases} représente les cas d'utilisation de l'applicati
 
 \begin{figure}
   \centering
-  \includegraphics[scale=.88]{IMG/da_plan_tables}
+  \includegraphics[width=\textwidth]{IMG/da_plan_tables}
   \caption{Diagramme d'activité -- génération du plan de table}
   \label{img_da_plan_tables}
 \end{figure}
-
 
 Pour générer le plan de table d'une réception, nous allons parcourir la liste des invités inscrits à cette réception. Nous allons prendre le premier invité et l'asseoir à une table. Ensuite, nous prenons l'invité suivant. S'il n'y a aucune relation négative entre ce dernier est les invités déjà assis, nous le plaçons à la table et le retirons de la liste des personnes à placer.
 
 Lorsque toutes les places d'une tables seront occupées, nous passerons à la table suivante et reprenons au début de la liste des personnes à placer.
 
-Une fois que nous aurons placé toutes les personnes, nous veillerons à ce qu'aucune table ne contienne qu'une seule personne. Le cas échéant, nous prendrons des invités dans d'autres tables pour les compléter.
+Une fois que nous aurons placé toutes les personnes, nous veillerons à ce qu'aucune table ne contienne qu'une seule personne. Pour ce faire, nous allons prendre chaque invité assis seul et tenter de l'asseoir à une table qui n'est pas complète. Si après cela, il reste encore des invités qui sont seuls à une table, nous prendrons des invités à d'autres tables pour les assoir avec eux.
 
 La figure \refpage{img_da_plan_tables} illustre le diagramme de séquence de ce scénario.
 
