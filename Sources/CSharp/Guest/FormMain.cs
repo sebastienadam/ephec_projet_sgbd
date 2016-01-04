@@ -278,5 +278,17 @@ namespace Guest {
         }
       }
     }
+
+    private void dataGridViewDishWish_DoubleClick(object sender, EventArgs e) {
+      buttonEditDishWish_Click(sender, e);
+    }
+
+    private void dataGridViewFeeling_DoubleClick(object sender, EventArgs e) {
+      buttonEditFeeling_Click(sender, e);
+    }
+
+    private void dataGridViewReservations_DoubleClick(object sender, EventArgs e) {
+      buttonDetailsReservations_Click(sender, e);
+    }
   }
 }

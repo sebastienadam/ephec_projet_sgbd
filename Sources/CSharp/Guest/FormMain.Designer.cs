@@ -130,6 +130,7 @@
       this.dataGridViewReservations.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridViewReservations.Size = new System.Drawing.Size(549, 188);
       this.dataGridViewReservations.TabIndex = 1;
+      this.dataGridViewReservations.DoubleClick += new System.EventHandler(this.dataGridViewReservations_DoubleClick);
       // 
       // labelReservations
       // 
@@ -190,6 +191,7 @@
       this.dataGridViewDishWish.Size = new System.Drawing.Size(549, 188);
       this.dataGridViewDishWish.TabIndex = 1;
       this.dataGridViewDishWish.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewDishWish_DataBindingComplete);
+      this.dataGridViewDishWish.DoubleClick += new System.EventHandler(this.dataGridViewDishWish_DoubleClick);
       // 
       // buttonEditDishWish
       // 
@@ -260,6 +262,7 @@
       this.dataGridViewFeeling.Size = new System.Drawing.Size(549, 188);
       this.dataGridViewFeeling.TabIndex = 1;
       this.dataGridViewFeeling.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridViewFeeling_DataBindingComplete);
+      this.dataGridViewFeeling.DoubleClick += new System.EventHandler(this.dataGridViewFeeling_DoubleClick);
       // 
       // buttonEditFeeling
       // 
