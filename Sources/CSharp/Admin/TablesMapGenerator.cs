@@ -45,7 +45,7 @@ namespace Admin {
           if(CurrentTable.HasRemainingSeats) {
             goodFeeling = true;
             foreach(GetReservation_Result seated in CurrentTable.Seateds) {
-              if(HasBadFeeling(CurrentClient.ClientId, seated.ClientId)) {
+              if(HasBadFeeling(CurrentClient.ClientId, seated.ClientId)) { // BR024
                 goodFeeling = false;
                 break;
               }
@@ -67,7 +67,7 @@ namespace Admin {
           foreach(Table otherTable in Tables.Where(tbl => tbl.isValid && tbl.HasRemainingSeats)) {
             goodFeeling = true;
             foreach(GetReservation_Result otherSeated in otherTable.Seateds) {
-              if(HasBadFeeling(seated.ClientId, otherSeated.ClientId)) {
+              if(HasBadFeeling(seated.ClientId, otherSeated.ClientId)) { // BR024
                 goodFeeling = false;
                 break;
               }
@@ -87,7 +87,7 @@ namespace Admin {
         foreach(Table otherTable in Tables.Where(tbl => tbl.isValid && tbl.Seateds.Count > 2)) {
           found = false;
           foreach(GetReservation_Result otherSeated in otherTable.Seateds) {
-            if(!HasBadFeeling(seated.ClientId, otherSeated.ClientId)) {
+            if(!HasBadFeeling(seated.ClientId, otherSeated.ClientId)) { // BR024
               otherTable.Seateds.Remove(otherSeated);
               table.Add(seated);
               found = true;
@@ -101,7 +101,7 @@ namespace Admin {
       }
     }
 
-    private bool HasBadFeeling(int CliId1, int CliId2) {
+    private bool HasBadFeeling(int CliId1, int CliId2) { // BR024
       if(CliId1 == CliId2) {
         return true;
       } else {
